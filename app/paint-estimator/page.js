@@ -273,7 +273,30 @@ const PaintEstimator = ({ }) => {
 
   const previewEstimate = async () => {
     setLoading("getCalculations");
-
+    // Required fields for validation
+    const requiredFields = [
+      "clientName",
+      "clientPhone",
+      "clientEmail",
+      "clientPropertyAddress",
+      "clientZipCode",
+      "clientCity",
+      "clientState",
+      "paintBrand"
+    ];
+    for (const field of requiredFields) {
+      if (!estimator.value?.[field] || estimator.value[field] === "") {
+        setMessage(`Missing required field: ${field}`);
+        setLoading("");
+        return;
+      }
+    }
+    // Extra validation for clientEmail
+    if (!validateEmail(estimator.value.clientEmail)) {
+      setMessage("Please enter a valid email address for the client.");
+      setLoading("");
+      return;
+    }
     try {
       const response = await getCalculations({
         variables: {
