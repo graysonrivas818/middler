@@ -136,18 +136,6 @@ const PaintEstimator = ({ }) => {
       <main
         className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
       >
-        <div>
-          value: dataUser.data.user.businessEmail,
-          type: "businessEmail",
-        })
-      );
-      dispatch(
-        changeEstimatorValue({
-          value: dataUser.data.user.businessPhone,
-          type: "businessPhone",
-        })
-      );
-    }
   }, [dataUser]);
 
   useEffect(() => {
