@@ -10,14 +10,16 @@ import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Script from 'next/script';
-//// COMPONENTS
+
+// COMPONENTS
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
 import EmailType from "@/components/modals/emailType";
 import GiftCard from "@/components/modals/giftCard";
 import SignUp from "@/components/modals/signUp";
 import Progress from "@/components/ui/Progress";
-///// STEPS
+
+// STEPS
 import Preview from "@/components/layouts/preview";
 import CabinetConditions from "@/components/paintEstimator/CabinetConditions";
 import CabinetDetail from "@/components/paintEstimator/CabinetDetail";
@@ -37,15 +39,16 @@ import InteriorItems from "@/components/paintEstimator/InteriorItems";
 import InteriorPaint from "@/components/paintEstimator/InteriorPaint";
 import PaintBrand from "@/components/paintEstimator/PaintBrand";
 import PropertyAddress from "@/components/paintEstimator/PropertyAddress";
-///// LIBS
+
+// LIBS
 import { useAnalyticsEvent } from "@/helpers/analytics";
 import { paintEstimateFieldsRequired } from "@/helpers/main_forms";
 import { paintEstimateSteps } from "../constants";
 
-//// MUTATIONS
+// MUTATIONS
 import GET_CALCULATIONS from "../_mutations/getCalculations";
 
-///// QUERIES
+// QUERIES
 import GET_USER from "../_queries/fetchUser";
 
 import Confirmation from "@/components/modals/Confirmation";
@@ -54,6 +57,19 @@ import { validateEmail, validateNumber, validatePrice } from "@/helpers/forms";
 import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import StepSync from "./StepSync";
 
+// Redux actions (you need to import these based on your actual actions)
+import {
+  changeEstimatorValue,
+  changePaintEstimator,
+  changePopup,
+  changePopupType,
+  changeEdit,
+  changeUserValue,
+  login,
+  resetUser,
+  changeObjectValue,
+  addObjectToArray
+} from "@/store/actions"; // Update this path
 
 const allCountries = getCountries();
 
@@ -70,7 +86,7 @@ const paintEstimatorProductSchema = {
   }
 };
 
-const PaintEstimator = ({ }) => {
+const PaintEstimator = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const businessEmailRef = useRef();
@@ -91,6 +107,7 @@ const PaintEstimator = ({ }) => {
   const [loading, setLoading] = useState("");
   const [warning, setWarning] = useState("");
   const [showBottomButtons, setShowBottomButtons] = useState(false);
+  const [formattedBusinessPhone, setFormattedBusinessPhone] = useState("");
   const [coordinates, setCoordinates] = useState({
     latitude: null,
     longitude: null,
@@ -102,7 +119,17 @@ const PaintEstimator = ({ }) => {
     "view",
     "address",
   ]);
-  // ...existing hooks and logic...
+
+  // Get estimator and navigation from Redux store
+  const estimator = useSelector((state) => state.estimator); // Adjust based on your store structure
+  const navigation = useSelector((state) => state.navigation); // Adjust based on your store structure
+  const user = useSelector((state) => state.user); // Adjust based on your store structure
+
+  const [getCalculations] = useMutation(GET_CALCULATIONS);
+  
+  const { data: userData } = useQuery(GET_USER, {
+    skip: !cookies.token,
+  });
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -113,12 +140,12 @@ const PaintEstimator = ({ }) => {
   }, [width]);
 
   useEffect(() => {
-    if (country && estimator.value.businessPhone.length > 0) {
+    if (country && estimator?.value?.businessPhone?.length > 0) {
       const asYouType = new AsYouType(country);
       asYouType.input(estimator.value.businessPhone);
 
       if (asYouType.getNumber()) {
-        let number = asYouType.getNumber().nationalNumber; // Use national number only
+        let number = asYouType.getNumber().nationalNumber;
 
         // Extract digits only
         number = number.replace(/\D/g, "");
@@ -130,17 +157,15 @@ const PaintEstimator = ({ }) => {
         setFormattedBusinessPhone(formattedNumber);
       }
     }
-  }, [country, estimator.value.businessPhone]);
-
-  // All hooks and logic must be above this line
+  }, [country, estimator?.value?.businessPhone]);
 
   useEffect(() => {
-    if (country && estimator.value.clientPhone.length > 0) {
+    if (country && estimator?.value?.clientPhone?.length > 0) {
       const asYouType = new AsYouType(country);
       asYouType.input(estimator.value.clientPhone);
 
       if (asYouType.getNumber()) {
-        let number = asYouType.getNumber().nationalNumber; // Use national number only
+        let number = asYouType.getNumber().nationalNumber;
 
         // Extract digits only
         number = number.replace(/\D/g, "");
@@ -156,27 +181,46 @@ const PaintEstimator = ({ }) => {
         );
       }
     }
-  }, [estimator.value.clientPhone]);
+  }, [country, estimator?.value?.clientPhone]);
 
   useEffect(() => {
-    setView(navigation.value.view);
-    setPopup(navigation.value.popup);
-    setPopupType(navigation.value.popupType);
-    setEdit(navigation.value.edit);
+    if (navigation) {
+      setView(navigation.value.view);
+      setPopup(navigation.value.popup);
+      setPopupType(navigation.value.popupType);
+      setEdit(navigation.value.edit);
+    }
   }, [navigation]);
 
   useEffect(() => {
     setRequired("");
-  }, [estimator.value]);
+  }, [estimator?.value]);
 
   const previewEstimate = async () => {
     setLoading("getCalculations");
-  };
-
-  // ...rest of hooks and logic...
-
-
+    
     try {
+      // Validate required fields
+      const requiredFields = [
+        "clientName", "clientPhone", "clientEmail", "clientPropertyAddress", 
+        "clientZipCode", "clientCity", "clientState", "paintBrand"
+      ];
+      
+      for (const field of requiredFields) {
+        if (!estimator?.value[field] || estimator.value[field] === "") {
+          setMessage(`Missing required field: ${field}`);
+          setLoading("");
+          return;
+        }
+      }
+      
+      // Extra validation for clientEmail
+      if (!validateEmail(estimator.value.clientEmail)) {
+        setMessage("Please enter a valid email address for the client.");
+        setLoading("");
+        return;
+      }
+      
       const response = await getCalculations({
         variables: {
           estimate: {
@@ -193,14 +237,15 @@ const PaintEstimator = ({ }) => {
             clientPropertyAddress: estimator.value.clientPropertyAddress,
             clientEmail: estimator.value.clientEmail,
             clientZipCode: estimator.value.clientZipCode,
+            clientCity: estimator.value.clientCity,
+            clientState: estimator.value.clientState,
             interiorSquareFeet: estimator.value.interiorSquareFeet,
             interiorCondition: estimator.value.interiorCondition,
             interiorDetail: estimator.value.interiorDetail,
             interiorItems: estimator.value.interiorItems,
             interiorIndividualItems: estimator.value.interiorIndividualItems,
             doorsAndDrawers: estimator.value.doorsAndDrawers,
-            insideCabinet:
-              estimator.value.insideCabinet == "yes" ? true : false,
+            insideCabinet: estimator.value.insideCabinet == "yes" ? true : false,
             cabinetCondition: estimator.value.cabinetCondition,
             cabinetDetail: estimator.value.cabinetDetail,
             exteriorSquareFeet: estimator.value.exteriorSquareFeet,
@@ -251,7 +296,7 @@ const PaintEstimator = ({ }) => {
       dispatch(changeUserValue({ value: cookies.user.id, type: "id" }));
       dispatch(login());
     }
-  }, [cookies]);
+  }, [cookies, dispatch]);
 
   const handlePlaceSelection = async (placeId) => {
     try {
@@ -272,12 +317,12 @@ const PaintEstimator = ({ }) => {
           );
 
           // Remove Country from Address
-          let formattedAddress = place.formatted_address; // Full address
-          let addressParts = formattedAddress.split(","); // Split by comma
+          let formattedAddress = place.formatted_address;
+          let addressParts = formattedAddress.split(",");
           if (addressParts.length > 1) {
-            addressParts.pop(); // Remove the last part (Country)
+            addressParts.pop();
           }
-          const updatedAddress = addressParts.join(", "); // Reassemble without the country
+          const updatedAddress = addressParts.join(", ");
 
           // Update Estimator
           dispatch(
@@ -312,7 +357,7 @@ const PaintEstimator = ({ }) => {
   };
 
   useEffect(() => {
-    if (+navigation.value.paintEstimator == 1) {
+    if (navigation?.value?.paintEstimator == 1) {
       localStorage.removeItem("signupDismissed");
       localStorage.removeItem("giftCardDismissed");
     }
@@ -322,7 +367,7 @@ const PaintEstimator = ({ }) => {
     if (
       !signupDismissed &&
       popup === "" &&
-      +navigation.value.paintEstimator === 5
+      navigation?.value?.paintEstimator === 5
     ) {
       const timer = setTimeout(() => {
         dispatch(changePopup("signup"));
@@ -337,7 +382,7 @@ const PaintEstimator = ({ }) => {
       signupDismissed &&
       !giftCardDismissed &&
       popup === "" &&
-      +navigation.value.paintEstimator === 5
+      navigation?.value?.paintEstimator === 5
     ) {
       const timer = setTimeout(() => {
         dispatch(changePopup("giftCard"));
@@ -345,7 +390,7 @@ const PaintEstimator = ({ }) => {
 
       return () => clearTimeout(timer);
     }
-  }, [popup, navigation.value.paintEstimator]);
+  }, [popup, navigation?.value?.paintEstimator, dispatch]);
 
   const trackFormEvents = (action, label, value) => {
     event({
@@ -378,10 +423,10 @@ const PaintEstimator = ({ }) => {
         console.error("Invalid address cookie format", err);
       }
     }
-  }, [cookies]);
+  }, [cookies, dispatch, removeCookie]);
 
   useEffect(() => {
-    if (+navigation.value.paintEstimator == 4) {
+    if (navigation?.value?.paintEstimator == 4) {
       const observer = new IntersectionObserver(
         ([entry]) => {
           setShowBottomButtons(entry.isIntersecting);
@@ -399,19 +444,17 @@ const PaintEstimator = ({ }) => {
         if (current) observer.unobserve(current);
       };
     }
-  }, [navigation.value.paintEstimator]);
+  }, [navigation?.value?.paintEstimator]);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    if (+navigation.value.paintEstimator == 5) {
+    if (navigation?.value?.paintEstimator == 5) {
       setShowBottomButtons(true);
     }
-  }, [+navigation.value.paintEstimator]);
+  }, [navigation?.value?.paintEstimator]);
 
   useEffect(() => {
-    // console.log("NODE", process.env.NODE_ENV);
-    // console.log("GRAPHQL", process.env.NEXT_PUBLIC_GRAPHQL_PRODUCTION_ENDPOINT);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
@@ -442,7 +485,7 @@ const PaintEstimator = ({ }) => {
   ];
 
   const goBack = () => {
-    const current = String(navigation.value.paintEstimator);
+    const current = String(navigation?.value?.paintEstimator);
     const idx = orderedSteps.indexOf(current);
     if (idx <= 0) return;
     const prev = orderedSteps[idx - 1];
@@ -465,17 +508,18 @@ const PaintEstimator = ({ }) => {
 
   return (
     <>
-      <Script
-        id="paint-estimator-product-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(paintEstimatorProductSchema) }}
-      />
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(paintEstimatorProductSchema) }}
+        />
+      </Head>
 
       <main
         className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
       >
         <div className="grid size-full min-h-[calc(100dvh_-_40px)] lg:min-h-[calc(100dvh_-_32px)] xl:min-h-[calc(100dvh_-_40px)] lg:grid-rows-1 xl:grid-cols-[0.3fr_1fr_0.3fr] 3xl:grid-cols-[0.23fr_1fr_0.23fr] gap-5 lg:gap-8 3xl:gap-10">
-          {navigation.value.paintEstimator != "5" && (
+          {navigation?.value?.paintEstimator != "5" && (
             <>
               <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat bg-[url('/images/modals/1.webp')] rounded-2xl" />
               <div
@@ -494,79 +538,28 @@ const PaintEstimator = ({ }) => {
                   />
                 </div>
                 <div
-                  className={`${navigation.value.paintEstimator == "2.2"
+                  className={`${navigation?.value?.paintEstimator == "2.2"
                     ? "px-0"
                     : "lg:px-5"
                     } w-full`}
                 >
                   <div className="px-4 lg:px-11 xl:px-2 py-[30px] lg:py-6 flex flex-col items-center justify-center gap-[30px] bg-white shadow-[0_6px_46px] shadow-black/20 rounded-3xl lg:rounded-[31px] relative">
-                    {/* <button
-                      try {
-                        // Validate required fields
-                        const requiredFields = [
-                          "clientName", "clientPhone", "clientEmail", "clientPropertyAddress", "clientZipCode", "clientCity", "clientState", "paintBrand"
-                        ];
-                        for (const field of requiredFields) {
-                          if (!estimator.value[field] || estimator.value[field] === "") {
-                            setMessage(`Missing required field: ${field}`);
-                            setLoading("");
-                            return;
-                          }
-                        }
-                        // Extra validation for clientEmail
-                        if (!validateEmail(estimator.value.clientEmail)) {
-                          setMessage("Please enter a valid email address for the client.");
-                          setLoading("");
-                          return;
-                        }
-                        const response = await getCalculations({
-                          variables: {
-                            estimate: {
-                              businessName: estimator.value.businessName,
-                              estimatorName: estimator.value.estimatorName,
-                              businessAddress: estimator.value.businessAddress,
-                              businessPhone: estimator.value.businessPhone,
-                              businessEmail: estimator.value.businessEmail,
-                              businessWebsite: estimator.value.businessWebsite,
-                              businessLicenseNumber: estimator.value.businessLicenseNumber,
-                              businessInstagram: estimator.value.businessInstagram,
-                              clientName: estimator.value.clientName,
-                              clientPhone: estimator.value.clientPhone,
-                              clientPropertyAddress: estimator.value.clientPropertyAddress,
-                              clientEmail: estimator.value.clientEmail,
-                              clientZipCode: estimator.value.clientZipCode,
-                              clientCity: estimator.value.clientCity,
-                              clientState: estimator.value.clientState,
-                              interiorSquareFeet: estimator.value.interiorSquareFeet,
-                              interiorCondition: estimator.value.interiorCondition,
-                              interiorDetail: estimator.value.interiorDetail,
-                              interiorItems: estimator.value.interiorItems,
-                              interiorIndividualItems: estimator.value.interiorIndividualItems,
-                              doorsAndDrawers: estimator.value.doorsAndDrawers,
-                              insideCabinet:
-                                estimator.value.insideCabinet == "yes" ? true : false,
-                              cabinetCondition: estimator.value.cabinetCondition,
-                              cabinetDetail: estimator.value.cabinetDetail,
-                              exteriorSquareFeet: estimator.value.exteriorSquareFeet,
-                              exteriorCondition: estimator.value.exteriorCondition,
-                              exteriorDetail: estimator.value.exteriorDetail,
-                              exteriorItems: estimator.value.exteriorItems,
-                              exteriorIndividualItems: estimator.value.exteriorIndividualItems,
-                              painters: estimator.value.painters,
-                              hoursPerDay: estimator.value.hoursPerDay,
-                              days: estimator.value.days,
-                              paintBrand: estimator.value.paintBrand,
-                              paintQuality: estimator.value.paintQuality,
-                              warranty: estimator.value.warranty,
-                              payments: estimator.value.payments,
-                              deposit: estimator.value.deposit,
-                              depositType: estimator.value.depositType,
-                              painterTapeRolls: estimator.value.painterTapeRolls,
-                              plasticRolls: estimator.value.plasticRolls,
-                              dropCloths: estimator.value.dropCloths,
-                            },
-                          },
-                        });
+                    <button onClick={goBack} className="absolute left-4 top-4 lg:left-6 lg:top-6">
+                      <FaArrowLeft className="text-gray-600 hover:text-gray-900" />
+                    </button>
+                    
+                    <AnimatePresence mode="wait">
+                      <motion.div
+                        key={navigation?.value?.paintEstimator}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.3 }}
+                        className="w-full"
+                      >
+                        {navigation?.value?.paintEstimator == "1" && (
+                          <PropertyAddress
+                            estimator={estimator}
                             dispatch={dispatch}
                             changeEstimatorValue={changeEstimatorValue}
                             dropdown={dropdown}
@@ -583,14 +576,37 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
+                            requiredFields={requiredFields}
+                            setRequired={setRequired}
+                            handlePlaceSelection={handlePlaceSelection}
+                          />
+                        )}
+                        {navigation?.value?.paintEstimator == "2" && (
+                          <InteriorPaint
+                            estimator={estimator}
+                            dispatch={dispatch}
+                            changeEstimatorValue={changeEstimatorValue}
+                            dropdown={dropdown}
+                            setDropdown={setDropdown}
+                            loading={loading}
+                            setLoading={setLoading}
+                            setCookie={setCookie}
+                            warning={warning}
+                            setWarning={setWarning}
+                            navigation={navigation}
+                            changePaintEstimator={changePaintEstimator}
+                            changePopup={changePopup}
+                            previewEstimate={previewEstimate}
+                            trackFormEvents={trackFormEvents}
+                            changeEdit={changeEdit}
+                            paintEstimateSteps={paintEstimateSteps}
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "2.1" && (
+                        {navigation?.value?.paintEstimator == "2.1" && (
                           <InteriorSquareFeet
                             estimator={estimator}
                             dispatch={dispatch}
@@ -609,14 +625,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "2.2" && (
+                        {navigation?.value?.paintEstimator == "2.2" && (
                           <InteriorItems
                             estimator={estimator}
                             dispatch={dispatch}
@@ -635,14 +649,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "2.3" && (
+                        {navigation?.value?.paintEstimator == "2.3" && (
                           <InteriorCondition
                             estimator={estimator}
                             dispatch={dispatch}
@@ -661,14 +673,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "2.4" && (
+                        {navigation?.value?.paintEstimator == "2.4" && (
                           <InteriorDetail
                             estimator={estimator}
                             dispatch={dispatch}
@@ -687,14 +697,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "2.5" && (
+                        {navigation?.value?.paintEstimator == "2.5" && (
                           <InteriorIndividualItems
                             estimator={estimator}
                             dispatch={dispatch}
@@ -713,16 +721,14 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                             changeObjectValue={changeObjectValue}
                             addObjectToArray={addObjectToArray}
                           />
                         )}
-                        {navigation.value.paintEstimator == "3" && (
+                        {navigation?.value?.paintEstimator == "3" && (
                           <CabinetPaint
                             estimator={estimator}
                             dispatch={dispatch}
@@ -741,14 +747,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "3.1" && (
+                        {navigation?.value?.paintEstimator == "3.1" && (
                           <CabinetsPainting
                             estimator={estimator}
                             dispatch={dispatch}
@@ -767,14 +771,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "3.2" && (
+                        {navigation?.value?.paintEstimator == "3.2" && (
                           <InsideCabinet
                             estimator={estimator}
                             dispatch={dispatch}
@@ -793,14 +795,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "3.3" && (
+                        {navigation?.value?.paintEstimator == "3.3" && (
                           <CabinetConditions
                             estimator={estimator}
                             dispatch={dispatch}
@@ -819,14 +819,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "3.4" && (
+                        {navigation?.value?.paintEstimator == "3.4" && (
                           <CabinetDetail
                             estimator={estimator}
                             dispatch={dispatch}
@@ -845,14 +843,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4" && (
+                        {navigation?.value?.paintEstimator == "4" && (
                           <ExteriorPaint
                             estimator={estimator}
                             dispatch={dispatch}
@@ -871,14 +867,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4.1" && (
+                        {navigation?.value?.paintEstimator == "4.1" && (
                           <ExteriorSquareFeet
                             estimator={estimator}
                             dispatch={dispatch}
@@ -897,14 +891,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4.2" && (
+                        {navigation?.value?.paintEstimator == "4.2" && (
                           <ExteriorItems
                             estimator={estimator}
                             dispatch={dispatch}
@@ -923,14 +915,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4.3" && (
+                        {navigation?.value?.paintEstimator == "4.3" && (
                           <ExteriorCondition
                             estimator={estimator}
                             dispatch={dispatch}
@@ -949,14 +939,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4.4" && (
+                        {navigation?.value?.paintEstimator == "4.4" && (
                           <ExteriorDetail
                             estimator={estimator}
                             dispatch={dispatch}
@@ -975,14 +963,12 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4.5" && (
+                        {navigation?.value?.paintEstimator == "4.5" && (
                           <ExteriorIndividualItems
                             estimator={estimator}
                             dispatch={dispatch}
@@ -1001,16 +987,14 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                             changeObjectValue={changeObjectValue}
                             addObjectToArray={addObjectToArray}
                           />
                         )}
-                        {navigation.value.paintEstimator == "4.6" && (
+                        {navigation?.value?.paintEstimator == "4.6" && (
                           <PaintBrand
                             estimator={estimator}
                             dispatch={dispatch}
@@ -1029,9 +1013,7 @@ const PaintEstimator = ({ }) => {
                             trackFormEvents={trackFormEvents}
                             changeEdit={changeEdit}
                             paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
+                            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
                             requiredFields={requiredFields}
                             setRequired={setRequired}
                           />
@@ -1042,8 +1024,8 @@ const PaintEstimator = ({ }) => {
                 </div>
 
                 <div
-                  className={`max-lg:hidden w-full h-auto max-h-[220px] 2xl:max-h-[280px] ${navigation.value.paintEstimator == "3.1" ||
-                    navigation.value.paintEstimator == "3.2"
+                  className={`max-lg:hidden w-full h-auto max-h-[220px] 2xl:max-h-[280px] ${navigation?.value?.paintEstimator == "3.1" ||
+                    navigation?.value?.paintEstimator == "3.2"
                     ? "3xl:max-h-[280px]"
                     : " 3xl:max-h-[310px]"
                     } rounded-2xl`}
@@ -1090,10 +1072,10 @@ const PaintEstimator = ({ }) => {
               <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat bg-[url('/images/modals/2.webp')] rounded-2xl" />
             </>
           )}
-          {navigation.value.paintEstimator == "5" && (
+          {navigation?.value?.paintEstimator == "5" && (
             <Preview
               navigation={navigation}
-              estimator={estimator.value}
+              estimator={estimator?.value}
               dispatch={dispatch}
               changeEstimatorValue={changeEstimatorValue}
               changePaintEstimator={changePaintEstimator}
@@ -1114,10 +1096,8 @@ const PaintEstimator = ({ }) => {
               previewRef={previewRef}
             />
           )}
-          
-
         </div>
-        
+
         {/* Paint Estimator Content Section - Home Page Style */}
         <section className="relative pt-16 lg:py-20">
           <div className="container">
@@ -1411,6 +1391,7 @@ const PaintEstimator = ({ }) => {
             </div>
           </div>
         </section>
+        
         {/* Conclusion */}
         <section className="py-16 lg:py-20">
           <div className="container">
@@ -1429,72 +1410,75 @@ const PaintEstimator = ({ }) => {
           </div>
         </section>
       </main>
+      
       <Footer />
+      
       <Suspense fallback={null}>
         <StepSync />
       </Suspense>
-      <>
-        {popup == "emailType" && (
-          <EmailType
-            dispatch={dispatch}
-            changeUserValue={changeUserValue}
-            resetUser={resetUser}
-            user={user}
-            changePopup={changePopup}
-            changePopupType={changePopupType}
-            navigation={navigation}
-            estimator={estimator}
-            validateEmail={validateEmail}
-            login={login}
-            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
-            changePaintEstimator={changePaintEstimator}
-            changeEstimatorValue={changeEstimatorValue}
-            paintEstimateSteps={paintEstimateSteps}
-            setRequired={setRequired}
-            previewEstimate={previewEstimate}
-            trackFormEvents={trackFormEvents}
-            changeEdit={changeEdit}
-          />
-        )}
-        {popup == "signup" && (
-          <SignUp
-            dispatch={dispatch}
-            changeUserValue={changeUserValue}
-            resetUser={resetUser}
-            user={user}
-            changePopup={changePopup}
-            changePopupType={changePopupType}
-            navigation={navigation}
-            estimator={estimator}
-            validateEmail={validateEmail}
-            login={login}
-            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
-            changePaintEstimator={changePaintEstimator}
-            changeEstimatorValue={changeEstimatorValue}
-            paintEstimateSteps={paintEstimateSteps}
-            setRequired={setRequired}
-            previewEstimate={previewEstimate}
-            trackFormEvents={trackFormEvents}
-            changeEdit={changeEdit}
-            setIsConfirmOpen={setIsConfirmOpen}
-          />
-        )}
+      
+      {popup == "emailType" && (
+        <EmailType
+          dispatch={dispatch}
+          changeUserValue={changeUserValue}
+          resetUser={resetUser}
+          user={user}
+          changePopup={changePopup}
+          changePopupType={changePopupType}
+          navigation={navigation}
+          estimator={estimator}
+          validateEmail={validateEmail}
+          login={login}
+          paintEstimateFieldsRequired={paintEstimateFieldsRequired}
+          changePaintEstimator={changePaintEstimator}
+          changeEstimatorValue={changeEstimatorValue}
+          paintEstimateSteps={paintEstimateSteps}
+          setRequired={setRequired}
+          previewEstimate={previewEstimate}
+          trackFormEvents={trackFormEvents}
+          changeEdit={changeEdit}
+        />
+      )}
+      
+      {popup == "signup" && (
+        <SignUp
+          dispatch={dispatch}
+          changeUserValue={changeUserValue}
+          resetUser={resetUser}
+          user={user}
+          changePopup={changePopup}
+          changePopupType={changePopupType}
+          navigation={navigation}
+          estimator={estimator}
+          validateEmail={validateEmail}
+          login={login}
+          paintEstimateFieldsRequired={paintEstimateFieldsRequired}
+          changePaintEstimator={changePaintEstimator}
+          changeEstimatorValue={changeEstimatorValue}
+          paintEstimateSteps={paintEstimateSteps}
+          setRequired={setRequired}
+          previewEstimate={previewEstimate}
+          trackFormEvents={trackFormEvents}
+          changeEdit={changeEdit}
+          setIsConfirmOpen={setIsConfirmOpen}
+        />
+      )}
 
-        {isConfirmOpen && (
-          <Confirmation
-            isConfirmOpen={isConfirmOpen}
-            setIsConfirmOpen={setIsConfirmOpen}
-          />
-        )}
-        {popup == "giftCard" && (
-          <GiftPopup
-            dispatch={dispatch}
-            changePopup={changePopup}
-            showPopUp={true}
-            isMainPage={false}
-          />
-        )}
-      </>
+      {isConfirmOpen && (
+        <Confirmation
+          isConfirmOpen={isConfirmOpen}
+          setIsConfirmOpen={setIsConfirmOpen}
+        />
+      )}
+      
+      {popup == "giftCard" && (
+        <GiftPopup
+          dispatch={dispatch}
+          changePopup={changePopup}
+          showPopUp={true}
+          isMainPage={false}
+        />
+      )}
     </>
   );
 };
