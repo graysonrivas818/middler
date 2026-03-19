@@ -10,22 +10,6 @@ import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Script from 'next/script';
-
-//// REDUCERS
-import { login } from "../_redux/features/authSlice";
-import {
-  addObjectToArray,
-  changeEstimatorValue,
-  changeObjectValue,
-} from "../_redux/features/estimatorSlice";
-import {
-  changeEdit,
-  changePaintEstimator,
-  changePopup,
-  changePopupType,
-} from "../_redux/features/navigationSlice";
-import { changeUserValue, resetUser } from "../_redux/features/userSlice";
-
 //// COMPONENTS
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
@@ -124,22 +108,6 @@ const PaintEstimator = ({ }) => {
   ]);
   // ...existing hooks and logic...
 
-  // Place return at the end of the function, after all hooks and logic
-
-  // ...existing hooks and logic...
-
-  return (
-    <>
-      <Script
-        id="paint-estimator-product-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(paintEstimatorProductSchema) }}
-      />
-      <main
-        className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
-      >
-  }, [dataUser]);
-
   useEffect(() => {
     setWindowWidth(window.innerWidth);
   }, []);
@@ -161,19 +129,14 @@ const PaintEstimator = ({ }) => {
 
         // Format the number to (XXX) XXX-XXXX
         const formattedNumber = number.replace(
-          /^(\d{3})(\d{3})(\d{4})$/,
-          "($1) $2-$3"
+          /^(\d{3})(\d{3})(\d{4})$/, "($1) $2-$3"
         );
-
-        dispatch(
-          changeEstimatorValue({
-            value: formattedNumber,
-            type: "businessPhone",
-          })
-        );
+        setFormattedBusinessPhone(formattedNumber);
       }
     }
-  }, [estimator.value.businessPhone]);
+  }, [country, estimator.value.businessPhone]);
+
+  // All hooks and logic must be above this line
 
   useEffect(() => {
     if (country && estimator.value.clientPhone.length > 0) {
@@ -212,6 +175,10 @@ const PaintEstimator = ({ }) => {
 
   const previewEstimate = async () => {
     setLoading("getCalculations");
+  };
+
+  // ...rest of hooks and logic...
+
 
     try {
       const response = await getCalculations({
