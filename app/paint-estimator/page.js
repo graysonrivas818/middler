@@ -1505,7 +1505,7 @@ const PaintEstimator = ({ }) => {
             </div>
           </div>
         </section>
-      </main>
+      </div>
       </main>
       <Footer />
       <Suspense fallback={null}>
