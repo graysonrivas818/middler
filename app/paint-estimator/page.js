@@ -118,27 +118,12 @@ const PaintEstimator = ({ }) => {
   });
   const [cookies, setCookie, removeCookie] = useCookies([
     "token",
-        </div>
-        {/* Paint Estimator Content Section - Home Page Style */}
-        <section className="relative pt-16 lg:py-20">
-          <div className="container">
-            <div className="row justify-center">
-              <div className="lg:w-7/12 max-lg:px-8">
-                <div className="flex flex-col items-center gap-2.5 lg:gap-4">
-                  <div className="inline-flex items-center justify-center px-4 py-2 bg-primary/10 text-primary-800 text-sm font-medium rounded-full mb-4">
-                    Paint Estimator Guide
-                  </div>
-                  <h1 className="font-bold text-[26px] lg:text-[50px] text-center">
-                    <span className="text-primary-800">Paint Estimator Tool</span> – A Complete Guide for Accurate Painting Cost Planning
-                  </h1>
-                  <p className="text-base lg:text-2xl leading-6 lg:leading-snug text-center max-w-4xl">
-                    Painting your home can feel confusing when you don't know how much it will cost or how much paint you need. A paint estimator tool makes this easy by helping you plan the whole project with clear numbers. It removes guesswork and helps you stay within your budget.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+    "user",
+    "view",
+    "address",
+  ]);
+  // ...existing code...
+  // Move misplaced JSX to the return section below
       {/* Close main tag before Footer */}
       </main>
 
