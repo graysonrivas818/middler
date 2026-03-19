@@ -1505,6 +1505,7 @@ const PaintEstimator = ({ }) => {
             </div>
           </div>
         </section>
+        {/* Ensure all opened <div> are closed before closing main */}
       </main>
       <Footer />
       <Suspense fallback={null}>
