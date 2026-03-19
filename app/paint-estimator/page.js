@@ -513,6 +513,12 @@ const PaintEstimator = ({ }) => {
                             return;
                           }
                         }
+                        // Extra validation for clientEmail
+                        if (!validateEmail(estimator.value.clientEmail)) {
+                          setMessage("Please enter a valid email address for the client.");
+                          setLoading("");
+                          return;
+                        }
                         const response = await getCalculations({
                           variables: {
                             estimate: {
