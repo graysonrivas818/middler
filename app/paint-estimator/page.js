@@ -275,13 +275,8 @@ const PaintEstimator = ({ }) => {
     setLoading("getCalculations");
     // Required fields for validation
     const requiredFields = [
-      "clientName",
-      "clientPhone",
-      "clientEmail",
       "clientPropertyAddress",
       "clientZipCode",
-      "clientCity",
-      "clientState",
       "paintBrand"
     ];
     for (const field of requiredFields) {
@@ -290,12 +285,6 @@ const PaintEstimator = ({ }) => {
         setLoading("");
         return;
       }
-    }
-    // Extra validation for clientEmail
-    if (!validateEmail(estimator.value.clientEmail)) {
-      setMessage("Please enter a valid email address for the client.");
-      setLoading("");
-      return;
     }
     try {
       const response = await getCalculations({
