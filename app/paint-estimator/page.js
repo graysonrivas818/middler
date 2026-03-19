@@ -122,7 +122,9 @@ const PaintEstimator = ({ }) => {
     "view",
     "address",
   ]);
+  // ...existing hooks and logic...
 
+  // Place return at the end of the function, after all hooks and logic
   return (
     <>
       <Script
