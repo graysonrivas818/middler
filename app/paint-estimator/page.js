@@ -123,9 +123,6 @@ const PaintEstimator = ({ }) => {
     "address",
   ]);
   // ...existing code...
-  // Move misplaced JSX to the return section below
-      {/* Close main tag before Footer */}
-      </main>
 
   useEffect(() => {
     if (dataUser.error) {
