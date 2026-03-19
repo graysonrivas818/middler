@@ -74,6 +74,13 @@ const EmailType = ({
     setLoading("sendEstimate");
 
     try {
+      const clientEmail = (estimator.value.clientEmail || "").trim();
+      if (!validateEmail(clientEmail)) {
+        setLoading("");
+        setMessage("Client email is required.");
+        return;
+      }
+
       const response = await quickEstimate({
         variables: {
           estimate: {
@@ -90,7 +97,7 @@ const EmailType = ({
             clientName: estimator.value.clientName,
             clientPhone: estimator.value.clientPhone,
             clientPropertyAddress: estimator.value.clientPropertyAddress,
-            clientEmail: estimator.value.clientEmail,
+            clientEmail: clientEmail,
             clientZipCode: estimator.value.clientZipCode,
             interiorSquareFeet: estimator.value.interiorSquareFeet,
             interiorCondition: estimator.value.interiorCondition,
@@ -280,6 +287,57 @@ const EmailType = ({
             <h3 className="text-center text-[#1F2937] font-bold text-[14px] sm:text-[14px]">
               Who Are You?
             </h3>
+
+            <div className="w-full flex flex-col gap-3">
+              <InputFieldText
+                inputType={"text"}
+                placeholder={"Your name (optional)"}
+                value={estimator.value.clientName}
+                dispatch={dispatch}
+                changeValue={changeEstimatorValue}
+                type={"clientName"}
+                dropdown={""}
+                setDropdown={setDropdown}
+                required={false}
+                id={"clientName"}
+                validation={false}
+                readOnly={false}
+                edit={true}
+                changeEdit={() => {}}
+              />
+              <InputFieldText
+                inputType={"email"}
+                placeholder={"Your email"}
+                value={estimator.value.clientEmail}
+                dispatch={dispatch}
+                changeValue={changeEstimatorValue}
+                type={"clientEmail"}
+                dropdown={""}
+                setDropdown={setDropdown}
+                required={!estimator.value.clientEmail}
+                id={"clientEmail"}
+                validation={false}
+                readOnly={false}
+                edit={true}
+                changeEdit={() => {}}
+              />
+              <InputFieldText
+                inputType={"tel"}
+                placeholder={"Your phone (optional)"}
+                value={estimator.value.clientPhone}
+                dispatch={dispatch}
+                changeValue={changeEstimatorValue}
+                type={"clientPhone"}
+                dropdown={""}
+                setDropdown={setDropdown}
+                required={false}
+                id={"clientPhone"}
+                validation={false}
+                readOnly={false}
+                edit={true}
+                changeEdit={() => {}}
+              />
+            </div>
 
             {/* <div className="h-3 lg:h-4 w-full bg-primary rounded-full overflow-hidden">
               <div className="h-full bg-primary" />
