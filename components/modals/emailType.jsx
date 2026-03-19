@@ -38,6 +38,7 @@ const EmailType = ({
   const [loadingColor, setLoadingColor] = useState("white");
   const [userType, setUserType] = useState("");
   const [showOtherInput, setShowOtherInput] = useState(false);
+  const isSubmitting = loading === "sendEstimate";
   const [cookies, setCookie, removeCookie] = useCookies([
     "email",
     "token",
@@ -67,6 +68,8 @@ const EmailType = ({
   }, []);
 
   const submitSendEstimate = async (userType) => {
+    if (isSubmitting) return;
+
     setMessage("");
     setLoading("sendEstimate");
 
@@ -97,7 +100,9 @@ const EmailType = ({
             interiorAdjusted: estimator.value.interiorAdjusted,
             doorsAndDrawers: estimator.value.doorsAndDrawers,
             insideCabinet:
-              estimator.value.insideCabinet == "yes" ? true : false,
+              estimator.value.insideCabinet === "yes"
+                ? true
+                : !!estimator.value.insideCabinet,
             cabinetCondition: estimator.value.cabinetCondition,
             cabinetDetail: estimator.value.cabinetDetail,
             cabinetAdjusted: estimator.value.cabinetAdjusted,
@@ -151,14 +156,17 @@ const EmailType = ({
     } catch (error) {
       console.log(error);
       setLoading("");
-      if (error) setMessage(error.message);
+      const gqlMessage = error?.graphQLErrors?.[0]?.message;
+      setMessage(gqlMessage || error?.message || "Failed to submit estimate.");
     }
   };
 
   useEffect(() => {
-    setTimeout(() => {
+    const popupTimer = setTimeout(() => {
       dispatch(changePopupType("email"));
     }, 5000);
+
+    return () => clearTimeout(popupTimer);
   }, []);
 
   const [stage, setStage] = useState(0);
@@ -244,17 +252,28 @@ const EmailType = ({
         <motion.div
           key="role-modal"
           className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={() => !isSubmitting && dispatch(changePopup(""))}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
+            onClick={(e) => e.stopPropagation()}
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 25 }}
             className="w-auto max-w-[360px] sm:max-w-[320px] lg:max-w-[768px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-primary px-10 py-8 lg:py-12 shadow-lg space-y-6 lg:space-y-7 relative"
           >
+            <button
+              type="button"
+              onClick={() => !isSubmitting && dispatch(changePopup(""))}
+              className="absolute right-4 top-4 text-[#043DD7] text-xl font-bold cursor-pointer"
+              aria-label="Close"
+            >
+              ×
+            </button>
+
             <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
               One last Step
             </h2>
@@ -284,10 +303,15 @@ const EmailType = ({
                   onClick: () => submitSendEstimate("handyman"),
                 },
               ].map((item, idx) => (
-                <div key={idx} className="w-full" onClick={item.onClick}>
+                <div
+                  key={idx}
+                  className="w-full"
+                  onClick={() => !isSubmitting && item.onClick()}
+                >
                   <button
                     type="button"
-                    className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg"
+                    disabled={isSubmitting}
+                    className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <Image
                       src={`/images/icons/${item.icon}`}
@@ -338,10 +362,15 @@ const EmailType = ({
                     edit={true}
                     changeEdit={() => {}}
                   />
-                  <div onClick={() => userType && submitSendEstimate(userType)}>
+                  <div
+                    onClick={() =>
+                      !isSubmitting && userType && submitSendEstimate(userType)
+                    }
+                  >
                     <button
                       type="button"
-                      className="w-full py-3 px-8 lg:py-6 cursor-pointer bg-primary hover:bg-primary-800 transition-all duration-300 text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg"
+                      disabled={isSubmitting}
+                      className="w-full py-3 px-8 lg:py-6 cursor-pointer bg-primary hover:bg-primary-800 transition-all duration-300 text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <span className="text-xs lg:text-lg font-bold uppercase">
                         Submit
@@ -351,6 +380,12 @@ const EmailType = ({
                 </div>
               )}
             </div>
+
+            {message && (
+              <p className="text-center text-red-600 text-sm font-medium">
+                {message}
+              </p>
+            )}
 
             <div className="h-3 lg:h-4 w-full bg-primary rounded-full overflow-hidden">
               <div className="h-full bg-primary" />
