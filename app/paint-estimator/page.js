@@ -58,18 +58,10 @@ import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import StepSync from "./StepSync";
 
 // Redux actions (you need to import these based on your actual actions)
-import {
-  changeEstimatorValue,
-  changePaintEstimator,
-  changePopup,
-  changePopupType,
-  changeEdit,
-  changeUserValue,
-  login,
-  resetUser,
-  changeObjectValue,
-  addObjectToArray
-} from "@/store/actions"; // Update this path
+
+import { changeEstimatorValue, changeObjectValue, addObjectToArray } from "../_redux/features/estimatorSlice";
+import { changePaintEstimator, changePopup, changePopupType, changeEdit } from "../_redux/features/navigationSlice";
+import { changeUserValue, resetUser, login } from "../_redux/features/userSlice";
 
 const allCountries = getCountries();
 
