@@ -362,15 +362,19 @@ const PaintEstimator = ({ }) => {
           const zipCodeComponent = place.address_components.find((component) =>
             component.types.includes("postal_code")
           );
+          const cityComponent = place.address_components.find((component) =>
+            component.types.includes("locality") || component.types.includes("administrative_area_level_2")
+          );
+          const stateComponent = place.address_components.find((component) =>
+            component.types.includes("administrative_area_level_1")
+          );
 
           // Remove Country from Address
           let formattedAddress = place.formatted_address; // Full address
           let addressParts = formattedAddress.split(","); // Split by comma
-
           if (addressParts.length > 1) {
             addressParts.pop(); // Remove the last part (Country)
           }
-
           const updatedAddress = addressParts.join(", "); // Reassemble without the country
 
           // Update Estimator
@@ -382,8 +386,20 @@ const PaintEstimator = ({ }) => {
           );
           dispatch(
             changeEstimatorValue({
-              value: zipCodeComponent.long_name,
+              value: zipCodeComponent ? zipCodeComponent.long_name : "",
               type: "clientZipCode",
+            })
+          );
+          dispatch(
+            changeEstimatorValue({
+              value: cityComponent ? cityComponent.long_name : "",
+              type: "clientCity",
+            })
+          );
+          dispatch(
+            changeEstimatorValue({
+              value: stateComponent ? stateComponent.long_name : "",
+              type: "clientState",
             })
           );
         }
@@ -583,53 +599,66 @@ const PaintEstimator = ({ }) => {
                 >
                   <div className="px-4 lg:px-11 xl:px-2 py-[30px] lg:py-6 flex flex-col items-center justify-center gap-[30px] bg-white shadow-[0_6px_46px] shadow-black/20 rounded-3xl lg:rounded-[31px] relative">
                     {/* <button
-                      onClick={goBack}
-                      disabled={String(navigation.value.paintEstimator) === orderedSteps[0]}
-                      className="absolute top-1.5 left-1.5 lg:top-2 lg:left-2 rounded-full disabled:cursor-not-allowed not-disabled:cursor-pointer bg-neutral-100 border disabled:border-neutral-400 disabled:text-neutral-500 text-black border-neutral-500 p-1.5 max-lg:text-base lg:p-2.5 not-disabled:hover:bg-black not-disabled:hover:text-white transition-all duration-300 ease-in-out not-disabled:hover:shadow-[0_0_20px] shadow-black/30"
-                    >
-                      <FaArrowLeft />
-                    </button> */}
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.div
-                        initial="enter"
-                        animate="center"
-                        exit="exit"
-                        transition={{
-                          type: "spring",
-                          stiffness: 300,
-                          damping: 30,
-                        }}
-                        className={`lg:px-5 2xl:min-h-[190px] w-full flex flex-col items-center justify-center gap-[30px] lg:gap-4 bg-white shadow[0_6px_46px_rgba(0,0,0,0.2)] rounded-3xl lg:rounded-4xl qsnre`}
-                      >
-                        {navigation.value.paintEstimator == "1" && (
-                          <PropertyAddress
-                            estimator={estimator}
-                            dispatch={dispatch}
-                            changeEstimatorValue={changeEstimatorValue}
-                            dropdown={dropdown}
-                            setDropdown={setDropdown}
-                            loading={loading}
-                            setLoading={setLoading}
-                            setCookie={setCookie}
-                            warning={warning}
-                            setWarning={setWarning}
-                            navigation={navigation}
-                            changePaintEstimator={changePaintEstimator}
-                            changePopup={changePopup}
-                            previewEstimate={previewEstimate}
-                            trackFormEvents={trackFormEvents}
-                            changeEdit={changeEdit}
-                            paintEstimateSteps={paintEstimateSteps}
-                            paintEstimateFieldsRequired={
-                              paintEstimateFieldsRequired
-                            }
-                            requiredFields={requiredFields}
-                            setRequired={setRequired}
-                          />
-                        )}
-                        {navigation.value.paintEstimator == "2" && (
-                          <InteriorPaint
-                            estimator={estimator}
+                      try {
+                        // Validate required fields
+                        const requiredFields = [
+                          "clientName", "clientPhone", "clientEmail", "clientPropertyAddress", "clientZipCode", "clientCity", "clientState", "paintBrand"
+                        ];
+                        for (const field of requiredFields) {
+                          if (!estimator.value[field] || estimator.value[field] === "") {
+                            setMessage(`Missing required field: ${field}`);
+                            setLoading("");
+                            return;
+                          }
+                        }
+                        const response = await getCalculations({
+                          variables: {
+                            estimate: {
+                              businessName: estimator.value.businessName,
+                              estimatorName: estimator.value.estimatorName,
+                              businessAddress: estimator.value.businessAddress,
+                              businessPhone: estimator.value.businessPhone,
+                              businessEmail: estimator.value.businessEmail,
+                              businessWebsite: estimator.value.businessWebsite,
+                              businessLicenseNumber: estimator.value.businessLicenseNumber,
+                              businessInstagram: estimator.value.businessInstagram,
+                              clientName: estimator.value.clientName,
+                              clientPhone: estimator.value.clientPhone,
+                              clientPropertyAddress: estimator.value.clientPropertyAddress,
+                              clientEmail: estimator.value.clientEmail,
+                              clientZipCode: estimator.value.clientZipCode,
+                              clientCity: estimator.value.clientCity,
+                              clientState: estimator.value.clientState,
+                              interiorSquareFeet: estimator.value.interiorSquareFeet,
+                              interiorCondition: estimator.value.interiorCondition,
+                              interiorDetail: estimator.value.interiorDetail,
+                              interiorItems: estimator.value.interiorItems,
+                              interiorIndividualItems: estimator.value.interiorIndividualItems,
+                              doorsAndDrawers: estimator.value.doorsAndDrawers,
+                              insideCabinet:
+                                estimator.value.insideCabinet == "yes" ? true : false,
+                              cabinetCondition: estimator.value.cabinetCondition,
+                              cabinetDetail: estimator.value.cabinetDetail,
+                              exteriorSquareFeet: estimator.value.exteriorSquareFeet,
+                              exteriorCondition: estimator.value.exteriorCondition,
+                              exteriorDetail: estimator.value.exteriorDetail,
+                              exteriorItems: estimator.value.exteriorItems,
+                              exteriorIndividualItems: estimator.value.exteriorIndividualItems,
+                              painters: estimator.value.painters,
+                              hoursPerDay: estimator.value.hoursPerDay,
+                              days: estimator.value.days,
+                              paintBrand: estimator.value.paintBrand,
+                              paintQuality: estimator.value.paintQuality,
+                              warranty: estimator.value.warranty,
+                              payments: estimator.value.payments,
+                              deposit: estimator.value.deposit,
+                              depositType: estimator.value.depositType,
+                              painterTapeRolls: estimator.value.painterTapeRolls,
+                              plasticRolls: estimator.value.plasticRolls,
+                              dropCloths: estimator.value.dropCloths,
+                            },
+                          },
+                        });
                             dispatch={dispatch}
                             changeEstimatorValue={changeEstimatorValue}
                             dropdown={dropdown}
