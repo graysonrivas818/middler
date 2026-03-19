@@ -1,7 +1,7 @@
 "use client";
 import { useMutation } from "@apollo/client";
 import { AnimatePresence, motion } from "motion/react";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { BiLoaderCircle } from "react-icons/bi";
@@ -71,6 +71,11 @@ const EmailType = ({
     if (isSubmitting) return;
 
     setMessage("");
+    const clientEmail = (estimator.value.clientEmail || "").trim();
+    if (!clientEmail || (validateEmail && !validateEmail(clientEmail))) {
+      setMessage("Client email is required.");
+      return;
+    }
     setLoading("sendEstimate");
 
     try {
@@ -90,7 +95,7 @@ const EmailType = ({
             clientName: estimator.value.clientName,
             clientPhone: estimator.value.clientPhone,
             clientPropertyAddress: estimator.value.clientPropertyAddress,
-            clientEmail: estimator.value.clientEmail,
+            clientEmail: clientEmail,
             clientZipCode: estimator.value.clientZipCode,
             interiorSquareFeet: estimator.value.interiorSquareFeet,
             interiorCondition: estimator.value.interiorCondition,
@@ -281,6 +286,23 @@ const EmailType = ({
               Who Are You?
             </h3>
 
+            <InputFieldText
+              inputType={"email"}
+              placeholder={"Your email"}
+              value={estimator.value.clientEmail}
+              dispatch={dispatch}
+              changeValue={changeEstimatorValue}
+              type={"clientEmail"}
+              dropdown={""}
+              setDropdown={setDropdown}
+              required={!estimator.value.clientEmail}
+              id={"clientEmail"}
+              validation={false}
+              readOnly={false}
+              edit={true}
+              changeEdit={() => {}}
+            />
+
             {/* <div className="h-3 lg:h-4 w-full bg-primary rounded-full overflow-hidden">
               <div className="h-full bg-primary" />
             </div> */}
@@ -364,7 +386,9 @@ const EmailType = ({
                   />
                   <div
                     onClick={() =>
-                      !isSubmitting && userType && submitSendEstimate(userType)
+                      !isSubmitting &&
+                      userType &&
+                      submitSendEstimate(userType.trim())
                     }
                   >
                     <button
