@@ -17,7 +17,6 @@ import EmailType from "@/components/modals/emailType";
 import GiftCard from "@/components/modals/giftCard";
 import SignUp from "@/components/modals/signUp";
 import Progress from "@/components/ui/Progress";
-
 ///// STEPS
 import Preview from "@/components/layouts/preview";
 import CabinetConditions from "@/components/paintEstimator/CabinetConditions";
@@ -36,10 +35,8 @@ import InteriorDetail from "@/components/paintEstimator/InteriorDetail";
 import InteriorIndividualItems from "@/components/paintEstimator/InteriorIndividualItems";
 import InteriorItems from "@/components/paintEstimator/InteriorItems";
 import InteriorPaint from "@/components/paintEstimator/InteriorPaint";
-import InteriorSquareFeet from "@/components/paintEstimator/InteriorSquareFeet";
 import PaintBrand from "@/components/paintEstimator/PaintBrand";
 import PropertyAddress from "@/components/paintEstimator/PropertyAddress";
-
 ///// LIBS
 import { useAnalyticsEvent } from "@/helpers/analytics";
 import { paintEstimateFieldsRequired } from "@/helpers/main_forms";
@@ -56,7 +53,6 @@ import GiftPopup from "@/components/modals/GiftPopup";
 import { validateEmail, validateNumber, validatePrice } from "@/helpers/forms";
 import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import StepSync from "./StepSync";
-
 
 
 const allCountries = getCountries();
@@ -1409,7 +1405,6 @@ const PaintEstimator = ({ }) => {
             </div>
           </div>
         </section>
-
         {/* Conclusion */}
         <section className="py-16 lg:py-20">
           <div className="container">
@@ -1427,7 +1422,6 @@ const PaintEstimator = ({ }) => {
             </div>
           </div>
         </section>
-      </div>
       </main>
       <Footer />
       <Suspense fallback={null}>
