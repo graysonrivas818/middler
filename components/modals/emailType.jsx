@@ -439,11 +439,12 @@ const EmailType = ({
                 </div>
 
                 <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
-                  Enter Your Email
+                  Enter your email to receive your estimate
                 </h2>
-                <h3 className="text-center text-[#1F2937] font-bold text-[14px] sm:text-[14px]">
-                  We’ll save your estimate and send a copy
-                </h3>
+                <p className="text-center text-[#1F2937] text-[14px] sm:text-[14px]">
+                  We have HUGE DISCOUNTS for everything in the painting world and
+                  we’ll hook you up with those as well!
+                </p>
 
                 <div className="w-full flex flex-col gap-4">
                   <InputFieldText
@@ -489,14 +490,6 @@ const EmailType = ({
                 {message}
               </p>
             )}
-
-            <div className="h-3 lg:h-4 w-full bg-primary rounded-full overflow-hidden">
-              <div className="h-full bg-primary" />
-            </div>
-
-            <h3 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] leading-[1.2]">
-              🎉Your Free Estimate is one step away!
-            </h3>
 
             {loading == "sendEstimate" && (
               <motion.div
