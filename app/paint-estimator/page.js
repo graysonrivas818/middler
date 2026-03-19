@@ -125,6 +125,9 @@ const PaintEstimator = ({ }) => {
   // ...existing hooks and logic...
 
   // Place return at the end of the function, after all hooks and logic
+
+  // ...existing hooks and logic...
+
   return (
     <>
       <Script
@@ -132,7 +135,6 @@ const PaintEstimator = ({ }) => {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(paintEstimatorProductSchema) }}
       />
-
       <main
         className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
       >
