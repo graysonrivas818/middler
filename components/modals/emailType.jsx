@@ -1,8 +1,8 @@
 "use client";
 import { useMutation } from "@apollo/client";
 import { AnimatePresence, motion } from "motion/react";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { BiLoaderCircle } from "react-icons/bi";
 import Image from "next/image";
@@ -38,10 +38,6 @@ const EmailType = ({
   const [loadingColor, setLoadingColor] = useState("white");
   const [userType, setUserType] = useState("");
   const [showOtherInput, setShowOtherInput] = useState(false);
-  const [flowStep, setFlowStep] = useState("role");
-  const [selectedUserType, setSelectedUserType] = useState("");
-  const flowTimerRef = useRef(null);
-  const isSubmitting = loading === "sendEstimate";
   const [cookies, setCookie, removeCookie] = useCookies([
     "email",
     "token",
@@ -57,13 +53,7 @@ const EmailType = ({
   ] = useMutation(QUICK_ESTIMATE);
 
   useEffect(() => {
-    dispatch(changePopupType("email"));
-    setFlowStep("role");
-    setSelectedUserType("");
-    setUserType("");
-    setShowOtherInput(false);
-    setMessage("");
-    setStage(0);
+    dispatch(changePopupType(""));
   }, []);
 
   useEffect(() => {
@@ -76,43 +66,11 @@ const EmailType = ({
     };
   }, []);
 
-  useEffect(() => {
-    return () => {
-      if (flowTimerRef.current) clearTimeout(flowTimerRef.current);
-    };
-  }, []);
-
-  const startEmailCaptureFlow = (nextUserType) => {
-    if (isSubmitting) return;
-    if (flowTimerRef.current) clearTimeout(flowTimerRef.current);
-
-    setMessage("");
-    setSelectedUserType(nextUserType);
-    setFlowStep("calculating");
-    setStage(0);
-    dispatch(changePopupType(""));
-
-    flowTimerRef.current = setTimeout(() => {
-      dispatch(changePopupType("email"));
-      setFlowStep("email");
-      flowTimerRef.current = null;
-    }, 4500);
-  };
-
   const submitSendEstimate = async (userType) => {
-    if (isSubmitting) return;
-
     setMessage("");
     setLoading("sendEstimate");
 
     try {
-      const clientEmail = (estimator.value.clientEmail || "").trim();
-      if (!validateEmail(clientEmail)) {
-        setLoading("");
-        setMessage("Client email is required.");
-        return;
-      }
-
       const response = await quickEstimate({
         variables: {
           estimate: {
@@ -129,7 +87,8 @@ const EmailType = ({
             clientName: estimator.value.clientName,
             clientPhone: estimator.value.clientPhone,
             clientPropertyAddress: estimator.value.clientPropertyAddress,
-            clientEmail: clientEmail,
+            clientEmail:
+              estimator.value.clientEmail || estimator.value.businessEmail,
             clientZipCode: estimator.value.clientZipCode,
             interiorSquareFeet: estimator.value.interiorSquareFeet,
             interiorCondition: estimator.value.interiorCondition,
@@ -139,9 +98,7 @@ const EmailType = ({
             interiorAdjusted: estimator.value.interiorAdjusted,
             doorsAndDrawers: estimator.value.doorsAndDrawers,
             insideCabinet:
-              estimator.value.insideCabinet === "yes"
-                ? true
-                : !!estimator.value.insideCabinet,
+              estimator.value.insideCabinet == "yes" ? true : false,
             cabinetCondition: estimator.value.cabinetCondition,
             cabinetDetail: estimator.value.cabinetDetail,
             cabinetAdjusted: estimator.value.cabinetAdjusted,
@@ -195,10 +152,15 @@ const EmailType = ({
     } catch (error) {
       console.log(error);
       setLoading("");
-      const gqlMessage = error?.graphQLErrors?.[0]?.message;
-      setMessage(gqlMessage || error?.message || "Failed to submit estimate.");
+      if (error) setMessage(error.message);
     }
   };
+
+  useEffect(() => {
+    setTimeout(() => {
+      dispatch(changePopupType("email"));
+    }, 5000);
+  }, []);
 
   const [stage, setStage] = useState(0);
   const steps = [
@@ -209,11 +171,11 @@ const EmailType = ({
   ];
 
   useEffect(() => {
-    if (flowStep !== "calculating") return;
     const id = setInterval(() => {
       setStage((s) => {
         if (s === steps.length) {
           clearInterval(id);
+          setTimeout(500);
           return s;
         }
         return s + 1;
@@ -221,7 +183,7 @@ const EmailType = ({
     }, 1000);
 
     return () => clearInterval(id);
-  }, [flowStep, steps.length]);
+  }, [steps.length]);
 
   return (
     <AnimatePresence>
@@ -283,198 +245,104 @@ const EmailType = ({
         <motion.div
           key="role-modal"
           className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={() => !isSubmitting && dispatch(changePopup(""))}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <motion.div
-            onClick={(e) => e.stopPropagation()}
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 25 }}
             className="w-auto max-w-[360px] sm:max-w-[320px] lg:max-w-[768px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-primary px-10 py-8 lg:py-12 shadow-lg space-y-6 lg:space-y-7 relative"
           >
-            <button
-              type="button"
-              onClick={() => !isSubmitting && dispatch(changePopup(""))}
-              className="absolute right-4 top-4 text-[#043DD7] text-xl font-bold cursor-pointer"
-              aria-label="Close"
-            >
-              ×
-            </button>
+            <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
+              One last Step
+            </h2>
+            <h3 className="text-center text-[#1F2937] font-bold text-[14px] sm:text-[14px]">
+              Who Are You?
+            </h3>
 
-            {flowStep === "role" ? (
-              <>
-                <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
-                  Who Are You?
-                </h2>
+            {/* <div className="h-3 lg:h-4 w-full bg-primary rounded-full overflow-hidden">
+              <div className="h-full bg-primary" />
+            </div> */}
 
-                <div className="grid grid-cols-2 sm:grid-rows-2 *:max-lg:h-24 gap-3 lg:gap-7">
-                  {[
-                    {
-                      label: "Homeowner",
-                      icon: "home.webp",
-                      value: "homeowner",
-                    },
-                    {
-                      label: "Painter",
-                      icon: "painter.webp",
-                      value: "painter",
-                    },
-                    {
-                      label: "Handyman",
-                      icon: "handyman.webp",
-                      value: "handyman",
-                    },
-                  ].map((item, idx) => (
-                    <div
-                      key={idx}
-                      className="w-full"
-                      onClick={() => {
-                        startEmailCaptureFlow(item.value);
-                      }}
-                    >
-                      <button
-                        type="button"
-                        disabled={isSubmitting}
-                        className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <Image
-                          src={`/images/icons/${item.icon}`}
-                          alt={item.label}
-                          width={56}
-                          height={56}
-                          className="max-h-8 lg:max-h-14"
-                        />
-                        <span className="text-xs lg:text-xl tracking-wider font-bold uppercase">
-                          {item.label}
-                        </span>
-                      </button>
-                    </div>
-                  ))}
-
-                  {!showOtherInput ? (
-                    <div
-                      className="w-full"
-                      onClick={() => !isSubmitting && setShowOtherInput(true)}
-                    >
-                      <button
-                        type="button"
-                        disabled={isSubmitting}
-                        className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <Image
-                          src="/images/icons/others.webp"
-                          alt="Other"
-                          width={56}
-                          height={56}
-                          className="max-h-8 lg:max-h-14"
-                        />
-                        <span className="text-xs lg:text-xl tracking-wider font-bold uppercase">
-                          Other
-                        </span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col justify-between lg:justify-end w-full lg:gap-6">
-                      <InputFieldText
-                        inputType={"text"}
-                        placeholder={"Your role"}
-                        value={userType}
-                        dispatch={() => {}}
-                        changeValue={({ value }) => setUserType(value)}
-                        type={"userType"}
-                        dropdown={""}
-                        setDropdown={setDropdown}
-                        required={!userType}
-                        id={"userType"}
-                        validation={false}
-                        readOnly={false}
-                        edit={true}
-                        changeEdit={() => {}}
-                      />
-                      <div
-                        onClick={() => {
-                          if (isSubmitting) return;
-                          const trimmed = userType.trim();
-                          if (!trimmed) {
-                            setMessage("Role is required.");
-                            return;
-                          }
-                          startEmailCaptureFlow(trimmed);
-                        }}
-                      >
-                        <button
-                          type="button"
-                          disabled={isSubmitting}
-                          className="w-full py-3 px-8 lg:py-6 cursor-pointer bg-primary hover:bg-primary-800 transition-all duration-300 text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                        >
-                          <span className="text-xs lg:text-lg font-bold uppercase">
-                            Next
-                          </span>
-                        </button>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="flex items-center justify-between gap-4">
+            <div className="grid grid-cols-2 sm:grid-rows-2 *:max-lg:h-24 gap-3 lg:gap-7">
+              {[
+                {
+                  label: "Homeowner",
+                  icon: "home.webp",
+                  onClick: () => submitSendEstimate("homeowner"),
+                },
+                {
+                  label: "Painter",
+                  icon: "painter.webp",
+                  onClick: () => submitSendEstimate("painter"),
+                },
+                {
+                  label: "Handyman",
+                  icon: "handyman.webp",
+                  onClick: () => submitSendEstimate("handyman"),
+                },
+              ].map((item, idx) => (
+                <div key={idx} className="w-full" onClick={item.onClick}>
                   <button
                     type="button"
-                    disabled={isSubmitting}
-                    onClick={() => {
-                      if (isSubmitting) return;
-                      setFlowStep("role");
-                      setMessage("");
-                    }}
-                    className="text-[#043DD7] font-bold"
+                    className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg"
                   >
-                    ← Back
+                    <Image
+                      src={`/images/icons/${item.icon}`}
+                      alt={item.label}
+                      width={56}
+                      height={56}
+                      className="max-h-8 lg:max-h-14"
+                    />
+                    <span className="text-xs lg:text-xl tracking-wider font-bold uppercase">
+                      {item.label}
+                    </span>
                   </button>
-                  <div className="flex-1" />
                 </div>
-
-                <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
-                  Enter your email to receive your estimate
-                </h2>
-                <p className="text-center text-[#1F2937] text-[14px] sm:text-[14px]">
-                  We have HUGE DISCOUNTS for everything in the painting world and
-                  we’ll hook you up with those as well!
-                </p>
-
-                <div className="w-full flex flex-col gap-4">
+              ))}
+              {!showOtherInput ? (
+                <div className="w-full" onClick={() => setShowOtherInput(true)}>
+                  <button
+                    type="button"
+                    className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg"
+                  >
+                    <Image
+                      src="/images/icons/others.webp"
+                      alt="Other"
+                      width={56}
+                      height={56}
+                      className="max-h-8 lg:max-h-14"
+                    />
+                    <span className="text-xs lg:text-xl tracking-wider font-bold uppercase">
+                      Other
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                <div className="flex flex-col justify-between lg:justify-end w-full lg:gap-6">
                   <InputFieldText
-                    inputType={"email"}
-                    placeholder={"Your email"}
-                    value={estimator.value.clientEmail}
-                    dispatch={dispatch}
-                    changeValue={changeEstimatorValue}
-                    type={"clientEmail"}
+                    inputType={"text"}
+                    placeholder={"Your role"}
+                    value={userType}
+                    dispatch={() => {}}
+                    changeValue={({ value }) => setUserType(value)}
+                    type={"userType"}
                     dropdown={""}
                     setDropdown={setDropdown}
-                    required={!estimator.value.clientEmail}
-                    id={"clientEmail"}
+                    required={!userType}
+                    id={"userType"}
                     validation={false}
                     readOnly={false}
                     edit={true}
                     changeEdit={() => {}}
                   />
-
-                  <div
-                    onClick={() =>
-                      !isSubmitting &&
-                      selectedUserType &&
-                      submitSendEstimate(selectedUserType)
-                    }
-                  >
+                  <div onClick={() => userType && submitSendEstimate(userType)}>
                     <button
                       type="button"
-                      disabled={isSubmitting}
-                      className="w-full py-3 px-8 lg:py-6 cursor-pointer bg-primary hover:bg-primary-800 transition-all duration-300 text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="w-full py-3 px-8 lg:py-6 cursor-pointer bg-primary hover:bg-primary-800 transition-all duration-300 text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg"
                     >
                       <span className="text-xs lg:text-lg font-bold uppercase">
                         Submit
@@ -482,14 +350,16 @@ const EmailType = ({
                     </button>
                   </div>
                 </div>
-              </>
-            )}
+              )}
+            </div>
 
-            {message && (
-              <p className="text-center text-red-600 text-sm font-medium">
-                {message}
-              </p>
-            )}
+            <div className="h-3 lg:h-4 w-full bg-primary rounded-full overflow-hidden">
+              <div className="h-full bg-primary" />
+            </div>
+
+            <h3 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] leading-[1.2]">
+              🎉Your Free Estimate is one step away!
+            </h3>
 
             {loading == "sendEstimate" && (
               <motion.div

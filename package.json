@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/client": "^3.13.8",
     "@apollo/experimental-nextjs-app-support": "^0.8.0",
+    "@emotion/memoize": "0.7.4",
     "@material-tailwind/react": "^2.1.10",
     "@react-hook/window-size": "^3.1.1",
     "@reduxjs/toolkit": "^2.8.2",
@@ -19,7 +20,7 @@
     "graphql": "^16.8.1",
     "libphonenumber-js": "^1.12.9",
     "motion": "^12.18.1",
-    "next": "14.2.35",
+    "next": "^14.2.32",
     "next-auth": "^4.24.7",
     "next-s3-upload": "^0.3.4",
     "react": "^18.3.1",
@@ -36,7 +37,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
-    "eslint": "^10.0.3",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.32",
     "tailwindcss": "^4"
   }
 }

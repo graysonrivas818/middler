@@ -1,12 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack(config, { dev }) {
-    if (dev) {
-      config.cache = false;
-      config.parallelism = 1;
-    }
-    return config;
-  },
   async rewrites() {
     return [
       {
@@ -14,6 +7,12 @@ const nextConfig = {
         destination: 'https://primary-production-bf78.up.railway.app/:slug*',
       },
     ];
+  },
+  webpack: (config, { dev }) => {
+    if (!dev) {
+      config.cache = false;
+    }
+    return config;
   },
 };
 

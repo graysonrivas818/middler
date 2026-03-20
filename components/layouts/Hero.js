@@ -119,12 +119,10 @@ const Hero = ({
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!selectedAddr) {
       setError(true);
       return;
     }
-
     setCookie(
       "address",
       JSON.stringify({

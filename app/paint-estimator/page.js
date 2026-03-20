@@ -273,19 +273,7 @@ const PaintEstimator = ({ }) => {
 
   const previewEstimate = async () => {
     setLoading("getCalculations");
-    // Required fields for validation
-    const requiredFields = [
-      "clientPropertyAddress",
-      "clientZipCode",
-      "paintBrand"
-    ];
-    for (const field of requiredFields) {
-      if (!estimator.value?.[field] || estimator.value[field] === "") {
-        setMessage(`Missing required field: ${field}`);
-        setLoading("");
-        return;
-      }
-    }
+
     try {
       const response = await getCalculations({
         variables: {

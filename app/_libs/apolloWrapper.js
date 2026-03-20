@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  ApolloLink,
   HttpLink,
 } from '@apollo/client';
 import {
@@ -17,10 +18,23 @@ function makeClient() {
     headers: { 'Apollo-Require-Preflight': 'true' },
   });
 
+  // example upload link — keep as you had it
+  const uploadLink = new ApolloLink((operation, forward) => {
+    if (operation.variables?.file) {
+      const formData = new FormData();
+      formData.append('file', operation.variables.file);
+      operation.setContext({
+        headers: { 'Content-Type': 'multipart/form-data' },
+        body: formData,
+      });
+    }
+    return forward(operation);
+  });
+
   return new NextSSRApolloClient({
     ssrMode: typeof window === 'undefined',
-    cache: new NextSSRInMemoryCache({ include: 'active' }),
-    link: httpLink,
+    cache: new NextSSRInMemoryCache({ addTypename: false, include: 'active' }),
+    link: ApolloLink.from([uploadLink, httpLink]),
   });
 }
 

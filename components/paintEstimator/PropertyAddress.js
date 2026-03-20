@@ -207,7 +207,6 @@ const PropertyAddress = ({
 
             return;
           }
-
           setCookie(
             "clientPropertyAddress",
             JSON.stringify({
