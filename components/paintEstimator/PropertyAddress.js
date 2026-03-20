@@ -208,11 +208,11 @@ const PropertyAddress = ({
             return;
           }
           setCookie(
-            "clientPropertyAddress",
-            JSON.stringify({
+            "address",
+            {
               formattedAddress: matched.formattedAddress,
               zipCode: matched.zipCode,
-            }),
+            },
             {
               path: "/",
               maxAge: 60 * 60 * 24 * 7,

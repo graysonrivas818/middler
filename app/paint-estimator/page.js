@@ -441,16 +441,21 @@ const PaintEstimator = ({ }) => {
   useEffect(() => {
     if (cookies.address) {
       try {
-        if (cookies.address.formattedAddress && cookies.address.zipCode) {
+        const parsedAddress =
+          typeof cookies.address === "string"
+            ? JSON.parse(cookies.address)
+            : cookies.address;
+
+        if (parsedAddress?.formattedAddress && parsedAddress?.zipCode) {
           dispatch(
             changeEstimatorValue({
-              value: cookies.address.formattedAddress,
+              value: parsedAddress.formattedAddress,
               type: "clientPropertyAddress",
             })
           );
           dispatch(
             changeEstimatorValue({
-              value: cookies.address.zipCode,
+              value: parsedAddress.zipCode,
               type: "clientZipCode",
             })
           );
