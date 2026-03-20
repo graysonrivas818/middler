@@ -209,10 +209,10 @@ const PropertyAddress = ({
           }
           setCookie(
             "address",
-            {
+            JSON.stringify({
               formattedAddress: matched.formattedAddress,
               zipCode: matched.zipCode,
-            },
+            }),
             {
               path: "/",
               maxAge: 60 * 60 * 24 * 7,

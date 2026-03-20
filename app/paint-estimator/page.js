@@ -443,7 +443,11 @@ const PaintEstimator = ({ }) => {
       try {
         const parsedAddress =
           typeof cookies.address === "string"
-            ? JSON.parse(cookies.address)
+            ? JSON.parse(
+                cookies.address.startsWith("j:")
+                  ? cookies.address.slice(2)
+                  : cookies.address
+              )
             : cookies.address;
 
         if (parsedAddress?.formattedAddress && parsedAddress?.zipCode) {
