@@ -28,7 +28,7 @@ const Confirmation = ({ setIsConfirmOpen, isConfirmOpen }) => {
           className="w-auto max-w-[320px] lg:max-w-[480px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-black p-6 sm:px-10 sm:py-8 shadow-lg flex flex-col items-center gap-4 sm:gap-6 lg:gap-7"
         >
           <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
-            Are you sure you don't want to save your estimate?
+            Are you sure you don’t want to save your estimate?
           </h2>
           <div className="flex flex-wrap items-center justify-center gap-3">
       

@@ -34,6 +34,7 @@ const CabinetDetail = ({
       <div className="grid lg:grid-cols-3 gap-5">
         {cabinetDetail.map((item, idx) => (
           <button
+            key={item.type ?? idx}
             onClick={() => {
               dispatch(
                 changeEstimatorValue({

@@ -58,18 +58,18 @@ const page = () => {
                   </p>
                   <ul className="list-disc pl-6 text-gray-700">
                     <li>
-                      <strong>"Website"</strong> or{" "}
-                      <strong>"The Company"</strong> we are referring to any
+                      <strong>“Website”</strong> or{" "}
+                      <strong>“The Company”</strong> we are referring to any
                       website or company of ours that references or links to
                       this policy.
                     </li>
                     <li>
-                      <strong>"Services"</strong>, we are referring to our
+                      <strong>“Services”</strong>, we are referring to our
                       Website, and other related services, including any sales,
                       marketing, or events.
                     </li>
                     <li>
-                      <strong>"User"</strong> or <strong>"Users"</strong> we are
+                      <strong>“User”</strong> or <strong>“Users”</strong> we are
                       referring to any and all individuals, and third parties
                       that visit the Website.
                     </li>
@@ -156,7 +156,7 @@ const page = () => {
                       you choose to register in this way, we will collect the
                       information described in the section called{" "}
                       <span className="font-semibold">
-                        "HOW DO WE HANDLE YOUR SOCIAL LOGINS?"
+                        “HOW DO WE HANDLE YOUR SOCIAL LOGINS?”
                       </span>{" "}
                       below.
                     </p>
@@ -209,7 +209,7 @@ const page = () => {
                       <li>
                         <span className="font-semibold">Location Data:</span> We
                         collect location data such as information about your
-                        device's location. How much information we collect
+                        device’s location. How much information we collect
                         depends on the type and settings of the device you use.
                         For example, we may use GPS and other technologies to
                         collect geolocation data that tells us your current
@@ -248,7 +248,7 @@ const page = () => {
                       receive personal information about you such as your name,
                       email address, and gender. Any personal information that
                       we collect from your social media account depends on your
-                      social media account's privacy settings.
+                      social media account’s privacy settings.
                     </p>
                   </div>
                 </section>
@@ -385,7 +385,7 @@ const page = () => {
                     <li>
                       <span className="font-semibold">Maps Platform APIs:</span>{" "}
                       We may share your information with certain Google Maps
-                      Platform APIs. For more about Google's Privacy Policy,
+                      Platform APIs. For more about Google’s Privacy Policy,
                       please refer to this link.
                     </li>
                     <li>
@@ -439,8 +439,8 @@ const page = () => {
                     following categories of third parties. If we have processed
                     your data based on your consent and you wish to revoke your
                     consent, please contact us using the contact details
-                    provided in the section below titled "HOW CAN YOU CONTACT US
-                    ABOUT THIS NOTICE?".
+                    provided in the section below titled “HOW CAN YOU CONTACT US
+                    ABOUT THIS NOTICE?”.
                   </p>
 
                   <ul className="list-disc list-inside text-base text-gray-700 leading-relaxed space-y-2">
@@ -533,7 +533,7 @@ const page = () => {
                   <ul className="list-disc list-inside text-base text-gray-700 leading-relaxed space-y-2">
                     <li>
                       <span className="font-semibold">Company:</span> (referred
-                      to as either "the Company", "We", "Us" or "Our" in this
+                      to as either “the Company”, “We”, “Us” or “Our” in this
                       Cookies Policy) refers to Middler, Middler.com.
                     </li>
                     <li>
@@ -562,7 +562,7 @@ const page = () => {
                   </h2>
 
                   <p className="text-base text-gray-700 leading-relaxed">
-                    Cookies can be "Persistent" or "Session" Cookies. Persistent
+                    Cookies can be “Persistent” or “Session” Cookies. Persistent
                     Cookies remain on your personal computer or mobile device
                     when You go offline, while Session Cookies are deleted as
                     soon as You close your web browser.
@@ -636,12 +636,12 @@ const page = () => {
                   </h2>
 
                   <p className="text-base text-gray-700 leading-relaxed">
-                    Like any other website, Middler, Middler.com uses 'cookies'.
+                    Like any other website, Middler, Middler.com uses “cookies”.
                     These cookies are used to store information including
-                    visitors' preferences, and the pages on the website that the
+                    visitors’ preferences, and the pages on the website that the
                     visitor accessed or visited. The information is used to
-                    optimize the users' experience by customizing our web page
-                    content based on visitors' browser type and/or other
+                    optimize the users’ experience by customizing our web page
+                    content based on visitors’ browser type and/or other
                     information.
                   </p>
 
@@ -656,7 +656,7 @@ const page = () => {
                   </p>
 
                   <p className="text-base text-gray-700 leading-relaxed">
-                    If You'd like to delete Cookies or instruct your web browser
+                    If You’d like to delete Cookies or instruct your web browser
                     to delete or refuse Cookies, please visit the help pages of
                     your web browser:
                   </p>
@@ -703,7 +703,7 @@ const page = () => {
                   </h2>
 
                   <p className="text-base text-gray-700 leading-relaxed">
-                    For any other web browser, please visit your web browser's
+                    For any other web browser, please visit your web browser’s
                     official web pages.
                   </p>
 
@@ -804,7 +804,7 @@ const page = () => {
                     Middler.com follows a standard procedure of using log files.
                     These files log visitors when they visit websites. All
                     hosting companies do this and are a part of hosting
-                    services' analytics. The information collected by log files
+                    services’ analytics. The information collected by log files
                     include internet protocol (IP) addresses, browser type,
                     Internet Service Provider (ISP), date and time stamp,
                     referring/exit pages, and possibly the number of clicks.
@@ -864,7 +864,7 @@ const page = () => {
                     permitted by law (such as tax, accounting, or other legal
                     requirements). No purpose in this notice will require us to
                     keep your personal information for longer than one hundred
-                    twenty (120) months past the termination of the user's
+                    twenty (120) months past the termination of the user’s
                     account.
                   </p>
 
@@ -1058,7 +1058,7 @@ const page = () => {
 
                   <p className="text-base text-gray-700 leading-relaxed">
                     Most web browsers and some mobile operating systems and
-                    mobile applications include a Do-Not-Track ("DNT") feature
+                    mobile applications include a Do-Not-Track (“DNT”) feature
                     or setting you can activate to signal your privacy
                     preference not to have data about your online browsing
                     activities monitored and collected.
@@ -1092,7 +1092,7 @@ const page = () => {
 
                   <p className="text-base text-gray-700 leading-relaxed">
                     California Civil Code Section 1798.83, also known as the
-                    "Shine The Light" law, permits our users who are California
+                    “Shine The Light” law, permits our users who are California
                     residents to request and obtain from us, once a year and
                     free of charge, information about categories of personal
                     information (if any) we disclosed to third parties for
@@ -1129,7 +1129,7 @@ const page = () => {
 
                   <ul className="list-disc list-inside text-gray-700">
                     <li>
-                      Request that a business that collects a consumer's
+                      Request that a business that collects a consumer’s
                       personal data disclose the categories and specific pieces
                       of personal data that a business has collected about
                       consumers.
@@ -1139,8 +1139,8 @@ const page = () => {
                       consumer that a business has collected.
                     </li>
                     <li>
-                      Request that a business that sells a consumer's personal
-                      data, not sell the consumer's personal data.
+                      Request that a business that sells a consumer’s personal
+                      data, not sell the consumer’s personal data.
                     </li>
                   </ul>
 
@@ -1155,7 +1155,7 @@ const page = () => {
                   </h3>
 
                   <p className="text-base text-gray-700 leading-relaxed">
-                    The California Code of Regulations defines a "resident" as:
+                    The California Code of Regulations defines a “resident” as:
                   </p>
 
                   <ol className="list-decimal list-inside text-gray-700">
@@ -1171,8 +1171,8 @@ const page = () => {
                   </ol>
 
                   <p className="text-base text-gray-700 leading-relaxed">
-                    All other individuals are defined as "non-residents." If
-                    this definition of "resident" applies to you, we must adhere
+                    All other individuals are defined as “non-residents.” If
+                    this definition of “resident” applies to you, we must adhere
                     to certain rights and obligations regarding your personal
                     information.
                   </p>
@@ -1296,7 +1296,7 @@ const page = () => {
                           <td className="py-2 px-4 border">
                             Inferences drawn from any of the collected personal
                             information listed above to create a profile or
-                            summary about, for example, an individual's
+                            summary about, for example, an individual’s
                             preferences and characteristics
                           </td>
                           <td className="py-2 px-4 border">Yes</td>
@@ -1336,8 +1336,8 @@ const page = () => {
                       <li>Social media plugins: Any and All.</li>
                     </ul>
                     <p class="mb-4">
-                      We use social media features, such as a 'Like' button, and
-                      widgets, such as a "Share" button on our Website. Such
+                      We use social media features, such as a “Like” button, and
+                      widgets, such as a “Share” button on our Website. Such
                       features may process your Internet Protocol (IP) address
                       and track which page you are visiting on our Website. We
                       may place a cookie to enable the feature to work
@@ -1396,7 +1396,7 @@ const page = () => {
                       We may use your personal information for our own business
                       purposes, such as for undertaking internal research for
                       technological development and demonstration. This is not
-                      considered to be "selling" of your personal data.
+                      considered to be “selling” of your personal data.
                     </p>
 
                     <h4 class="text-lg font-semibold mt-6 mb-2">
@@ -1462,7 +1462,7 @@ const page = () => {
                       <li>
                         Category K: Inferences drawn from any of the personal
                         information listed above to create a profile or summary
-                        about, for example, an individual's preferences and
+                        about, for example, an individual’s preferences and
                         characteristics.
                       </li>
                     </ul>
@@ -1470,8 +1470,8 @@ const page = () => {
                     <p class="mb-4">
                       The categories of third parties to whom we disclosed
                       personal information for a business or commercial purpose
-                      can be found under "WHO WILL YOUR INFORMATION BE SHARED
-                      WITH?".
+                      can be found under “WHO WILL YOUR INFORMATION BE SHARED
+                      WITH?”.
                     </p>
 
                     <h4 class="text-lg font-semibold mt-6 mb-2">
@@ -1489,7 +1489,7 @@ const page = () => {
                       <li>
                         Category K: Inferences drawn from any of the personal
                         information listed above to create a profile or summary
-                        about, for example, an individual's preferences and
+                        about, for example, an individual’s preferences and
                         characteristics.
                       </li>
                     </ul>
@@ -1533,7 +1533,7 @@ const page = () => {
 
                     <h4 class="text-lg font-semibold mt-6 mb-2">
                       Right to Non-Discrimination for the Exercise of a
-                      Consumer's Privacy Rights
+                      Consumer’s Privacy Rights
                     </h4>
                     <p class="mb-4">
                       We will not discriminate against you if you exercise your
@@ -1608,7 +1608,7 @@ const page = () => {
                       In Short: Yes, we will update this notice as necessary to
                       stay compliant with relevant laws. We may update this
                       privacy notice from time to time. The updated version will
-                      be indicated by an updated "Revised" date and the updated
+                      be indicated by an updated “Revised” date and the updated
                       version will be effective as soon as it is accessible. If
                       we make material changes to this privacy notice, we may
                       notify you either by prominently posting a notice of such
@@ -1666,7 +1666,7 @@ const page = () => {
                     </p>
 
                     <h3 class="text-xl font-semibold mt-6 mb-3">
-                      Children's Information
+                      Children’s Information
                     </h3>
                     <p class="mb-4">
                       Another part of our priority is adding protection for
@@ -1689,7 +1689,7 @@ const page = () => {
                     <p class="mb-4">
                       Our Service may contain links to other websites that are
                       not operated by Us. If You click on a third party link,
-                      You will be directed to that third party's site. We
+                      You will be directed to that third party’s site. We
                       strongly advise You to review the Privacy Policy of every
                       site You visit.
                     </p>
@@ -1751,7 +1751,7 @@ const page = () => {
                     </h2>
                     <p class="mb-4">
                       Your information, including Personal Data, is processed at
-                      the Company's operating offices and in any other places
+                      the Company’s operating offices and in any other places
                       where the parties involved in the processing are located.
                       It means that this information may be transferred to — and
                       maintained on — computers located outside of Your state,

@@ -60,7 +60,7 @@ const Estimate = ({ pageType }) => {
                     preheading="estimate"
                   />
                   <p className="text-sm lg:text-xl text-center max-w-3xl">
-                    Here's a quick look at national average painting costs:
+                    Here’s a quick look at national average painting costs:
                   </p>
                   
                   {/* Pricing Table */}

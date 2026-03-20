@@ -10,7 +10,7 @@ const Heading = ({ oh = false, preheading = "", heading = "", className = "text-
 
   return (
     <div className="flex flex-col items-center gap-2.5 lg:gap-4">
-      {!oh && <PreHeading children={preheading} className={phClassname} />}
+      {!oh && <PreHeading className={phClassname}>{preheading}</PreHeading>}
       <h2 className={`font-bold lg:text-[50px] text-center ${className}`}>
         {parts.map((part, idx) =>
           part.toLowerCase() === highlight.toLowerCase() ? (

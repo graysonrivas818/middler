@@ -29,11 +29,11 @@ const TermsOfService = () => {
                     These Terms of Use constitute a legally binding agreement
                     made between you, whether personally or on behalf of an
                     entity (you) and Middler.com doing business as Middler
-                    ("Middler.com", "we", "us", or "our"), concerning your
+                    (“Middler.com”, “we”, “us”, or “our”), concerning your
                     access to and use of the Middler.com website as well as any
                     other media form, media channel, mobile website or mobile
                     application related, linked, or otherwise connected thereto
-                    (collectively, the "Site"). We are registered in the United
+                    (collectively, the “Site”). We are registered in the United
                     States.
                   </p>
                   <p className="mb-4">
@@ -49,8 +49,8 @@ const TermsOfService = () => {
                     incorporated herein by reference. We reserve the right, in
                     our sole discretion, to make changes or modifications to
                     these Terms of Use at any time and for any reason. We will
-                    alert you about any changes by updating the "Last updated
-                    date of these Terms of Use”, and you waive any right to
+                    alert you about any changes by updating the “Last updated”
+                    date of these Terms of Use, and you waive any right to
                     receive specific notion of each such change.
                   </p>
                   <p className="mb-4">
@@ -80,8 +80,8 @@ const TermsOfService = () => {
                     is our proprietary property and all source code, databases,
                     functionality, software, website designs, audio, video,
                     text, photographs, and graphics on the Site (collectively,
-                    the "Content") and the trademarks, service marks, and logos
-                    contained therein (the "Marks") are owned or controlled by
+                    the “Content”) and the trademarks, service marks, and logos
+                    contained therein (the “Marks”) are owned or controlled by
                     us or licensed to us, and are protected by copyright and
                     trademark laws and various other laws.
                   </p>
@@ -94,8 +94,8 @@ const TermsOfService = () => {
                       property and all source code, databases, functionality,
                       software, website designs, audio, video, text,
                       photographs, and graphics on the Site (collectively, the
-                      "Content") and the trademarks, service marks, and logos
-                      contained therein (the "Marks") are owned or controlled by
+                      “Content”) and the trademarks, service marks, and logos
+                      contained therein (the “Marks”) are owned or controlled by
                       us or licensed to us, and are protected by copyright and
                       trademark laws and various other intellectual property
                       rights and unfair competition laws of the United States,
@@ -103,7 +103,7 @@ const TermsOfService = () => {
                       conventions.
                     </p>
                     <p className="mb-4">
-                      The Content and the Marks are provided on the Site "AS IS"
+                      The Content and the Marks are provided on the Site “AS IS”
                       for your information and personal use only. Except as
                       expressly provided in these Terms of Use, no part of the
                       Site and no Content or Marks may be copied, reproduced,
@@ -221,7 +221,7 @@ const TermsOfService = () => {
                         viruses, Trojan horses, or other material, including
                         excessive use of capital letters and spamming
                         (continuous posting of repetitive text), that interferes
-                        with any party's uninterrupted use and enjoyment of the
+                        with any party’s uninterrupted use and enjoyment of the
                         Site or modifies, impairs, disrupts, alters, or
                         interferes with the use, features, functions, operation,
                         or maintenance of the Site.
@@ -246,8 +246,8 @@ const TermsOfService = () => {
                         information collection or transmission mechanism,
                         including without limitation, clear graphics interchange
                         formats (gifs), 1x1 pixels, web bugs, cookies, or other
-                        similar devices (sometimes referred to as "spyware" or
-                        "passive collection mechanisms" or "POMA").
+                        similar devices (sometimes referred to as “spyware” or
+                        “passive collection mechanisms” or “POMA”).
                       </li>
                       <li>
                         Interfere with, disrupt, or create an undue burden on
@@ -265,7 +265,7 @@ const TermsOfService = () => {
                         of the Site.
                       </li>
                       <li>
-                        Copy or adapt the Site's software, including but not
+                        Copy or adapt the Site’s software, including but not
                         limited to Flash, PHP, HTML, JavaScript, or other code.
                       </li>
                       <li>
@@ -314,7 +314,7 @@ const TermsOfService = () => {
                       materials to us or on the Site, including but not limited
                       to text, writings, video, audio, photographs, graphics,
                       comments, suggestions, or personal information or other
-                      material (collectively, "Contributions"). Contributions
+                      material (collectively, “Contributions”). Contributions
                       may be viewable by other users of the Site and through
                       third-party websites. As such, any Contributions you
                       transmit may be treated as non-confidential and
@@ -592,7 +592,7 @@ const TermsOfService = () => {
                     <p className="mb-4">
                       The following terms apply when you use a mobile
                       application obtained from either the Apple Store or Google
-                      Play (each an "App Distributor") to access the Site:
+                      Play (each an “App Distributor”) to access the Site:
                     </p>
                     <ol className="list-decimal list-inside mb-4">
                       <li>
@@ -601,7 +601,7 @@ const TermsOfService = () => {
                         application on a device that uses the Apple iOS or
                         Android operating systems, as applicable, and in
                         accordance with the usage rules set forth in the
-                        applicable App Distributor's terms of service.
+                        applicable App Distributor’s terms of service.
                       </li>
                       <li>
                         We are responsible for providing any maintenance and
@@ -628,7 +628,7 @@ const TermsOfService = () => {
                         You represent and warrant that (i) you are not located
                         in a country that is subject to a U.S. government
                         embargo, or that has been designated by the U.S.
-                        government as a "terrorist supporting" country and (ii)
+                        government as a “terrorist supporting” country and (ii)
                         you are not listed on any U.S. government list of
                         prohibited or restricted parties.
                       </li>
@@ -658,7 +658,7 @@ const TermsOfService = () => {
                       As part of the functionality of the Site, you may link
                       your account with online accounts you have with
                       third-party service providers (each such account, a
-                      "Third-Party Account") by either:
+                      “Third-Party Account”) by either:
                     </p>
                     <ol className="list-decimal list-inside mb-4">
                       <li>
@@ -689,7 +689,7 @@ const TermsOfService = () => {
                       <li>
                         We may access, make available, and store (if applicable)
                         any content that you have provided to and stored in your
-                        Third-Party Account (the "Social Network Content") so
+                        Third-Party Account (the “Social Network Content”) so
                         that it is available on and through the Site via your
                         account, including without limitation any friend lists.
                       </li>
@@ -745,7 +745,7 @@ const TermsOfService = () => {
                     <p className="mb-4">
                       You acknowledge and agree that any questions, comments,
                       suggestions, ideas, feedback, or other information
-                      regarding the Site ("Submissions") provided by you to us
+                      regarding the Site (“Submissions”) provided by you to us
                       are non-confidential and shall become our sole property.
                       We shall own exclusive rights, including all intellectual
                       property rights, and shall be entitled to the unrestricted
@@ -770,11 +770,11 @@ const TermsOfService = () => {
                     </h2>
                     <p className="mb-4">
                       The Site may contain (or you may be sent via the Site)
-                      links to other websites ("Third-Party Websites") as well
+                      links to other websites (“Third-Party Websites”) as well
                       as articles, photographs, text, graphics, pictures,
                       designs, music, sound, video, information, applications,
                       software, and other content or items belonging to or
-                      originating from third parties ("Third-Party Content").
+                      originating from third parties (“Third-Party Content”).
                       Such Third-Party Websites and Third-Party Content are not
                       investigated, monitored, or checked for accuracy,
                       appropriateness, or completeness by us, and we are not
@@ -906,7 +906,7 @@ const TermsOfService = () => {
                       Site infringes upon any copyright you own or control,
                       please immediately notify our Designated Copyright Agent
                       using the contact information provided below (a
-                      "Notification"). A copy of your Notification will be sent
+                      “Notification”). A copy of your Notification will be sent
                       to the person who posted or stored the material addressed
                       in the Notification. Please be advised that pursuant to
                       federal law you may be held liable for damages if you make
@@ -969,8 +969,8 @@ const TermsOfService = () => {
                       removed from the Site as a result of a mistake or
                       misidentification, you may submit a written counter
                       notification to the Designated Copyright Agent using the
-                      contact information provided below (a "Counter
-                      Notification"). To be an effective Counter Notification
+                      contact information provided below (a “Counter
+                      Notification”). To be an effective Counter Notification
                       under the DMCA, your Counter Notification must include
                       substantially the following:
                     </p>
@@ -988,7 +988,7 @@ const TermsOfService = () => {
                       </li>
                       <li>
                         A statement that you will accept service of process from
-                        the party that filed the Notification or the party's
+                        the party that filed the Notification or the party’s
                         agent;
                       </li>
                       <li>Your name, address, and telephone number;</li>
@@ -1011,7 +1011,7 @@ const TermsOfService = () => {
                       material in question. Please note that if you materially
                       misrepresent that the disabled or removed content was
                       removed by mistake or misidentification, you may be liable
-                      for damages, including costs and attorney's fees. Filing a
+                      for damages, including costs and attorney’s fees. Filing a
                       false Counter Notification constitutes perjury.
                     </p>
                     <p className="font-semibold">
@@ -1114,9 +1114,9 @@ const TermsOfService = () => {
                       WITHOUT THIS PROVISION, YOU WOULD HAVE THE RIGHT TO SUE IN
                       COURT AND HAVE A JURY TRIAL. The arbitration shall be
                       commenced and conducted under the Commercial Arbitration
-                      Rules of the American Arbitration Association ("AAA") and,
-                      where appropriate, the AAA's Supplementary Procedures for
-                      Consumer Related Disputes ("AAA Consumer Rules"), both of
+                      Rules of the American Arbitration Association (“AAA”) and,
+                      where appropriate, the AAA’s Supplementary Procedures for
+                      Consumer Related Disputes (“AAA Consumer Rules”), both of
                       which are available at the AAA website: www.adr.org. Your
                       arbitration fees and your share of arbitrator compensation
                       shall be governed by the AAA Consumer Rules and, where
@@ -1220,7 +1220,7 @@ const TermsOfService = () => {
                       WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
                       MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND
                       NON-INFRINGEMENT. WE MAKE NO WARRANTIES OR REPRESENTATIONS
-                      ABOUT THE ACCURACY OR COMPLETENESS OF THE SITE'S CONTENT
+                      ABOUT THE ACCURACY OR COMPLETENESS OF THE SITE’S CONTENT
                       OR THE CONTENT OF ANY WEBSITES LINKED TO THE SITE AND WE
                       WILL ASSUME NO LIABILITY OR RESPONSIBILITY FOR ANY (1)
                       ERRORS, MISTAKES, OR INACCURACIES OF CONTENT AND
@@ -1278,7 +1278,7 @@ const TermsOfService = () => {
                       MIDDLER.COM, MIDDLER DBA, AND IT’S LLC IS EXPRESSLY NOT
                       HELD LIABLE FOR ANY CLIENT’S, PROVIDER’S, MIDDLER’S,
                       EMPLOYEE’S, INDEPENDENT CONTRACTOR’S, CONTRACTOR’S,
-                      CONSULTANT'S ACTIONS, COMMUNICATION, WORK, OPINIONS,
+                      CONSULTANT’S ACTIONS, COMMUNICATION, WORK, OPINIONS,
                       SUGGESTION, ON AND OR OFF OF THE SITE.
                     </p>
                   </section>
@@ -1292,7 +1292,7 @@ const TermsOfService = () => {
                       including our subsidiaries, affiliates, and all of our
                       respective officers, agents, partners, and employees, from
                       and against any loss, damage, liability, claim, or demand,
-                      including reasonable attorneys' fees and expenses, made by
+                      including reasonable attorneys’ fees and expenses, made by
                       any third party due to or arising out of: (1) your
                       Contributions; (2) use of the Site; (3) breach of these
                       Terms of Use; (4) any breach of your representations and
@@ -1429,7 +1429,7 @@ const TermsOfService = () => {
                     <p className="mb-4">
                       By using the Site, Middler.com has the right to share your
                       personal information. This process of using the Site
-                      includes revealing users' personal information, and all
+                      includes revealing users’ personal information, and all
                       users consent to all of their information being shared. In
                       order to complete projects, jobs, and or any other kind of
                       work, Users of the Site give permission to reveal their
@@ -1438,7 +1438,7 @@ const TermsOfService = () => {
                     </p>
                     <p className="mb-4">
                       Providers of the Site are not the responsibility or the
-                      liability for any communication on the Site. Providers'
+                      liability for any communication on the Site. Providers’
                       actions at a Client’s property, job site, and or any other
                       location are not the responsibility of Middler.
                       Communication by Middler with clients and or Providers

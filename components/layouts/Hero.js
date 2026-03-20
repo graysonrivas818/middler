@@ -187,7 +187,7 @@ const Hero = ({
               >
                 <div className="relative py-2 lg:px-1.5 border-b-[1.5px] border-[rgba(51,51,51,0.15)] after:h-[3px] after:w-[89px] after:absolute after:-bottom-px after:left-0 after:bg-primary">
                   <p className="max-[400px]:text-[3.45vw]! text-[3.5vw] lg:text-2xl font-semibold max-sm:mt-2" style={{ fontSize: isMobile ? '14px' : undefined }}>
-                    Enter address of the property that's being painted
+                    Enter address of the property that’s being painted
                   </p>
                 </div>
               <div className="w-full flex flex-row gap-2.5 lg:gap-[30px] items-stretch" style={{ padding: isMobile ? '10px' : undefined }}>
