@@ -85,6 +85,7 @@ const CabinetPaint = ({
           </button>
         </div>
       </div>
+      <div className="quote"><strong>Cabinet painting</strong> is an art. <strong>Hire a pro</strong> or at least <strong>use the best sprayer.</strong> It will pay off.</div>
     </>
   );
 };

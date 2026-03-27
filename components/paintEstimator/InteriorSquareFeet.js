@@ -81,6 +81,7 @@ const InteriorSquareFeet = ({
           </button>
         </div>
       </div>
+      <div className="quote">If a painter’s <strong>price is lower </strong>than Middler, they’re <strong>cutting corners </strong>somewhere.</div>
     </>
   );
 };

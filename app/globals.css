@@ -176,3 +176,13 @@
 .exterior .swiper-wrapper {
   justify-content: center;
 }
+
+.max-lg\:hidden.mt-\[64px\].bg-cover.bg-center.bg-no-repeat.bg-\[url\(\'\/images\/modals\/1\.webp\'\)\].rounded-2xl {
+  opacity: 0.05;
+}
+.max-lg\:hidden.mt-\[64px\].bg-cover.bg-center.bg-no-repeat.bg-\[url\(\'\/images\/modals\/2\.webp\'\)\].rounded-2xl {
+  opacity: 0.05;
+}
+.w-full.object-fill.\32 xl\:object-cover.object-top.h-full.rounded-2xl {
+  opacity: 0.05;
+}

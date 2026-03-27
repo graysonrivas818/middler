@@ -98,9 +98,9 @@ const Cta = ({ pageType = "home" }) => {
               ) : (
                 <div className="lg:pt-0!">
                   <p className="font-medium text-[11px] lg:text-[22px]">
-                    “Middler’s prices are not for painters that are trying to rip
+                    "Middler's prices are not for painters that are trying to rip
                     people off and not for customers who want to underpay
-                    painters. The seal stands by that.”
+                    painters. The seal stands by that."
                   </p>
                 </div>
               )}

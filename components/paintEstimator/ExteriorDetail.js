@@ -84,6 +84,7 @@ const ExteriorDetail = ({
           Next
         </button>
       </div>
+      <div className="quote"><strong>Pro painters</strong> catch and <strong>fix details</strong> you didn't even notice.</div>
     </>
   );
 };

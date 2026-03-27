@@ -92,7 +92,8 @@ const InsideCabinet = ({
           height={96}
           className="max-w-20 lg:max-w-24 rounded-xl"
         />
-      </div>
+        </div>
+      <div className="quote">Your <strong>price</strong> at the end is <strong>unbiased.</strong> Middler does not change our prices for anyone.</div>
     </>
   );
 };

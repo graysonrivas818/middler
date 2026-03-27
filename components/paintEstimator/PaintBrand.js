@@ -82,6 +82,8 @@ const PaintBrand = ({
             <span className="text-red-500 text-[12px]">Please select one</span>
           </div>
         )}
+        <div className="quote">
+<strong>Paint</strong> absolutely <strong>makes a difference. </strong>Always <strong>use the best.</strong> It’s included in the price.</div>
     </>
   );
 };

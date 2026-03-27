@@ -255,12 +255,7 @@ const GiftCard = ({
               inputType={"text"}
               value={estimator.value.businessEmail}
               dispatch={dispatch}
-              changeValue={({ value, type }) => (dispatch) => {
-                dispatch(changeEstimatorValue({ value, type }));
-                if (type === "businessEmail") {
-                  dispatch(changeEstimatorValue({ value, type: "clientEmail" }));
-                }
-              }}
+              changeValue={changeEstimatorValue}
               type={"businessEmail"}
               dropdown=""
               setDropdown={setDropdown}

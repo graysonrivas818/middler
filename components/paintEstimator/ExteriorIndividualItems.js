@@ -187,6 +187,7 @@ const ExteriorIndividualItems = ({
           Next
         </button>
       </div>
+      <div className="quote"><strong>The price</strong> you'll see at the end <strong>includes</strong> using the <strong>best paint</strong> possible.</div>
     </>
   );
 };

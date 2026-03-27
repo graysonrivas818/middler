@@ -77,6 +77,7 @@ const ExteriorSquareFeet = ({
           Next
         </button>
       </div>
+      <div className="quote"> A professionally painted <strong>home</strong> dramatically <strong>boosts</strong> curb appeal and <strong>value</strong>.</div>
     </>
   );
 };

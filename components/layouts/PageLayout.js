@@ -62,13 +62,9 @@ const Faq = dynamic(() => import("@/components/layouts/Faq"), {
   loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
 });
 
-// Heavy modal components (only load when needed)
-const GiftPopup = dynamic(() => import("@/components/modals/GiftPopup"));
-const OpenPopup = dynamic(() => import("@/components/ui/OpenPopup"));
 const ToastProvider = dynamic(() => import("@/components/ToastProvider"));
 
 const PageLayout = ({ pageType = "home" }) => {
-  const [showPopUp, setShowPopUp] = useState(false);
   const [isClient, setIsClient] = useState(false);
   
   // Get content for this page type
@@ -79,15 +75,6 @@ const PageLayout = ({ pageType = "home" }) => {
     // Use setTimeout to defer non-critical operations
     const timer = setTimeout(() => {
       setIsClient(true);
-      try {
-        const saved = sessionStorage.getItem("noEmailEntered");
-        if (saved) {
-          setShowPopUp(saved);
-          sessionStorage.removeItem("noEmailEntered");
-        }
-      } catch (error) {
-        console.warn("SessionStorage access failed:", error);
-      }
     }, 100); // Small delay to prevent blocking
 
     return () => clearTimeout(timer);
@@ -97,18 +84,6 @@ const PageLayout = ({ pageType = "home" }) => {
     <>
       {/* Critical above-the-fold content */}
       <Header />
-
-      {/* Conditional popup - only render when needed */}
-      {isClient && showPopUp && (
-        <Suspense fallback={null}>
-          <GiftPopup
-            showPopUp={showPopUp}
-            setShowPopUp={setShowPopUp}
-            isMainPage={true}
-          />
-        </Suspense>
-      )}
-
       <main>
         {/* Critical content first */}
         {content.showHero !== false && (
@@ -234,14 +209,6 @@ const PageLayout = ({ pageType = "home" }) => {
       <Suspense fallback={<div className="h-64 bg-gray-900 animate-pulse" />}>
         <Footer />
       </Suspense>
-
-      {/* Non-critical components */}
-      {isClient && (
-        <Suspense fallback={null}>
-          <OpenPopup showPopUp={showPopUp} setShowPopUp={setShowPopUp} />
-        </Suspense>
-      )}
-      
       <Suspense fallback={null}>
         <ToastProvider />
       </Suspense>

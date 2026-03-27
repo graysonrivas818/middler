@@ -30,7 +30,6 @@ import { changeUserValue, resetUser } from "../_redux/features/userSlice";
 import Navbar from "@/components/layouts/Navbar";
 import Footer from "@/components/layouts/Footer";
 import EmailType from "@/components/modals/emailType";
-import GiftCard from "@/components/modals/giftCard";
 import SignUp from "@/components/modals/signUp";
 import Progress from "@/components/ui/Progress";
 
@@ -68,7 +67,6 @@ import GET_CALCULATIONS from "../_mutations/getCalculations";
 import GET_USER from "../_queries/fetchUser";
 
 import Confirmation from "@/components/modals/Confirmation";
-import GiftPopup from "@/components/modals/GiftPopup";
 import { validateEmail, validateNumber, validatePrice } from "@/helpers/forms";
 import { FaArrowLeft, FaCheck } from "react-icons/fa";
 import StepSync from "./StepSync";
@@ -395,9 +393,7 @@ const PaintEstimator = ({ }) => {
 
   useEffect(() => {
     if (+navigation.value.paintEstimator == 1) {
-      localStorage.removeItem("signupDismissed");
-      localStorage.removeItem("giftCardDismissed");
-    }
+      localStorage.removeItem("signupDismissed");    }
 
     const signupDismissed = localStorage.getItem("signupDismissed");
 
@@ -409,21 +405,6 @@ const PaintEstimator = ({ }) => {
       const timer = setTimeout(() => {
         dispatch(changePopup("signup"));
       }, 5000);
-
-      return () => clearTimeout(timer);
-    }
-
-    const giftCardDismissed = localStorage.getItem("giftCardDismissed");
-
-    if (
-      signupDismissed &&
-      !giftCardDismissed &&
-      popup === "" &&
-      +navigation.value.paintEstimator === 5
-    ) {
-      const timer = setTimeout(() => {
-        dispatch(changePopup("giftCard"));
-      }, 3000);
 
       return () => clearTimeout(timer);
     }
@@ -441,25 +422,16 @@ const PaintEstimator = ({ }) => {
   useEffect(() => {
     if (cookies.address) {
       try {
-        const parsedAddress =
-          typeof cookies.address === "string"
-            ? JSON.parse(
-                cookies.address.startsWith("j:")
-                  ? cookies.address.slice(2)
-                  : cookies.address
-              )
-            : cookies.address;
-
-        if (parsedAddress?.formattedAddress && parsedAddress?.zipCode) {
+        if (cookies.address.formattedAddress && cookies.address.zipCode) {
           dispatch(
             changeEstimatorValue({
-              value: parsedAddress.formattedAddress,
+              value: cookies.address.formattedAddress,
               type: "clientPropertyAddress",
             })
           );
           dispatch(
             changeEstimatorValue({
-              value: parsedAddress.zipCode,
+              value: cookies.address.zipCode,
               type: "clientZipCode",
             })
           );
@@ -1203,7 +1175,7 @@ const PaintEstimator = ({ }) => {
                     <span className="text-primary-800">Paint Estimator Tool</span> – A Complete Guide for Accurate Painting Cost Planning
                   </h1>
                   <p className="text-base lg:text-2xl leading-6 lg:leading-snug text-center max-w-4xl">
-                    Painting your home can feel confusing when you do not know how much it will cost or how much paint you need. A paint estimator tool makes this easy by helping you plan the whole project with clear numbers. It removes guesswork and helps you stay within your budget.
+                    Painting your home can feel confusing when you don't know how much it will cost or how much paint you need. A paint estimator tool makes this easy by helping you plan the whole project with clear numbers. It removes guesswork and helps you stay within your budget.
                   </p>
                 </div>
               </div>
@@ -1559,17 +1531,15 @@ const PaintEstimator = ({ }) => {
             setIsConfirmOpen={setIsConfirmOpen}
           />
         )}
-        {popup == "giftCard" && (
-          <GiftPopup
-            dispatch={dispatch}
-            changePopup={changePopup}
-            showPopUp={true}
-            isMainPage={false}
-          />
-        )}
       </>
     </>
   );
 };
 
 export default PaintEstimator;
+
+
+
+
+
+

@@ -94,6 +94,7 @@ const InteriorItems = ({
           next
         </button>
       </div>
+      <div className="quote">If a painter’s <strong>price is higher</strong> than Middler, they should be doing <strong>more work.</strong></div>
     </>
   );
 };

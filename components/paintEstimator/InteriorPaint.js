@@ -76,7 +76,8 @@ const InteriorPaint = ({
           NO
         </button>
       </div>
-    </>
+      <div className="quote"><strong>Your price</strong> at the end is <strong>unbiased.</strong> Middler does not change our prices for anyone.</div>
+   </>
   );
 };
 

@@ -83,6 +83,7 @@ const CabinetConditions = ({
           Next
         </button>
       </div>
+      <div className="quote">Pro painters <strong>clean up</strong> after a job.</div>
     </>
   );
 };

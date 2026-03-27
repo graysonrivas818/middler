@@ -6,14 +6,14 @@ export function pickByEnv({ dev, prod, override, fallback }) {
 }
 
 export const GRAPHQL_ENDPOINT =
-  process.env.NODE_ENV === 'development'
-    ? process.env.NEXT_PUBLIC_GRAPHQL_DEVELOPMENT_ENDPOINT ||
-      'https://api.middler.com/graphql'
-    : process.env.NEXT_PUBLIC_GRAPHQL_PRODUCTION_ENDPOINT ||
-      'https://api.middler.com/graphql';
+  pickByEnv({
+    dev: process.env.NEXT_PUBLIC_GRAPHQL_DEVELOPMENT_ENDPOINT,
+    prod: process.env.NEXT_PUBLIC_GRAPHQL_PRODUCTION_ENDPOINT,
+    fallback: 'http://localhost:3001/graphql',
+  });
 
 export const SITE_URL = pickByEnv({
   dev: process.env.NEXT_PUBLIC_SITE_URL_DEV,
   prod: process.env.NEXT_PUBLIC_SITE_URL_PROD,
-  fallback: 'http://localhost:300',
+  fallback: 'http://localhost:3000',
 });

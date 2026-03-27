@@ -77,6 +77,7 @@ const ExteriorPaint = ({
           No
         </button>
       </div>
+      <div className="quote">  <strong>1 week or 1 month?</strong> A pro painter can finish your project <strong>4 times faster</strong>.</div>
     </>
   );
 };

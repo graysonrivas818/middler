@@ -84,6 +84,7 @@ const InteriorCondition = ({
           next
         </button>
       </div>
+      <div className="quote">Amateurs waste <strong>40% more paint</strong> doing a job. That's a lot of <strong>money</strong> </div>
     </>
   );
 };

@@ -186,6 +186,7 @@ const InteriorIndividualItems = ({
           <span>NEXT</span>
         </button>
       </div>
+      <div className="quote">With so many surfaces, <strong>paint can make or break your home. </strong> </div>
     </>
   );
 };

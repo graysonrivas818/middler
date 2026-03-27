@@ -94,6 +94,7 @@ const ExteriorItems = ({
           Next
         </button>
       </div>
+      <div className="quote">  <strong>Hire a pro</strong> and avoid the <strong>risks</strong> that come with ladders, heights, and accidents.</div>
     </>
   );
 };

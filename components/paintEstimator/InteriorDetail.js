@@ -84,6 +84,7 @@ const InteriorDetail = ({
           next
         </button>
       </div>
+      <div className="quote">If you hire an <strong>uninsured painter</strong> you could be <strong>liable if they get hurt</strong></div>
     </>
   );
 };

@@ -24,7 +24,7 @@ import Heading from "@/components/ui/Heading";
 
 
 
-const Page = () => {
+const page = () => {
   const [dropdown, setDropdown] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -201,4 +201,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default page;

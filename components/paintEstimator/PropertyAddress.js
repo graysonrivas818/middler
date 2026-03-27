@@ -207,8 +207,9 @@ const PropertyAddress = ({
 
             return;
           }
+
           setCookie(
-            "address",
+            "clientPropertyAddress",
             JSON.stringify({
               formattedAddress: matched.formattedAddress,
               zipCode: matched.zipCode,

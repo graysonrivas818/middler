@@ -84,6 +84,7 @@ const ExteriorCondition = ({
           Next
         </button>
       </div>
+      <div className="quote">Hire a reputable painter. Contractors walking off the job is a real thing.</div>
     </>
   );
 };

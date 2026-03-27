@@ -7,7 +7,6 @@ import { useCookies } from "react-cookie";
 import Image from "next/image";
 
 import SAVE_ESTIMATE from "@/app/_mutations/saveEstimate";
-import QUICK_ESTIMATE from "@/app/_mutations/quickEstimateClient";
 import InputFieldText2 from "../form/InputFieldText2";
 
 const SignUp = ({
@@ -48,7 +47,6 @@ const SignUp = ({
     saveEstimate,
     { dataSaveEstimate, loadingSaveEstimate, errorSaveEstimate },
   ] = useMutation(SAVE_ESTIMATE);
-  const [quickEstimate] = useMutation(QUICK_ESTIMATE);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -66,81 +64,65 @@ const SignUp = ({
     setLoading("sendEstimate");
 
     try {
-      let estimateID = cookies.estimateID;
-      if (!estimateID) {
-        const quickEstimateResponse = await quickEstimate({
-          variables: {
-            estimate: {
-              adjustment: estimator.value.adjustment,
-              businessName: estimator.value.businessName,
-              businessLogo: estimator.value.businessLogo,
-              estimatorName: estimator.value.estimatorName,
-              businessAddress: estimator.value.businessAddress,
-              businessPhone: estimator.value.businessPhone,
-              businessEmail: estimator.value.businessEmail,
-              businessWebsite: estimator.value.businessWebsite,
-              businessLicenseNumber: estimator.value.businessLicenseNumber,
-              businessInstagram: estimator.value.businessInstagram,
-              clientName: estimator.value.clientName,
-              clientPhone: estimator.value.clientPhone,
-              clientPropertyAddress: estimator.value.clientPropertyAddress,
-              clientEmail:
-                estimator.value.clientEmail || estimator.value.businessEmail,
-              clientZipCode: estimator.value.clientZipCode,
-              interiorSquareFeet: estimator.value.interiorSquareFeet,
-              interiorCondition: estimator.value.interiorCondition,
-              interiorDetail: estimator.value.interiorDetail,
-              interiorItems: estimator.value.interiorItems,
-              interiorIndividualItems: estimator.value.interiorIndividualItems,
-              interiorAdjusted: estimator.value.interiorAdjusted,
-              doorsAndDrawers: estimator.value.doorsAndDrawers,
-              insideCabinet: estimator.value.insideCabinet == "yes" ? true : false,
-              cabinetCondition: estimator.value.cabinetCondition,
-              cabinetDetail: estimator.value.cabinetDetail,
-              cabinetAdjusted: estimator.value.cabinetAdjusted,
-              exteriorSquareFeet: estimator.value.exteriorSquareFeet,
-              exteriorCondition: estimator.value.exteriorCondition,
-              exteriorDetail: estimator.value.exteriorDetail,
-              exteriorItems: estimator.value.exteriorItems,
-              exteriorIndividualItems: estimator.value.exteriorIndividualItems,
-              exteriorAdjusted: estimator.value.exteriorAdjusted,
-              painters: estimator.value.painters,
-              hoursPerDay: estimator.value.hoursPerDay,
-              days: estimator.value.days,
-              paintBrand: estimator.value.paintBrand,
-              paintQuality: estimator.value.paintQuality,
-              warranty: estimator.value.warranty,
-              payments: estimator.value.payments,
-              deposit: estimator.value.deposit,
-              depositType: estimator.value.depositType,
-              painterTapeRolls: estimator.value.painterTapeRolls,
-              plasticRolls: estimator.value.plasticRolls,
-              dropCloths: estimator.value.dropCloths,
-              userType: estimator.value.userType,
-            },
-          },
-        });
-
-        estimateID = quickEstimateResponse?.data?.quickEstimateClient?.id;
-        if (!estimateID) {
-          throw new Error("Could not create estimate. Please try again.");
-        }
-
-        const expirationDate = new Date();
-        expirationDate.setTime(
-          expirationDate.getTime() + 365 * 24 * 60 * 60 * 1000
-        );
-        setCookie("estimateID", estimateID, {
-          expires: expirationDate,
-          path: "/",
-          sameSite: "lax",
-        });
-      }
+      // const response = await saveEstimate({
+      //   variables: {
+      //     email: estimator.value.businessEmail.toLowerCase(),
+      //     estimateID: cookies.estimateID,
+      //   },
+      // });
 
       const response = await saveEstimate({
         variables: {
           email: estimator.value.businessEmail.toLowerCase(),
-          estimateID,
+          estimateID: cookies.estimateID,
+          estimate: {
+            adjustment: estimator.value.adjustment,
+            businessLogo: estimator.value.businessLogo,
+            businessName: estimator.value.businessName,
+            estimatorName: estimator.value.estimatorName,
+            businessAddress: estimator.value.businessAddress,
+            businessPhone: estimator.value.businessPhone,
+            businessEmail: estimator.value.businessEmail,
+            businessWebsite: estimator.value.businessWebsite,
+            businessLicenseNumber: estimator.value.businessLicenseNumber,
+            businessInstagram: estimator.value.businessInstagram,
+            clientName: estimator.value.clientName,
+            clientPhone: estimator.value.clientPhone,
+            clientPropertyAddress: estimator.value.clientPropertyAddress,
+            clientEmail: estimator.value.clientEmail,
+            clientZipCode: estimator.value.clientZipCode,
+            interiorSquareFeet: estimator.value.interiorSquareFeet,
+            interiorCondition: estimator.value.interiorCondition,
+            interiorDetail: estimator.value.interiorDetail,
+            interiorItems: estimator.value.interiorItems,
+            interiorIndividualItems: estimator.value.interiorIndividualItems,
+            doorsAndDrawers: estimator.value.doorsAndDrawers,
+            insideCabinet:
+              estimator.value.insideCabinet === "yes"
+                ? true
+                : !!estimator.value.insideCabinet,
+            cabinetCondition: estimator.value.cabinetCondition,
+            cabinetDetail: estimator.value.cabinetDetail,
+            exteriorSquareFeet: estimator.value.exteriorSquareFeet,
+            exteriorCondition: estimator.value.exteriorCondition,
+            exteriorDetail: estimator.value.exteriorDetail,
+            exteriorItems: estimator.value.exteriorItems,
+            exteriorIndividualItems: estimator.value.exteriorIndividualItems,
+            painters: estimator.value.painters,
+            hoursPerDay: estimator.value.hoursPerDay,
+            days: estimator.value.days,
+            paintBrand: estimator.value.paintBrand,
+            paintQuality: estimator.value.paintQuality,
+            warranty: estimator.value.warranty,
+            payments: estimator.value.payments,
+            deposit: estimator.value.deposit,
+            depositType: estimator.value.depositType,
+            painterTapeRolls: estimator.value.painterTapeRolls,
+            plasticRolls: estimator.value.plasticRolls,
+            dropCloths: estimator.value.dropCloths,
+            notesAndDisclosure: estimator.value.notesAndDisclosure,
+            userType: estimator.value.userType,
+          },
         },
       });
 
@@ -152,7 +134,7 @@ const SignUp = ({
         event: "estimate_success",
         step: 2,
       });
-      dispatch(changePopup("giftCard"));
+      dispatch(changePopup(""));
       setMessage(response.data.saveEstimate.message);
     } catch (error) {
       console.log(error);
@@ -169,7 +151,7 @@ const SignUp = ({
           event: "estimate_signup_success",
           step: 2,
         });
-        dispatch(changePopup("giftCard"));
+        dispatch(changePopup(""));
       } else {
         setMessage(error.message || "Something went wrong.");
       }
@@ -211,12 +193,7 @@ const SignUp = ({
               placeholder="Enter your email address"
               value={estimator.value.businessEmail}
               dispatch={dispatch}
-              changeValue={({ value, type }) => (dispatch) => {
-                dispatch(changeEstimatorValue({ value, type }));
-                if (type === "businessEmail") {
-                  dispatch(changeEstimatorValue({ value, type: "clientEmail" }));
-                }
-              }}
+              changeValue={changeEstimatorValue}
               type={"businessEmail"}
               dropdown=""
               setDropdown={setDropdown}
@@ -258,3 +235,4 @@ const SignUp = ({
 };
 
 export default SignUp;
+
