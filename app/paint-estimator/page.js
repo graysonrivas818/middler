@@ -423,19 +423,21 @@ const PaintEstimator = ({ }) => {
   useEffect(() => {
     if (cookies.address) {
       try {
-        if (cookies.address.formattedAddress && cookies.address.zipCode) {
+        if (cookies.address.formattedAddress) {
           dispatch(
             changeEstimatorValue({
               value: cookies.address.formattedAddress,
               type: "clientPropertyAddress",
             })
           );
-          dispatch(
-            changeEstimatorValue({
-              value: cookies.address.zipCode,
-              type: "clientZipCode",
-            })
-          );
+          if (cookies.address.zipCode) {
+            dispatch(
+              changeEstimatorValue({
+                value: cookies.address.zipCode,
+                type: "clientZipCode",
+              })
+            );
+          }
           removeCookie("address");
         }
       } catch (err) {
