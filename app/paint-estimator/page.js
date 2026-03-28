@@ -136,6 +136,7 @@ const PaintEstimator = ({ }) => {
       id: cookies.user ? cookies.user.id : "unknown",
       token: cookies.token ? cookies.token : "unknown",
     },
+    skip: !cookies.user || !cookies.token,
   });
 
   useEffect(() => {
@@ -537,17 +538,17 @@ const PaintEstimator = ({ }) => {
       <main
         className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
       >
-        <div className="grid size-full min-h-[calc(100dvh_-_40px)] lg:min-h-[calc(100dvh_-_32px)] xl:min-h-[calc(100dvh_-_40px)] lg:grid-rows-1 xl:grid-cols-[0.3fr_1fr_0.3fr] 3xl:grid-cols-[0.23fr_1fr_0.23fr] gap-5 lg:gap-8 3xl:gap-10">
+        <div className="grid size-full lg:grid-rows-1 xl:grid-cols-[0.3fr_1fr_0.3fr] 3xl:grid-cols-[0.23fr_1fr_0.23fr] gap-5 lg:gap-8 3xl:gap-10">
           {navigation.value.paintEstimator != "5" && (
             <>
-              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat bg-[url('/images/modals/1.webp')] rounded-2xl" />
+              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat rounded-2xl" />
               <div
                 className={`w-full flex items-center flex-col justify-between gap-5 2xl:gap-4`}
               >
                 <Navbar />
                 <Progress />
 
-                <div className="lg:hidden">
+                <div className="hidden">
                   <Image
                     src="/images/modals/team.webp"
                     alt="Team"
@@ -1086,7 +1087,7 @@ const PaintEstimator = ({ }) => {
                 </div>
 
                 <div
-                  className={`max-lg:hidden w-full h-auto max-h-[220px] 2xl:max-h-[280px] ${navigation.value.paintEstimator == "3.1" ||
+                  className={`hidden w-full h-auto max-h-[220px] 2xl:max-h-[280px] ${navigation.value.paintEstimator == "3.1" ||
                     navigation.value.paintEstimator == "3.2"
                     ? "3xl:max-h-[280px]"
                     : " 3xl:max-h-[310px]"
@@ -1101,7 +1102,7 @@ const PaintEstimator = ({ }) => {
                   />
                 </div>
 
-                <div className="lg:hidden grid w-full grid-cols-2 gap-3">
+                <div className="hidden grid w-full grid-cols-2 gap-3">
                   <div className="col-span-2">
                     <Image
                       src="/images/modals/wmn_laugh.webp"
@@ -1131,7 +1132,7 @@ const PaintEstimator = ({ }) => {
                   </div>
                 </div>
               </div>
-              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat bg-[url('/images/modals/2.webp')] rounded-2xl" />
+              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat rounded-2xl" />
             </>
           )}
           {navigation.value.paintEstimator == "5" && (

@@ -9,6 +9,7 @@ import Image from "next/image";
 
 //// MUTATIONS
 import QUICK_ESTIMATE from "../../app/_mutations/quickEstimateClient";
+import SAVE_ESTIMATE from "../../app/_mutations/saveEstimate";
 import InputFieldText from "../form/inputFieldText";
 
 const EmailType = ({
@@ -55,6 +56,8 @@ const EmailType = ({
     quickEstimate,
     { dataQuickEstimate, loadingQuickEstimate, errorQuickEstimate },
   ] = useMutation(QUICK_ESTIMATE);
+
+  const [saveEstimate] = useMutation(SAVE_ESTIMATE);
 
   useEffect(() => {
     dispatch(changePopupType("email"));
@@ -116,9 +119,9 @@ const EmailType = ({
         return;
       }
 
-      if (phoneDigits.length < 10) {
+      if (phoneDigits.length > 0 && phoneDigits.length < 10) {
         setLoading("");
-        setMessage("Client phone number is required.");
+        setMessage("Please enter a valid phone number (at least 10 digits).");
         return;
       }
 
@@ -187,6 +190,18 @@ const EmailType = ({
         path: "/",
         sameSite: "lax",
       });
+
+      // Send estimate email to client
+      try {
+        await saveEstimate({
+          variables: {
+            email: clientEmail,
+            estimateID: response.data.quickEstimateClient.id,
+          },
+        });
+      } catch (emailError) {
+        console.log("Email send error:", emailError);
+      }
 
       setLoading("");
       setMessage(response.data.quickEstimateClient.message);
@@ -335,17 +350,17 @@ const EmailType = ({
                   {[
                     {
                       label: "Homeowner",
-                      icon: "home.webp",
+                      icon: "home-new.svg",
                       value: "homeowner",
                     },
                     {
                       label: "Painter",
-                      icon: "painter.webp",
+                      icon: "painter-new.svg",
                       value: "painter",
                     },
                     {
                       label: "Handyman",
-                      icon: "handyman.webp",
+                      icon: "handyman-new.svg",
                       value: "handyman",
                     },
                   ].map((item, idx) => (
@@ -386,7 +401,7 @@ const EmailType = ({
                         className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
                       >
                         <Image
-                          src="/images/icons/others.webp"
+                          src="/images/icons/others-new.svg"
                           alt="Other"
                           width={56}
                           height={56}
