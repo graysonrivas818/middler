@@ -1482,28 +1482,6 @@ const PaintEstimator = ({ }) => {
         <StepSync />
       </Suspense>
       <>
-        {popup == "emailType" && (
-          <EmailType
-            dispatch={dispatch}
-            changeUserValue={changeUserValue}
-            resetUser={resetUser}
-            user={user}
-            changePopup={changePopup}
-            changePopupType={changePopupType}
-            navigation={navigation}
-            estimator={estimator}
-            validateEmail={validateEmail}
-            login={login}
-            paintEstimateFieldsRequired={paintEstimateFieldsRequired}
-            changePaintEstimator={changePaintEstimator}
-            changeEstimatorValue={changeEstimatorValue}
-            paintEstimateSteps={paintEstimateSteps}
-            setRequired={setRequired}
-            previewEstimate={previewEstimate}
-            trackFormEvents={trackFormEvents}
-            changeEdit={changeEdit}
-          />
-        )}
         {popup == "signup" && (
           <SignUp
             dispatch={dispatch}
