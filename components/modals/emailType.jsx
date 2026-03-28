@@ -474,24 +474,6 @@ const EmailType = ({
                 <div className="w-full overflow-hidden flex flex-col items-center gap-6 lg:gap-7">
                   <div className="relative w-full p-2">
                     <input
-                      id="clientName"
-                      type="text"
-                      placeholder="Enter your name"
-                      value={estimator.value.clientName || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          changeEstimatorValue({
-                            value: e.target.value,
-                            type: "clientName",
-                          })
-                        )
-                      }
-                      className="w-full bg-white px-5 py-5 text-black rounded-full outline-none border border-primary focus:ring-2 focus:ring-primary focus:border-transparent shadow-[0_0_10px] shadow-primary/20"
-                    />
-                  </div>
-
-                  <div className="relative w-full p-2">
-                    <input
                       id="clientEmail"
                       type="email"
                       placeholder="Enter your email address"
