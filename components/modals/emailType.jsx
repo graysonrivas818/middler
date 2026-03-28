@@ -117,26 +117,27 @@ const EmailType = ({
         return;
       }
 
+      const sanitizeObjectArray = (value) =>
+        Array.isArray(value)
+          ? value.map((item) => {
+              if (!item || typeof item !== "object") return item;
+              const { __typename, ...rest } = item;
+              return rest;
+            })
+          : [];
+
       const normalizedEstimate = {
         ...estimator.value,
         clientEmail,
         clientPhone,
-        interiorItems: Array.isArray(estimator.value.interiorItems)
-          ? estimator.value.interiorItems
-          : [],
-        interiorIndividualItems: Array.isArray(
+        interiorItems: sanitizeObjectArray(estimator.value.interiorItems),
+        interiorIndividualItems: sanitizeObjectArray(
           estimator.value.interiorIndividualItems
-        )
-          ? estimator.value.interiorIndividualItems
-          : [],
-        exteriorItems: Array.isArray(estimator.value.exteriorItems)
-          ? estimator.value.exteriorItems
-          : [],
-        exteriorIndividualItems: Array.isArray(
+        ),
+        exteriorItems: sanitizeObjectArray(estimator.value.exteriorItems),
+        exteriorIndividualItems: sanitizeObjectArray(
           estimator.value.exteriorIndividualItems
-        )
-          ? estimator.value.exteriorIndividualItems
-          : [],
+        ),
         paintBrand:
           typeof estimator.value.paintBrand === "string"
             ? estimator.value.paintBrand
@@ -243,7 +244,15 @@ const EmailType = ({
       console.log(error);
       setLoading("");
       const gqlMessage = error?.graphQLErrors?.[0]?.message;
-      setMessage(gqlMessage || error?.message || "Failed to submit estimate.");
+      const networkGqlMessage =
+        error?.networkError?.result?.errors?.[0]?.message ||
+        error?.networkError?.result?.message;
+      setMessage(
+        gqlMessage ||
+          networkGqlMessage ||
+          error?.message ||
+          "Failed to submit estimate."
+      );
     }
   };
 
