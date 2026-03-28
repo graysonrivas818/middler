@@ -569,13 +569,16 @@ const PaintEstimator = ({ }) => {
                     } w-full`}
                 >
                   <div className="px-4 lg:px-11 xl:px-2 py-[30px] lg:py-6 flex flex-col items-center justify-center gap-[30px] bg-white shadow-[0_6px_46px] shadow-black/20 rounded-3xl lg:rounded-[31px] relative">
-                    {/* <button
-                      onClick={goBack}
-                      disabled={String(navigation.value.paintEstimator) === orderedSteps[0]}
-                      className="absolute top-1.5 left-1.5 lg:top-2 lg:left-2 rounded-full disabled:cursor-not-allowed not-disabled:cursor-pointer bg-neutral-100 border disabled:border-neutral-400 disabled:text-neutral-500 text-black border-neutral-500 p-1.5 max-lg:text-base lg:p-2.5 not-disabled:hover:bg-black not-disabled:hover:text-white transition-all duration-300 ease-in-out not-disabled:hover:shadow-[0_0_20px] shadow-black/30"
-                    >
-                      <FaArrowLeft />
-                    </button> */}
+                    {String(navigation.value.paintEstimator) !== orderedSteps[0] && (
+                      <button
+                        type="button"
+                        onClick={goBack}
+                        aria-label="Go to previous step"
+                        className="absolute top-3 left-3 lg:top-4 lg:left-4 z-10 self-start text-[#043DD7] font-bold"
+                      >
+                        ← Back
+                      </button>
+                    )}
                     <AnimatePresence mode="wait" initial={false}>
                       <motion.div
                         initial="enter"
@@ -1090,8 +1093,6 @@ const PaintEstimator = ({ }) => {
                     </AnimatePresence>
                   </div>
                 </div>
-
-               
 
                 <div
                   className={`hidden w-full h-auto max-h-[220px] 2xl:max-h-[280px] ${navigation.value.paintEstimator == "3.1" ||

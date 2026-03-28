@@ -31,7 +31,7 @@ const CabinetsPainting = ({
 
   return (
     <>
-      <div className="text-center">
+      <div className="pt-8 text-center">
         <h2 className="text-[26px] font-bold text-[#333]">
           How many cabinets are you painting?
         </h2>

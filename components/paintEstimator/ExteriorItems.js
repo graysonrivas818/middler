@@ -26,7 +26,7 @@ const ExteriorItems = ({
 }) => {
   return (
     <>
-      <div className="pt-3 text-center">
+      <div className="pt-8 text-center">
         <h2 className="text-[26px] font-bold text-[#333]">
           What are you painting?
         </h2>

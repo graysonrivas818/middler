@@ -27,7 +27,7 @@ const PaintBrand = ({
 }) => {
   return (
     <>
-      <div className="pt-3 text-center">
+      <div className="pt-8 text-center">
         <h2 className="text-[26px] font-bold text-[#333]">
           Please select the paint you would like to use?
         </h2>
