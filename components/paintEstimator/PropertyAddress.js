@@ -118,7 +118,7 @@ const PropertyAddress = ({
   return (
     <>
       <div className="pt-8 text-center">
-        <h2 className="text-2xl font-bold text-[#333]">
+        <h2 className="text-[22px] lg:text-2xl font-bold text-[#333]">
           Get a Real Price on house painting. Enter address for instant quote.
         </h2>
       </div>

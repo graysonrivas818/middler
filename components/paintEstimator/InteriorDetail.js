@@ -27,7 +27,7 @@ const InteriorDetail = ({
   return (
     <>
       <div className="pt-8 text-center">
-        <h2 className="text-[26px] font-bold text-[#333]">
+        <h2 className="text-[22px] lg:text-[26px] font-bold text-[#333]">
           How detailed is the inside of the house?
         </h2>
       </div>
@@ -44,7 +44,7 @@ const InteriorDetail = ({
               );
             }}
             className={
-              `py-2.5 px-8 min-w-[140px] rounded-[11px] text-xl font-semibold border-2 border-primary transition ` +
+              `py-2 px-5 lg:py-2.5 lg:px-8 min-w-[120px] lg:min-w-[140px] rounded-[11px] text-base lg:text-xl font-semibold border-2 border-primary transition ` +
               (estimator.value.interiorDetail == item.type
                 ? " bg-transparent text-primary "
                 : " bg-primary text-white")

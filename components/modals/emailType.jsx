@@ -304,6 +304,10 @@ const EmailType = ({
               Calculating&nbsp;Your Custom&nbsp;Prices
             </h3>
 
+            <p className="text-center font-bold text-[20px] lg:text-[28px] leading-[1.2] text-[#043DD7]">
+              Please tell us who you are?
+            </p>
+
             <p className="text-center text-sm lg:text-xl text-black">
               Middler does&nbsp;
               <span className="text-red-400 font-semibold">NOT</span>
@@ -468,6 +472,7 @@ const EmailType = ({
                   </div>
 
                   <div className="relative w-full p-2">
+                    <label className="pl-4">Optional <span className="text-red-500">*</span></label>
                     <input
                       id="clientPhone"
                       type="tel"

@@ -27,7 +27,7 @@ const CabinetPaint = ({
   return (
     <>
       <div className="pt-8 text-center">
-        <h2 className="text-[26px] font-bold text-[#333]">
+        <h2 className="text-[22px] lg:text-[26px] font-bold text-[#333]">
           Are you painting <i>any</i> cabinets?
         </h2>
         <p className={`mt-4 text-neutral-600 text-center`}>

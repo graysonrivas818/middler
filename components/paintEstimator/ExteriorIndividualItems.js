@@ -47,7 +47,7 @@ const ExteriorIndividualItems = ({
   return (
     <>
       <div className="pt-8 text-center">
-        <h2 className="text-[25px] font-bold text-[#333]">
+        <h2 className="text-[21px] lg:text-[25px] font-bold text-[#333]">
           If your a painter you can add extra items you&rsquo;re painting on the{" "}
           <strong>outside of the home.</strong>
         </h2>
