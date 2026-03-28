@@ -117,67 +117,106 @@ const EmailType = ({
         return;
       }
 
+      const normalizedEstimate = {
+        ...estimator.value,
+        clientEmail,
+        clientPhone,
+        interiorItems: Array.isArray(estimator.value.interiorItems)
+          ? estimator.value.interiorItems
+          : [],
+        interiorIndividualItems: Array.isArray(
+          estimator.value.interiorIndividualItems
+        )
+          ? estimator.value.interiorIndividualItems
+          : [],
+        exteriorItems: Array.isArray(estimator.value.exteriorItems)
+          ? estimator.value.exteriorItems
+          : [],
+        exteriorIndividualItems: Array.isArray(
+          estimator.value.exteriorIndividualItems
+        )
+          ? estimator.value.exteriorIndividualItems
+          : [],
+        paintBrand:
+          typeof estimator.value.paintBrand === "string"
+            ? estimator.value.paintBrand
+            : "",
+        paintQuality:
+          typeof estimator.value.paintQuality === "string"
+            ? estimator.value.paintQuality
+            : "",
+      };
+
       const response = await quickEstimate({
         variables: {
           estimate: {
-            adjustment: estimator.value.adjustment,
-            businessName: estimator.value.businessName,
-            businessLogo: estimator.value.businessLogo,
-            estimatorName: estimator.value.estimatorName,
-            businessAddress: estimator.value.businessAddress,
-            businessPhone: estimator.value.businessPhone,
-            businessEmail: estimator.value.businessEmail,
-            businessWebsite: estimator.value.businessWebsite,
-            businessLicenseNumber: estimator.value.businessLicenseNumber,
-            businessInstagram: estimator.value.businessInstagram,
-            clientName: estimator.value.clientName,
-            clientPhone: estimator.value.clientPhone,
-            clientPropertyAddress: estimator.value.clientPropertyAddress,
-            clientEmail: clientEmail,
-            clientZipCode: estimator.value.clientZipCode,
-            interiorSquareFeet: estimator.value.interiorSquareFeet,
-            interiorCondition: estimator.value.interiorCondition,
-            interiorDetail: estimator.value.interiorDetail,
-            interiorItems: estimator.value.interiorItems,
-            interiorIndividualItems: estimator.value.interiorIndividualItems,
-            interiorAdjusted: estimator.value.interiorAdjusted,
-            doorsAndDrawers: estimator.value.doorsAndDrawers,
+            adjustment: normalizedEstimate.adjustment,
+            businessName: normalizedEstimate.businessName,
+            businessLogo: normalizedEstimate.businessLogo,
+            estimatorName: normalizedEstimate.estimatorName,
+            businessAddress: normalizedEstimate.businessAddress,
+            businessPhone: normalizedEstimate.businessPhone,
+            businessEmail: normalizedEstimate.businessEmail,
+            businessWebsite: normalizedEstimate.businessWebsite,
+            businessLicenseNumber: normalizedEstimate.businessLicenseNumber,
+            businessInstagram: normalizedEstimate.businessInstagram,
+            clientName: normalizedEstimate.clientName,
+            clientPhone: normalizedEstimate.clientPhone,
+            clientPropertyAddress: normalizedEstimate.clientPropertyAddress,
+            clientEmail: normalizedEstimate.clientEmail,
+            clientZipCode: normalizedEstimate.clientZipCode,
+            interiorSquareFeet: normalizedEstimate.interiorSquareFeet,
+            interiorCondition: normalizedEstimate.interiorCondition,
+            interiorDetail: normalizedEstimate.interiorDetail,
+            interiorItems: normalizedEstimate.interiorItems,
+            interiorIndividualItems: normalizedEstimate.interiorIndividualItems,
+            interiorAdjusted: normalizedEstimate.interiorAdjusted,
+            doorsAndDrawers: normalizedEstimate.doorsAndDrawers,
             insideCabinet:
-              estimator.value.insideCabinet === "yes"
+              normalizedEstimate.insideCabinet === "yes"
                 ? true
-                : !!estimator.value.insideCabinet,
-            cabinetCondition: estimator.value.cabinetCondition,
-            cabinetDetail: estimator.value.cabinetDetail,
-            cabinetAdjusted: estimator.value.cabinetAdjusted,
-            exteriorSquareFeet: estimator.value.exteriorSquareFeet,
-            exteriorCondition: estimator.value.exteriorCondition,
-            exteriorDetail: estimator.value.exteriorDetail,
-            exteriorItems: estimator.value.exteriorItems,
-            exteriorIndividualItems: estimator.value.exteriorIndividualItems,
-            exteriorAdjusted: estimator.value.exteriorAdjusted,
-            painters: estimator.value.painters,
-            hoursPerDay: estimator.value.hoursPerDay,
-            days: estimator.value.days,
-            paintBrand: estimator.value.paintBrand,
-            paintQuality: estimator.value.paintQuality,
-            warranty: estimator.value.warranty,
-            payments: estimator.value.payments,
-            deposit: estimator.value.deposit,
-            depositType: estimator.value.depositType,
-            painterTapeRolls: estimator.value.painterTapeRolls,
-            plasticRolls: estimator.value.plasticRolls,
-            dropCloths: estimator.value.dropCloths,
+                : !!normalizedEstimate.insideCabinet,
+            cabinetCondition: normalizedEstimate.cabinetCondition,
+            cabinetDetail: normalizedEstimate.cabinetDetail,
+            cabinetAdjusted: normalizedEstimate.cabinetAdjusted,
+            exteriorSquareFeet: normalizedEstimate.exteriorSquareFeet,
+            exteriorCondition: normalizedEstimate.exteriorCondition,
+            exteriorDetail: normalizedEstimate.exteriorDetail,
+            exteriorItems: normalizedEstimate.exteriorItems,
+            exteriorIndividualItems: normalizedEstimate.exteriorIndividualItems,
+            exteriorAdjusted: normalizedEstimate.exteriorAdjusted,
+            painters: normalizedEstimate.painters,
+            hoursPerDay: normalizedEstimate.hoursPerDay,
+            days: normalizedEstimate.days,
+            paintBrand: normalizedEstimate.paintBrand,
+            paintQuality: normalizedEstimate.paintQuality,
+            warranty: normalizedEstimate.warranty,
+            payments: normalizedEstimate.payments,
+            deposit: normalizedEstimate.deposit,
+            depositType: normalizedEstimate.depositType,
+            painterTapeRolls: normalizedEstimate.painterTapeRolls,
+            plasticRolls: normalizedEstimate.plasticRolls,
+            dropCloths: normalizedEstimate.dropCloths,
             userType: userType,
           },
         },
       });
+
+      const quickEstimateResult = response?.data?.quickEstimateClient;
+      if (!quickEstimateResult?.id) {
+        setLoading("");
+        setMessage(
+          quickEstimateResult?.message || "Unable to generate estimate right now."
+        );
+        return;
+      }
 
       const expirationDate = new Date();
       expirationDate.setTime(
         expirationDate.getTime() + 365 * 24 * 60 * 60 * 1000
       );
 
-      setCookie("estimateID", response.data.quickEstimateClient.id, {
+      setCookie("estimateID", quickEstimateResult.id, {
         expires: expirationDate,
         path: "/",
         sameSite: "lax",
@@ -185,7 +224,7 @@ const EmailType = ({
 
 
       setLoading("");
-      setMessage(response.data.quickEstimateClient.message);
+      setMessage(quickEstimateResult.message);
 
       localStorage.setItem("signupDismissed", "true");
       localStorage.setItem("giftCardDismissed", "true");
@@ -196,7 +235,7 @@ const EmailType = ({
         event: "estimate_success",
         step: 1,
         userType: userType,
-        estimateID: response.data.quickEstimateClient.id || null,
+        estimateID: quickEstimateResult.id || null,
       });
 
       dispatch(changePopup(""));
