@@ -15,8 +15,8 @@ import { gql } from '@apollo/client';
 // `;
 
 const SAVE_ESTIMATE = gql`
-  mutation SaveEstimate($email: String!, $estimateID: String!, $estimate: EstimatorInputType) {
-    saveEstimate(email: $email, estimateID: $estimateID, estimate: $estimate) {
+  mutation SaveEstimate($email: String!, $estimateID: String!) {
+    saveEstimate(email: $email, estimateID: $estimateID) {
       message
     }
   }

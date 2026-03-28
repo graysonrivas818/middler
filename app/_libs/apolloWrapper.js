@@ -19,7 +19,7 @@ function makeClient() {
 
   return new NextSSRApolloClient({
     ssrMode: typeof window === 'undefined',
-    cache: new NextSSRInMemoryCache({ addTypename: false, include: 'active' }),
+    cache: new NextSSRInMemoryCache({ include: 'active' }),
     link: httpLink,
   });
 }

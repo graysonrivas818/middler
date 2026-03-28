@@ -9,7 +9,6 @@ import Image from "next/image";
 
 //// MUTATIONS
 import QUICK_ESTIMATE from "../../app/_mutations/quickEstimateClient";
-import InputFieldText from "../form/inputFieldText";
 
 const EmailType = ({
   dispatch,
@@ -33,11 +32,8 @@ const EmailType = ({
 }) => {
   const router = useRouter();
   const [message, setMessage] = useState("");
-  const [dropdown, setDropdown] = useState("");
   const [loading, setLoading] = useState("");
   const [loadingColor, setLoadingColor] = useState("white");
-  const [userType, setUserType] = useState("");
-  const [showOtherInput, setShowOtherInput] = useState(false);
   const [flowStep, setFlowStep] = useState("role");
   const [selectedUserType, setSelectedUserType] = useState("");
   const flowTimerRef = useRef(null);
@@ -61,8 +57,6 @@ const EmailType = ({
     dispatch(changePopupType("email"));
     setFlowStep("role");
     setSelectedUserType("");
-    setUserType("");
-    setShowOtherInput(false);
     setMessage("");
     setStage(0);
   }, []);
@@ -315,7 +309,7 @@ const EmailType = ({
             className={
               flowStep === "email"
                 ? "w-auto max-w-[90%] sm:max-w-[320px] lg:max-w-[768px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-black px-6 sm:px-10 py-6 sm:py-8 lg:py-12 shadow-lg flex flex-col items-center gap-4 sm:gap-6 lg:gap-7 relative"
-                : "w-auto max-w-[360px] sm:max-w-[320px] lg:max-w-[768px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-primary px-10 py-8 lg:py-12 shadow-lg space-y-6 lg:space-y-7 relative"
+                : "w-[90%] max-w-[650px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-primary px-6 sm:px-8 lg:px-10 py-8 lg:py-12 shadow-lg space-y-6 lg:space-y-7 relative"
             }
           >
             <button
@@ -330,116 +324,53 @@ const EmailType = ({
             {flowStep === "role" ? (
               <>
                 <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
-                  Who Are You?
+                  Who are you?
                 </h2>
+                <p className="text-center text-[#5D6787] text-sm sm:text-base -mt-2">
+                  We'll tailor your experience in seconds
+                </p>
 
-                <div className="grid grid-cols-2 sm:grid-rows-2 *:max-lg:h-24 gap-3 lg:gap-7">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6 w-full">
                   {[
                     {
                       label: "Homeowner",
-                      icon: "home-new.svg",
+                      description: "Looking for\npainting services",
+                      image: "/images/modals/homeowner.jpeg",
                       value: "homeowner",
                     },
                     {
-                      label: "Painter",
-                      icon: "painter-new.svg",
-                      value: "painter",
-                    },
-                    {
-                      label: "Handyman",
-                      icon: "handyman-new.svg",
-                      value: "handyman",
+                      label: "Pro",
+                      description: "Painter . Contractor\nHandyman",
+                      image: "/images/modals/pro.jpeg",
+                      value: "pro",
                     },
                   ].map((item, idx) => (
-                    <div
+                    <button
+                      type="button"
                       key={idx}
-                      className="w-full"
+                      disabled={isSubmitting}
+                      className="group relative w-full h-[260px] lg:h-[320px] rounded-2xl overflow-hidden border border-white/70 shadow-[0_12px_32px_rgba(4,61,215,0.2)] transition-transform duration-300 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
                       onClick={() => {
                         startEmailCaptureFlow(item.value);
                       }}
                     >
-                      <button
-                        type="button"
-                        disabled={isSubmitting}
-                        className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <Image
-                          src={`/images/icons/${item.icon}`}
-                          alt={item.label}
-                          width={56}
-                          height={56}
-                          className="max-h-8 lg:max-h-14"
-                        />
-                        <span className="text-xs lg:text-xl tracking-wider font-bold uppercase">
-                          {item.label}
-                        </span>
-                      </button>
-                    </div>
-                  ))}
-
-                  {!showOtherInput ? (
-                    <div
-                      className="w-full"
-                      onClick={() => !isSubmitting && setShowOtherInput(true)}
-                    >
-                      <button
-                        type="button"
-                        disabled={isSubmitting}
-                        className="w-full py-5 px-8 lg:py-8 cursor-pointer bg-primary text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                      >
-                        <Image
-                          src="/images/icons/others-new.svg"
-                          alt="Other"
-                          width={56}
-                          height={56}
-                          className="max-h-8 lg:max-h-14"
-                        />
-                        <span className="text-xs lg:text-xl tracking-wider font-bold uppercase">
-                          Other
-                        </span>
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="flex flex-col justify-between lg:justify-end w-full lg:gap-6">
-                      <InputFieldText
-                        inputType={"text"}
-                        placeholder={"Your role"}
-                        value={userType}
-                        dispatch={() => {}}
-                        changeValue={({ value }) => setUserType(value)}
-                        type={"userType"}
-                        dropdown={""}
-                        setDropdown={setDropdown}
-                        required={!userType}
-                        id={"userType"}
-                        validation={false}
-                        readOnly={false}
-                        edit={true}
-                        changeEdit={() => {}}
+                      <Image
+                        src={item.image}
+                        alt={item.label}
+                        fill
+                        className="object-cover"
                       />
-                      <div
-                        onClick={() => {
-                          if (isSubmitting) return;
-                          const trimmed = userType.trim();
-                          if (!trimmed) {
-                            setMessage("Role is required.");
-                            return;
-                          }
-                          startEmailCaptureFlow(trimmed);
-                        }}
-                      >
-                        <button
-                          type="button"
-                          disabled={isSubmitting}
-                          className="w-full py-3 px-8 lg:py-6 cursor-pointer bg-primary hover:bg-primary-800 transition-all duration-300 text-white gap-2 lg:gap-4 flex flex-col items-center rounded-lg disabled:opacity-60 disabled:cursor-not-allowed"
-                        >
-                          <span className="text-xs lg:text-lg font-bold uppercase">
-                            Next
-                          </span>
-                        </button>
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A173A]/85 via-[#0A173A]/25 to-transparent" />
+                      <div className="absolute bottom-0 left-0 right-0 p-5 lg:p-6 text-white text-center">
+                        <h3 className="text-[32px] lg:text-[38px] font-bold leading-none">
+                          {item.label}
+                        </h3>
+                        <p className="mt-2 text-sm lg:text-lg whitespace-pre-line leading-snug text-white/95">
+                          {item.description}
+                        </p>
                       </div>
-                    </div>
-                  )}
+                    </button>
+                  ))}
                 </div>
               </>
             ) : (

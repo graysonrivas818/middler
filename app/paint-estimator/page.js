@@ -541,12 +541,12 @@ const PaintEstimator = ({ }) => {
       />
 
       <main
-        className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
+        className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/wp.jpeg')]`}
       >
-        <div className="grid size-full lg:grid-rows-1 xl:grid-cols-[0.3fr_1fr_0.3fr] 3xl:grid-cols-[0.23fr_1fr_0.23fr] gap-5 lg:gap-8 3xl:gap-10">
+        <div className="grid size-full  lg:grid-rows-1 xl:grid-cols-[0.3fr_1fr_0.3fr] 3xl:grid-cols-[0.23fr_1fr_0.23fr] gap-5 lg:gap-8 3xl:gap-10">
           {navigation.value.paintEstimator != "5" && (
             <>
-              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat rounded-2xl" />
+              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat  rounded-2xl" />
               <div
                 className={`w-full flex items-center flex-col justify-between gap-5 2xl:gap-4`}
               >
@@ -555,11 +555,11 @@ const PaintEstimator = ({ }) => {
 
                 <div className="hidden">
                   <Image
-                    src="/images/modals/team.webp"
+                    src="/images/team.jpeg"
                     alt="Team"
                     width={600}
                     height={400}
-                    className="w-full h-auto"
+                    className="w-full h-auto rounded-2xl"
                   />
                 </div>
                 <div
@@ -1099,7 +1099,7 @@ const PaintEstimator = ({ }) => {
                     } rounded-2xl`}
                 >
                   <Image
-                    src="/images/modals/3.webp"
+                    src="/images/wa.jpeg"
                     alt="Main modal"
                     width={800}
                     height={600}
@@ -1110,34 +1110,34 @@ const PaintEstimator = ({ }) => {
                 <div className="hidden grid w-full grid-cols-2 gap-3">
                   <div className="col-span-2">
                     <Image
-                      src="/images/modals/wmn_laugh.webp"
+                      src="/images/wa.jpeg"
                       alt="Woman laughing"
                       width={600}
                       height={400}
-                      className="w-full h-auto"
+                      className="w-full h-auto rounded-2xl"
                     />
                   </div>
                   <div>
                     <Image
-                      src="/images/modals/car.webp"
+                      src="/images/w3.jpeg"
                       alt="Car"
                       width={300}
                       height={200}
-                      className="w-full h-auto"
+                      className="w-full h-auto rounded-2xl"
                     />
                   </div>
                   <div>
                     <Image
-                      src="/images/modals/five_star.webp"
+                      src="/images/w4.jpeg"
                       alt="Five star"
                       width={300}
                       height={200}
-                      className="w-full h-auto"
+                      className="w-full h-auto rounded-2xl"
                     />
                   </div>
                 </div>
               </div>
-              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat rounded-2xl" />
+              <div className="max-lg:hidden mt-[64px] bg-cover bg-center bg-no-repeat  rounded-2xl" />
             </>
           )}
           {navigation.value.paintEstimator == "5" && (
