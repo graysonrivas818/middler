@@ -9,7 +9,6 @@ import Image from "next/image";
 
 //// MUTATIONS
 import QUICK_ESTIMATE from "../../app/_mutations/quickEstimateClient";
-import SAVE_ESTIMATE from "../../app/_mutations/saveEstimate";
 import InputFieldText from "../form/inputFieldText";
 
 const EmailType = ({
@@ -57,7 +56,6 @@ const EmailType = ({
     { dataQuickEstimate, loadingQuickEstimate, errorQuickEstimate },
   ] = useMutation(QUICK_ESTIMATE);
 
-  const [saveEstimate] = useMutation(SAVE_ESTIMATE);
 
   useEffect(() => {
     dispatch(changePopupType("email"));
@@ -191,17 +189,6 @@ const EmailType = ({
         sameSite: "lax",
       });
 
-      // Send estimate email to client
-      try {
-        await saveEstimate({
-          variables: {
-            email: clientEmail,
-            estimateID: response.data.quickEstimateClient.id,
-          },
-        });
-      } catch (emailError) {
-        console.log("Email send error:", emailError);
-      }
 
       setLoading("");
       setMessage(response.data.quickEstimateClient.message);
