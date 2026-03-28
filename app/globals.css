@@ -181,4 +181,10 @@
 .quote {
   color: var(--color-neutral-600);
   margin-top:20px;
+  font-family: poppins, sans-serif;
+  font-weight:300;
+  text-align: center;
+}
+.quote strong{
+  font-weight:700;
 }

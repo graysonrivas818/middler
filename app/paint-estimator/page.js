@@ -541,7 +541,7 @@ const PaintEstimator = ({ }) => {
       />
 
       <main
-        className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/wp.jpeg')]`}
+        className={`min-h-dvh h-full overflow-hidden w-full p-5 lg:p-3 xl:p-6 xl:py-5 bg-cover bg-no-repeat bg-center bg-[url('/images/modals/bg_1.webp')]`}
       >
         <div className="grid size-full  lg:grid-rows-1 xl:grid-cols-[0.3fr_1fr_0.3fr] 3xl:grid-cols-[0.23fr_1fr_0.23fr] gap-5 lg:gap-8 3xl:gap-10">
           {navigation.value.paintEstimator != "5" && (
@@ -1090,6 +1090,8 @@ const PaintEstimator = ({ }) => {
                     </AnimatePresence>
                   </div>
                 </div>
+
+               
 
                 <div
                   className={`hidden w-full h-auto max-h-[220px] 2xl:max-h-[280px] ${navigation.value.paintEstimator == "3.1" ||

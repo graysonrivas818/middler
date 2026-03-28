@@ -152,7 +152,6 @@ export const individualItem = [
 ];
 
 export const cabinetImages = [
-  { src: "/images/cabinets/1.webp", alt: "Cabinet Door 1" },
   { src: "/images/cabinets/2.webp", alt: "Cabinet Drawer 2" },
   { src: "/images/cabinets/3.webp", alt: "Cabinet Combo 3" },
   { src: "/images/cabinets/4.webp", alt: "Cabinet Door 4" },

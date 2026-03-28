@@ -363,23 +363,21 @@ const EmailType = ({
             {flowStep === "role" ? (
               <>
                 <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
-                  Who are you?
+                 Please tell us who you are?
                 </h2>
-                <p className="text-center text-[#5D6787] text-sm sm:text-base -mt-2">
-                  We'll tailor your experience in seconds
-                </p>
+                
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6 w-full">
                   {[
                     {
                       label: "Homeowner",
-                      description: "Looking for\npainting services",
+                      description: "Looking for\npainting services?",
                       image: "/images/modals/homeowner.jpeg",
                       value: "homeowner",
                     },
                     {
                       label: "Pro",
-                      description: "Painter . Contractor\nHandyman",
+                      description: "Painter, contractor, handyman , etc",
                       image: "/images/modals/pro.jpeg",
                       value: "pro",
                     },

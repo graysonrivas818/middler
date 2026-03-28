@@ -64,13 +64,7 @@ const Progress = ({ step = 0 }) => {
         <span className="max-lg:text-[10px] font-normal text-[#6F6F6F] absolute left-1/2 -translate-x-1/2 -top-6 whitespace-nowrap">
           Use it
         </span>
-        <Image
-          src="/images/icons/paint.webp"
-          alt="Paint icon"
-          width={24}
-          height={24}
-          className="w-6"
-        />
+        <span className="inline-block size-2 lg:size-3.5 rounded-full bg-primary" />
       </div>
     </div>
   );
