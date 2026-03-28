@@ -193,7 +193,10 @@ const PropertyAddress = ({
           const matched = predictionsWithZip.find(
             (item) =>
               item.formattedAddress === estimator.value.clientPropertyAddress
-          );
+          ) || (estimator.value.clientZipCode ? {
+            formattedAddress: estimator.value.clientPropertyAddress,
+            zipCode: estimator.value.clientZipCode,
+          } : null);
 
           if (!matched) {
             setWarning("Please select a valid address from the dropdown");
@@ -210,10 +213,10 @@ const PropertyAddress = ({
 
           setCookie(
             "clientPropertyAddress",
-            JSON.stringify({
+            {
               formattedAddress: matched.formattedAddress,
               zipCode: matched.zipCode,
-            }),
+            },
             {
               path: "/",
               maxAge: 60 * 60 * 24 * 7,

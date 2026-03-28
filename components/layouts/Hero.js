@@ -127,10 +127,10 @@ const Hero = ({
 
     setCookie(
       "address",
-      JSON.stringify({
+      {
         formattedAddress: selectedAddr.formattedAddress,
         zipCode: selectedAddr.zipCode,
-      }),
+      },
       { path: "/", maxAge: 60 * 60 * 24 * 7 }
     );
     router.push("/paint-estimator?step=2");
