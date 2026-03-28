@@ -94,8 +94,8 @@ const EmailType = ({
     dispatch(changePopupType(""));
 
     flowTimerRef.current = setTimeout(() => {
-      dispatch(changePopupType("email"));
-      setFlowStep("email");
+      dispatch(changePopup(""));
+      previewEstimate();
       flowTimerRef.current = null;
     }, 4500);
   };
