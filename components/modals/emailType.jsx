@@ -301,7 +301,7 @@ const EmailType = ({
         <motion.div
           key="role-modal"
           className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={() => !isSubmitting && dispatch(changePopup(""))}
+          onClick={() => { if (isSubmitting) return; dispatch(changePopup("")); if (flowStep === "email") router.push("/"); }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -320,7 +320,7 @@ const EmailType = ({
           >
             <button
               type="button"
-              onClick={() => !isSubmitting && dispatch(changePopup(""))}
+              onClick={() => { if (isSubmitting) return; dispatch(changePopup("")); if (flowStep === "email") router.push("/"); }}
               className="absolute right-4 top-4 text-[#043DD7] text-xl font-bold cursor-pointer"
               aria-label="Close"
             >
