@@ -41,7 +41,7 @@ const Confirmation = ({ setIsConfirmOpen, isConfirmOpen }) => {
               <button
               onClick={() => (
                 sessionStorage.setItem("noEmailEntered", "true"),
-                (window.location.href = "/")
+                  setIsConfirmOpen(false)
               )}
               className="bg-gray-500 text-black border border-gray-100 px-10 py-2 font-medium rounded-lg"
             >
