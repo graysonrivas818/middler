@@ -1,3 +1,5 @@
+import { changePopupType } from "@/app/_redux/features/navigationSlice";
+
 export const paintEstimateFieldsRequired = (step, values, dispatch, changePaintEstimator, changeEstimatorValue, paintEstimateSteps, setRequired, changePopup, previewEstimate, trackFormEvents, navigation, changeEdit, type) => {
 
   if (step == 1) {
@@ -425,6 +427,7 @@ export const paintEstimateFieldsRequired = (step, values, dispatch, changePaintE
     localStorage.removeItem('signupDismissed');
 
     if (navigation.value && navigation.value.popup !== 'emailType') {
+      dispatch(changePopupType(''))
       dispatch(changePopup('emailType'))
       dispatch(changeEdit(''))
       window.scrollTo({ top: 0, behavior: 'smooth' })

@@ -54,11 +54,21 @@ const EmailType = ({
 
 
   useEffect(() => {
-    dispatch(changePopupType("email"));
-    setFlowStep("role");
+    const shouldStartWithLoader = navigation.value.popupType === "";
+
+    dispatch(changePopupType(shouldStartWithLoader ? "" : "email"));
+    setFlowStep(shouldStartWithLoader ? "calculating" : "role");
     setSelectedUserType("");
     setMessage("");
     setStage(0);
+
+    if (shouldStartWithLoader) {
+      flowTimerRef.current = setTimeout(() => {
+        dispatch(changePopupType("email"));
+        setFlowStep("role");
+        flowTimerRef.current = null;
+      }, 4500);
+    }
   }, []);
 
   useEffect(() => {
@@ -83,15 +93,8 @@ const EmailType = ({
 
     setMessage("");
     setSelectedUserType(nextUserType);
-    setFlowStep("calculating");
-    setStage(0);
-    dispatch(changePopupType(""));
-
-    flowTimerRef.current = setTimeout(() => {
-      dispatch(changePopupType("email"));
-      setFlowStep("email");
-      flowTimerRef.current = null;
-    }, 4500);
+    dispatch(changePopupType("email"));
+    setFlowStep("email");
   };
 
   const submitSendEstimate = async (userType) => {
@@ -304,10 +307,6 @@ const EmailType = ({
               Calculating&nbsp;Your Custom&nbsp;Prices
             </h3>
 
-            <p className="text-center font-bold text-[20px] lg:text-[28px] leading-[1.2] text-[#043DD7]">
-              Please tell us who you are?
-            </p>
-
             <p className="text-center text-sm lg:text-xl text-black">
               Middler does&nbsp;
               <span className="text-red-400 font-semibold">NOT</span>
@@ -347,7 +346,7 @@ const EmailType = ({
         <motion.div
           key="role-modal"
           className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-sm"
-          onClick={() => { if (isSubmitting) return; dispatch(changePopup("")); if (flowStep === "email") router.push("/"); }}
+          onClick={() => { if (isSubmitting) return; dispatch(changePopup("")); }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -366,7 +365,7 @@ const EmailType = ({
           >
             <button
               type="button"
-              onClick={() => { if (isSubmitting) return; dispatch(changePopup("")); if (flowStep === "email") router.push("/"); }}
+              onClick={() => { if (isSubmitting) return; dispatch(changePopup("")); }}
               className="absolute right-4 top-4 text-[#043DD7] text-xl font-bold cursor-pointer"
               aria-label="Close"
             >
@@ -399,7 +398,7 @@ const EmailType = ({
                       type="button"
                       key={idx}
                       disabled={isSubmitting}
-                      className="group relative w-full h-[260px] lg:h-[320px] rounded-2xl overflow-hidden border border-white/70 shadow-[0_12px_32px_rgba(4,61,215,0.2)] transition-transform duration-300 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
+                      className="group relative w-full h-[340px] lg:h-[320px] rounded-2xl overflow-hidden border border-white/70 shadow-[0_12px_32px_rgba(4,61,215,0.2)] transition-transform duration-300 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
                       onClick={() => {
                         startEmailCaptureFlow(item.value);
                       }}
@@ -518,7 +517,6 @@ const EmailType = ({
                   onClick={() => {
                     if (isSubmitting) return;
                     dispatch(changePopup(""));
-                    router.push("/");
                   }}
                   className="text-neutral-500 underline-offset-4 text-lg lg:text-xl leading-[22px] lg:leading-7 underline hover:text-primary transition-all duration-200 ease-in-out cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
