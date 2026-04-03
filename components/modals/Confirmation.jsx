@@ -50,12 +50,16 @@ const Confirmation = ({
                Save Estimate
             </button>
               <button
-              onClick={() => (
-                localStorage.setItem("signupDismissed", "true"),
-                sessionStorage.setItem("noEmailEntered", "true"),
-                  onClosePopup && onClosePopup(),
-                  setIsConfirmOpen(false)
-              )}
+              onClick={() => {
+                if (onClosePopup) {
+                  onClosePopup();
+                  return;
+                }
+
+                localStorage.setItem("signupDismissed", "true");
+                sessionStorage.setItem("noEmailEntered", "true");
+                setIsConfirmOpen(false);
+              }}
               className="bg-gray-500 text-black border border-gray-100 px-10 py-2 font-medium rounded-lg"
             >
               Close

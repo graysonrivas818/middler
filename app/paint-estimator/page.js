@@ -17,6 +17,7 @@ import {
   addObjectToArray,
   changeEstimatorValue,
   changeObjectValue,
+  resetEstimator,
 } from "../_redux/features/estimatorSlice";
 import {
   changeEdit,
@@ -89,7 +90,7 @@ const paintEstimatorProductSchema = {
   }
 };
 
-const PaintEstimator = ({ }) => {
+const PaintEstimatorContent = ({ }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -584,11 +585,18 @@ const PaintEstimator = ({ }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const handleSaveEstimateForLater = () => {
-    localStorage.setItem(ESTIMATOR_DRAFT_KEY, JSON.stringify(estimator.value));
+    localStorage.removeItem(ESTIMATOR_DRAFT_KEY);
     localStorage.setItem("signupDismissed", "true");
+    dispatch(resetEstimator());
     setIsConfirmOpen(false);
     dispatch(changePopup(""));
     router.push("/");
+  };
+
+  const handleCloseConfirmation = () => {
+    localStorage.setItem("signupDismissed", "true");
+    setIsConfirmOpen(false);
+    dispatch(changePopup(""));
   };
 
   return (
@@ -1598,12 +1606,20 @@ const PaintEstimator = ({ }) => {
           <Confirmation
             isConfirmOpen={isConfirmOpen}
             setIsConfirmOpen={setIsConfirmOpen}
-            onClosePopup={() => dispatch(changePopup(""))}
-            onSaveEstimate={handleSaveEstimateForLater}
+            onClosePopup={handleSaveEstimateForLater}
+            onSaveEstimate={handleCloseConfirmation}
           />
         )}
       </>
     </>
+  );
+};
+
+const PaintEstimator = () => {
+  return (
+    <Suspense fallback={null}>
+      <PaintEstimatorContent />
+    </Suspense>
   );
 };
 
