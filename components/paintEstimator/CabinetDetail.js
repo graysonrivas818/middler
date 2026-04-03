@@ -28,7 +28,7 @@ const CabinetDetail = ({
     <>
       <div className="pt-8 text-center">
         <h2 className="text-[22px] lg:text-[26px] font-bold text-[#333]">
-          What condition are the cabinets in?
+          How detailed are the cabinets?
         </h2>
       </div>
       <div className="grid lg:grid-cols-3 gap-5">
