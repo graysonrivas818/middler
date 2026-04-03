@@ -139,6 +139,10 @@ const EmailType = ({
             : "",
       };
 
+      const normalizedInsideCabinet =
+        normalizedEstimate.insideCabinet === true ||
+        normalizedEstimate.insideCabinet === "yes";
+
       const response = await quickEstimate({
         variables: {
           estimate: {
@@ -164,10 +168,7 @@ const EmailType = ({
             interiorIndividualItems: normalizedEstimate.interiorIndividualItems,
             interiorAdjusted: normalizedEstimate.interiorAdjusted,
             doorsAndDrawers: normalizedEstimate.doorsAndDrawers,
-            insideCabinet:
-              normalizedEstimate.insideCabinet === "yes"
-                ? true
-                : !!normalizedEstimate.insideCabinet,
+            insideCabinet: normalizedInsideCabinet,
             cabinetCondition: normalizedEstimate.cabinetCondition,
             cabinetDetail: normalizedEstimate.cabinetDetail,
             cabinetAdjusted: normalizedEstimate.cabinetAdjusted,
@@ -218,8 +219,8 @@ const EmailType = ({
       setLoading("");
       setMessage(quickEstimateResult.message);
 
-      localStorage.setItem("signupDismissed", "true");
       localStorage.setItem("giftCardDismissed", "true");
+      sessionStorage.setItem("openSignupAfterSuccess", "1");
 
       router.replace(`${window.location.pathname}?success=1`);
       window.dataLayer = window.dataLayer || [];

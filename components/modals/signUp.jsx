@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import Image from "next/image";
 
-import QUICK_ESTIMATE from "@/app/_mutations/quickEstimateClient";
 import SAVE_ESTIMATE from "@/app/_mutations/saveEstimate";
 import InputFieldText2 from "../form/InputFieldText2";
 
@@ -48,7 +47,6 @@ const SignUp = ({
     saveEstimate,
     { dataSaveEstimate, loadingSaveEstimate, errorSaveEstimate },
   ] = useMutation(SAVE_ESTIMATE);
-  const [quickEstimate] = useMutation(QUICK_ESTIMATE);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -63,131 +61,67 @@ const SignUp = ({
 
     if (!estimator.value.businessEmail)
       return setMessage("Your email address is required");
-    if (!validateEmail(estimator.value.businessEmail)) {
-      return setMessage("Please enter a valid email address");
-    }
-
     setLoading("sendEstimate");
 
     try {
-      const sanitizeObjectArray = (value) =>
-        Array.isArray(value)
-          ? value.map((item) => {
-              if (!item || typeof item !== "object") return item;
-              const { __typename, ...rest } = item;
-              return rest;
-            })
-          : [];
-
-      const normalizedEstimate = {
-        ...estimator.value,
-        clientEmail: (estimator.value.clientEmail || "").trim(),
-        clientPhone: (estimator.value.clientPhone || "").trim(),
-        businessEmail: estimator.value.businessEmail.toLowerCase(),
-        interiorItems: sanitizeObjectArray(estimator.value.interiorItems),
-        interiorIndividualItems: sanitizeObjectArray(
-          estimator.value.interiorIndividualItems
-        ),
-        exteriorItems: sanitizeObjectArray(estimator.value.exteriorItems),
-        exteriorIndividualItems: sanitizeObjectArray(
-          estimator.value.exteriorIndividualItems
-        ),
-        paintBrand:
-          typeof estimator.value.paintBrand === "string"
-            ? estimator.value.paintBrand
-            : "",
-        paintQuality:
-          typeof estimator.value.paintQuality === "string"
-            ? estimator.value.paintQuality
-            : "",
-      };
-
-      const quickEstimateResponse = await quickEstimate({
-        variables: {
-          estimate: {
-            adjustment: normalizedEstimate.adjustment,
-            businessName: normalizedEstimate.businessName,
-            businessLogo: normalizedEstimate.businessLogo,
-            estimatorName: normalizedEstimate.estimatorName,
-            businessAddress: normalizedEstimate.businessAddress,
-            businessPhone: normalizedEstimate.businessPhone,
-            businessEmail: normalizedEstimate.businessEmail,
-            businessWebsite: normalizedEstimate.businessWebsite,
-            businessLicenseNumber: normalizedEstimate.businessLicenseNumber,
-            businessInstagram: normalizedEstimate.businessInstagram,
-            clientName: normalizedEstimate.clientName,
-            clientPhone: normalizedEstimate.clientPhone,
-            clientPropertyAddress: normalizedEstimate.clientPropertyAddress,
-            clientEmail: normalizedEstimate.clientEmail,
-            clientZipCode: normalizedEstimate.clientZipCode,
-            interiorSquareFeet: normalizedEstimate.interiorSquareFeet,
-            interiorCondition: normalizedEstimate.interiorCondition,
-            interiorDetail: normalizedEstimate.interiorDetail,
-            interiorItems: normalizedEstimate.interiorItems,
-            interiorIndividualItems: normalizedEstimate.interiorIndividualItems,
-            interiorAdjusted: normalizedEstimate.interiorAdjusted,
-            doorsAndDrawers: normalizedEstimate.doorsAndDrawers,
-            insideCabinet:
-              normalizedEstimate.insideCabinet === "yes"
-                ? true
-                : !!normalizedEstimate.insideCabinet,
-            cabinetCondition: normalizedEstimate.cabinetCondition,
-            cabinetDetail: normalizedEstimate.cabinetDetail,
-            cabinetAdjusted: normalizedEstimate.cabinetAdjusted,
-            exteriorSquareFeet: normalizedEstimate.exteriorSquareFeet,
-            exteriorCondition: normalizedEstimate.exteriorCondition,
-            exteriorDetail: normalizedEstimate.exteriorDetail,
-            exteriorItems: normalizedEstimate.exteriorItems,
-            exteriorIndividualItems:
-              normalizedEstimate.exteriorIndividualItems,
-            exteriorAdjusted: normalizedEstimate.exteriorAdjusted,
-            painters: normalizedEstimate.painters,
-            hoursPerDay: normalizedEstimate.hoursPerDay,
-            days: normalizedEstimate.days,
-            paintBrand: normalizedEstimate.paintBrand,
-            paintQuality: normalizedEstimate.paintQuality,
-            warranty: normalizedEstimate.warranty,
-            payments: normalizedEstimate.payments,
-            deposit: normalizedEstimate.deposit,
-            depositType: normalizedEstimate.depositType,
-            painterTapeRolls: normalizedEstimate.painterTapeRolls,
-            plasticRolls: normalizedEstimate.plasticRolls,
-            dropCloths: normalizedEstimate.dropCloths,
-            userType: normalizedEstimate.userType,
-            where: normalizedEstimate.where,
-            why: normalizedEstimate.why,
-          },
-        },
-      });
-
-      const quickEstimateResult = quickEstimateResponse?.data?.quickEstimateClient;
-
-      if (!quickEstimateResult?.id) {
-        setLoading("");
-        setMessage(
-          quickEstimateResult?.message ||
-            "Unable to generate estimate right now."
-        );
-        return;
-      }
-
-      const expirationDate = new Date();
-      expirationDate.setTime(
-        expirationDate.getTime() + 365 * 24 * 60 * 60 * 1000
-      );
-
-      setCookie("estimateID", quickEstimateResult.id, {
-        expires: expirationDate,
-        path: "/",
-        sameSite: "lax",
-      });
-
-      const estimateID = quickEstimateResult.id;
+      // const response = await saveEstimate({
+      //   variables: {
+      //     email: estimator.value.businessEmail.toLowerCase(),
+      //     estimateID: cookies.estimateID,
+      //   },
+      // });
 
       const response = await saveEstimate({
         variables: {
           email: estimator.value.businessEmail.toLowerCase(),
-          estimateID,
+          estimateID: cookies.estimateID,
+          estimate: {
+            adjustment: estimator.value.adjustment,
+            businessLogo: estimator.value.businessLogo,
+            businessName: estimator.value.businessName,
+            estimatorName: estimator.value.estimatorName,
+            businessAddress: estimator.value.businessAddress,
+            businessPhone: estimator.value.businessPhone,
+            businessEmail: estimator.value.businessEmail,
+            businessWebsite: estimator.value.businessWebsite,
+            businessLicenseNumber: estimator.value.businessLicenseNumber,
+            businessInstagram: estimator.value.businessInstagram,
+            clientName: estimator.value.clientName,
+            clientPhone: estimator.value.clientPhone,
+            clientPropertyAddress: estimator.value.clientPropertyAddress,
+            clientEmail: estimator.value.clientEmail,
+            clientZipCode: estimator.value.clientZipCode,
+            interiorSquareFeet: estimator.value.interiorSquareFeet,
+            interiorCondition: estimator.value.interiorCondition,
+            interiorDetail: estimator.value.interiorDetail,
+            interiorItems: estimator.value.interiorItems,
+            interiorIndividualItems: estimator.value.interiorIndividualItems,
+            doorsAndDrawers: estimator.value.doorsAndDrawers,
+            insideCabinet:
+              estimator.value.insideCabinet === true ||
+              estimator.value.insideCabinet === "yes",
+            cabinetCondition: estimator.value.cabinetCondition,
+            cabinetDetail: estimator.value.cabinetDetail,
+            exteriorSquareFeet: estimator.value.exteriorSquareFeet,
+            exteriorCondition: estimator.value.exteriorCondition,
+            exteriorDetail: estimator.value.exteriorDetail,
+            exteriorItems: estimator.value.exteriorItems,
+            exteriorIndividualItems: estimator.value.exteriorIndividualItems,
+            painters: estimator.value.painters,
+            hoursPerDay: estimator.value.hoursPerDay,
+            days: estimator.value.days,
+            paintBrand: estimator.value.paintBrand,
+            paintQuality: estimator.value.paintQuality,
+            warranty: estimator.value.warranty,
+            payments: estimator.value.payments,
+            deposit: estimator.value.deposit,
+            depositType: estimator.value.depositType,
+            painterTapeRolls: estimator.value.painterTapeRolls,
+            plasticRolls: estimator.value.plasticRolls,
+            dropCloths: estimator.value.dropCloths,
+            notesAndDisclosure: estimator.value.notesAndDisclosure,
+            userType: estimator.value.userType,
+          },
         },
       });
 
@@ -246,13 +180,13 @@ const SignUp = ({
             height={40}
             className="max-w-20 lg:max-w-24"
           />
-    
-           <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
-                  Need a painter for this project?
-                </h2>
-                <p className="text-black text-[22px] mt-[-20px] lg:text-2xl text-center">
-                  Enter your email. We would be happy to help!
-                </p>
+
+          <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
+            Need a painter for this project?
+          </h2>
+          <p className="text-black text-[22px] lg:text-2xl text-center">
+            Enter your email. We would be happy to help!
+          </p>
 
           <div className="w-full overflow-hidden flex flex-col items-center gap-6 lg:gap-7">
             <InputFieldText2
@@ -266,25 +200,28 @@ const SignUp = ({
               setDropdown={setDropdown}
               id="businessEmail"
             />
-                <div className="relative w-full p-2">
-                    <label className="pl-4">Optional <span className="text-red-500">*</span></label>
-                    <input
-                      id="clientPhone"
-                      type="tel"
-                      placeholder="Enter your phone number"
-                      value={estimator.value.clientPhone || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          changeEstimatorValue({
-                            value: e.target.value,
-                            type: "clientPhone",
-                          })
-                        )
-                      }
-                      className="w-full bg-white px-5 py-5 text-black rounded-full outline-none border border-primary focus:ring-2 focus:ring-primary focus:border-transparent shadow-[0_0_10px] shadow-primary/20"
-                    />
-                  </div>
-            
+
+            <div className="relative w-full p-2">
+              <label className="pl-4">
+                Optional <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="clientPhone"
+                type="tel"
+                placeholder="Enter your phone number"
+                value={estimator.value.clientPhone || ""}
+                onChange={(e) =>
+                  dispatch(
+                    changeEstimatorValue({
+                      value: e.target.value,
+                      type: "clientPhone",
+                    })
+                  )
+                }
+                className="w-full bg-white px-5 py-5 text-black rounded-full outline-none border border-primary focus:ring-2 focus:ring-primary focus:border-transparent shadow-[0_0_10px] shadow-primary/20"
+              />
+            </div>
+
             <div
               className="flex items-center justify-center"
               onClick={() => submitSaveEstimate()}

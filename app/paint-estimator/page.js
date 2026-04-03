@@ -4,7 +4,7 @@ import { useWindowSize } from "@react-hook/window-size";
 import { AsYouType, getCountries } from "libphonenumber-js";
 import { AnimatePresence, motion } from "motion/react";
 import Head from "next/head";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
@@ -92,6 +92,7 @@ const paintEstimatorProductSchema = {
 const PaintEstimator = ({ }) => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const businessEmailRef = useRef();
   const termsRef = useRef(null);
   const previewRef = useRef(null);
@@ -432,6 +433,34 @@ const PaintEstimator = ({ }) => {
       return () => clearTimeout(timer);
     }
   }, [popup, navigation.value.paintEstimator]);
+
+  useEffect(() => {
+    const success = searchParams.get("success");
+
+    if (success === "1" && +navigation.value.paintEstimator !== 5) {
+      dispatch(changePaintEstimator("5"));
+    }
+  }, [searchParams, navigation.value.paintEstimator, dispatch]);
+
+  useEffect(() => {
+    const success = searchParams.get("success");
+    const signupDismissed = localStorage.getItem("signupDismissed");
+    const openSignupAfterSuccess =
+      sessionStorage.getItem("openSignupAfterSuccess") === "1";
+
+    if (
+      ((success === "1" && !signupDismissed) || openSignupAfterSuccess) &&
+      popup === "" &&
+      +navigation.value.paintEstimator === 5
+    ) {
+      const timer = setTimeout(() => {
+        sessionStorage.removeItem("openSignupAfterSuccess");
+        dispatch(changePopup("signup"));
+      }, 400);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, popup, navigation.value.paintEstimator]);
 
   const trackFormEvents = (action, label, value) => {
     event({

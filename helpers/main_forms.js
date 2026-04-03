@@ -425,16 +425,17 @@ export const paintEstimateFieldsRequired = (step, values, dispatch, changePaintE
     trackFormEvents(`paint_brand`)
 
     localStorage.removeItem('signupDismissed');
+    dispatch(changePaintEstimator('5'))
 
-    if (navigation.value && navigation.value.popup !== 'signup') {
+    if (navigation.value && navigation.value.popup !== 'emailType') {
       dispatch(changePopupType(''))
-      dispatch(changePopup('signup'))
+      dispatch(changePopup('emailType'))
       dispatch(changeEdit(''))
       window.scrollTo({ top: 0, behavior: 'smooth' })
       previewEstimate()
     }
 
-    if (navigation.value && navigation.value.popup == 'signup') {
+    if (navigation.value && navigation.value.popup == 'emailType') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 
