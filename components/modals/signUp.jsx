@@ -160,7 +160,76 @@ const SignUp = ({
 
   return (
     <AnimatePresence>
-     
+      <motion.div
+        key="newsletter"
+        className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <motion.div
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          exit={{ scale: 0.95, opacity: 0 }}
+          transition={{ type: "spring", stiffness: 260, damping: 25 }}
+          className="w-auto max-w-[90%] sm:max-w-[320px] lg:max-w-[768px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-black px-6 sm:px-10 py-6 sm:py-8 lg:py-12 shadow-lg flex flex-col items-center gap-4 sm:gap-6 lg:gap-7"
+        >
+          <Image
+            src="/images/fav.webp"
+            alt="Favicon"
+            width={96}
+            height={96}
+            className="max-w-20 lg:max-w-24"
+          />
+          <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
+            Enter your email to receive your estimate
+            {/* &amp; we'll keep it sent to your email as well */}
+            {/* Keep These Prices &amp; Get Details of This Project Sent To Your Email */}
+          </h2>
+
+          <div className="w-full overflow-hidden flex flex-col items-center gap-6 lg:gap-7">
+            <InputFieldText2
+              inputType={"text"}
+              placeholder="Enter your email address"
+              value={estimator.value.businessEmail}
+              dispatch={dispatch}
+              changeValue={changeEstimatorValue}
+              type={"businessEmail"}
+              dropdown=""
+              setDropdown={setDropdown}
+              id="businessEmail"
+            />
+            <div
+              className="flex items-center justify-center"
+              onClick={() => submitSaveEstimate()}
+            >
+              <button className="bg-gradient-to-r from-primary to-[#6E7EFF] text-white uppercase rounded-xl py-3 px-4 min-w-[150px] cursor-pointer hover:to-primary transition-all duration-300 ease-in-out">
+                Get Estimate
+              </button>
+            </div>
+          </div>
+          <p className="text-black text-[22px] lg:text-2xl text-center">
+            We have <span className="font-semibold">HUGE DISCOUNTS</span> for
+            everything in the painting world and we’ll hook you up with those as
+            well!
+          </p>
+          {message && (
+            <div className="relative max-w-md mx-auto bg-blue-100 text-blue-700 border-blue-300 rounded-lg shadow-md text-sm text-center py-2 px-4 animate-fade-in">
+              {message.substring(0, 200)}
+              <div
+                className="bg-black flex items-center justify-center h-[15px] w-[15px] rounded-full absolute top-0 right-0 hover:cursor-pointer"
+                onClick={() => setMessage("")}
+              ></div>
+            </div>
+          )}
+          <a
+            onClick={() => setIsConfirmOpen(true)}
+            className="text-neutral-500 underline-offset-4 text-lg lg:text-xl leading-[22px] lg:leading-7 underline hover:text-primary transition-all duration-200 ease-in-out cursor-pointer"
+          >
+            No Thanks
+          </a>
+        </motion.div>
+      </motion.div>
     </AnimatePresence>
   );
 };
