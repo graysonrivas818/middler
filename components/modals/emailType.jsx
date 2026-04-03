@@ -35,7 +35,6 @@ const EmailType = ({
   const [loading, setLoading] = useState("");
   const [loadingColor, setLoadingColor] = useState("white");
   const [flowStep, setFlowStep] = useState("role");
-  const [selectedUserType, setSelectedUserType] = useState("");
   const flowTimerRef = useRef(null);
   const isSubmitting = loading === "sendEstimate";
   const [cookies, setCookie, removeCookie] = useCookies([
@@ -58,7 +57,6 @@ const EmailType = ({
 
     dispatch(changePopupType(shouldStartWithLoader ? "" : "email"));
     setFlowStep(shouldStartWithLoader ? "calculating" : "role");
-    setSelectedUserType("");
     setMessage("");
     setStage(0);
 
@@ -87,16 +85,6 @@ const EmailType = ({
     };
   }, []);
 
-  const startEmailCaptureFlow = (nextUserType) => {
-    if (isSubmitting) return;
-    if (flowTimerRef.current) clearTimeout(flowTimerRef.current);
-
-    setMessage("");
-    setSelectedUserType(nextUserType);
-    dispatch(changePopupType("email"));
-    setFlowStep("email");
-  };
-
   const submitSendEstimate = async (userType) => {
     if (isSubmitting) return;
 
@@ -108,9 +96,9 @@ const EmailType = ({
       const clientPhone = (estimator.value.clientPhone || "").trim();
       const phoneDigits = clientPhone.replace(/\D/g, "");
 
-      if (!validateEmail(clientEmail)) {
+      if (clientEmail && !validateEmail(clientEmail)) {
         setLoading("");
-        setMessage("Client email is required.");
+        setMessage("Please enter a valid email address.");
         return;
       }
 
@@ -357,11 +345,7 @@ const EmailType = ({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.95, opacity: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 25 }}
-            className={
-              flowStep === "email"
-                ? "w-auto max-w-[90%] sm:max-w-[320px] lg:max-w-[768px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-black px-6 sm:px-10 py-6 sm:py-8 lg:py-12 shadow-lg flex flex-col items-center gap-4 sm:gap-6 lg:gap-7 relative"
-                : "w-[90%] max-w-[650px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-primary px-6 sm:px-8 lg:px-10 py-8 lg:py-12 shadow-lg space-y-6 lg:space-y-7 relative"
-            }
+            className="w-[90%] max-w-[650px] rounded-xl bg-gradient-to-b from-[#EAF5FF] to-[#FAFAFA] text-primary px-6 sm:px-8 lg:px-10 py-8 lg:py-12 shadow-lg space-y-6 lg:space-y-7 relative"
           >
             <button
               type="button"
@@ -372,158 +356,56 @@ const EmailType = ({
               ×
             </button>
 
-            {flowStep === "role" ? (
-              <>
-                <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
-                 Please tell us who you are?
-                </h2>
-                
+            <>
+              <h2 className="text-center text-[#043DD7] font-bold text-[22px] sm:text-[26px] lg:text-[40px] leading-[1.2]">
+               Please tell us who you are?
+              </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6 w-full">
-                  {[
-                    {
-                      label: "Homeowner",
-                      description: "Looking for\npainting services?",
-                      image: "/images/modals/homeowner.jpeg",
-                      value: "homeowner",
-                    },
-                    {
-                      label: "Pro",
-                      description: "Painter, contractor, handyman , etc",
-                      image: "/images/modals/pro.jpeg",
-                      value: "pro",
-                    },
-                  ].map((item, idx) => (
-                    <button
-                      type="button"
-                      key={idx}
-                      disabled={isSubmitting}
-                      className="group relative w-full h-[340px] lg:h-[320px] rounded-2xl overflow-hidden border border-white/70 shadow-[0_12px_32px_rgba(4,61,215,0.2)] transition-transform duration-300 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
-                      onClick={() => {
-                        startEmailCaptureFlow(item.value);
-                      }}
-                    >
-                      <Image
-                        src={item.image}
-                        alt={item.label}
-                        fill
-                        className="object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-[#0A173A]/85 via-[#0A173A]/25 to-transparent" />
-                      <div className="absolute bottom-0 left-0 right-0 p-5 lg:p-6 text-white text-center">
-                        <h3 className="text-[32px] lg:text-[38px] font-bold leading-none">
-                          {item.label}
-                        </h3>
-                        <p className="mt-2 text-sm lg:text-lg whitespace-pre-line leading-snug text-white/95">
-                          {item.description}
-                        </p>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </>
-            ) : (
-              <>
-                <button
-                  type="button"
-                  disabled={isSubmitting}
-                  onClick={() => {
-                    if (isSubmitting) return;
-                    setFlowStep("role");
-                    setMessage("");
-                  }}
-                  className="self-start text-[#043DD7] font-bold"
-                >
-                  ← Back
-                </button>
 
-                <Image
-                  src="/images/fav.webp"
-                  alt="Favicon"
-                  width={40}
-                  height={40}
-                  className="max-w-20 lg:max-w-24"
-                />
-
-                <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
-                  Need a painter for this project?
-                </h2>
-                <p className="text-black text-[22px] lg:text-2xl text-center">
-                  Enter your email. We would be happy to help!
-                </p>
-                <div className="w-full overflow-hidden flex flex-col items-center gap-6 lg:gap-7">
-                  <div className="relative w-full p-2">
-                    <input
-                      id="clientEmail"
-                      type="email"
-                      placeholder="Enter your email address"
-                      value={estimator.value.clientEmail}
-                      onChange={(e) =>
-                        dispatch(
-                          changeEstimatorValue({
-                            value: e.target.value,
-                            type: "clientEmail",
-                          })
-                        )
-                      }
-                      className="w-full bg-white px-5 py-5 text-black rounded-full outline-none border border-primary focus:ring-2 focus:ring-primary focus:border-transparent shadow-[0_0_10px] shadow-primary/20"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-6 w-full">
+                {[
+                  {
+                    label: "Homeowner",
+                    description: "Looking for\npainting services?",
+                    image: "/images/modals/homeowner.jpeg",
+                    value: "homeowner",
+                  },
+                  {
+                    label: "Pro",
+                    description: "Painter, contractor, handyman , etc",
+                    image: "/images/modals/pro.jpeg",
+                    value: "pro",
+                  },
+                ].map((item, idx) => (
+                  <button
+                    type="button"
+                    key={idx}
+                    disabled={isSubmitting}
+                    className="group relative w-full h-[340px] lg:h-[320px] rounded-2xl overflow-hidden border border-white/70 shadow-[0_12px_32px_rgba(4,61,215,0.2)] transition-transform duration-300 hover:scale-[1.01] disabled:opacity-60 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (isSubmitting) return;
+                      submitSendEstimate(item.value);
+                    }}
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.label}
+                      fill
+                      className="object-cover"
                     />
-                  </div>
-
-                  <div className="relative w-full p-2">
-                    <label className="pl-4">Optional <span className="text-red-500">*</span></label>
-                    <input
-                      id="clientPhone"
-                      type="tel"
-                      placeholder="Enter your phone number"
-                      value={estimator.value.clientPhone || ""}
-                      onChange={(e) =>
-                        dispatch(
-                          changeEstimatorValue({
-                            value: e.target.value,
-                            type: "clientPhone",
-                          })
-                        )
-                      }
-                      className="w-full bg-white px-5 py-5 text-black rounded-full outline-none border border-primary focus:ring-2 focus:ring-primary focus:border-transparent shadow-[0_0_10px] shadow-primary/20"
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-center">
-                    <button
-                      type="button"
-                      disabled={isSubmitting}
-                      onClick={() =>
-                        !isSubmitting &&
-                        selectedUserType &&
-                        submitSendEstimate(selectedUserType)
-                      }
-                      className="bg-gradient-to-r from-primary to-[#6E7EFF] text-white uppercase rounded-xl py-3 px-4 min-w-[150px] cursor-pointer hover:to-primary transition-all duration-300 ease-in-out disabled:opacity-60 disabled:cursor-not-allowed"
-                    >
-                      Get Estimate
-                    </button>
-                  </div>
-                </div>
-
-                <p className="text-black text-[22px] lg:text-2xl text-center">
-                  We have <span className="font-semibold">HUGE DISCOUNTS</span>{" "}
-                  for everything in the painting world and we’ll hook you up with
-                  those as well!
-                </p>
-
-                <button
-                  type="button"
-                  disabled={isSubmitting}
-                  onClick={() => {
-                    if (isSubmitting) return;
-                    dispatch(changePopup(""));
-                  }}
-                  className="text-neutral-500 underline-offset-4 text-lg lg:text-xl leading-[22px] lg:leading-7 underline hover:text-primary transition-all duration-200 ease-in-out cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  No Thanks
-                </button>
-              </>
-            )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A173A]/85 via-[#0A173A]/25 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-5 lg:p-6 text-white text-center">
+                      <h3 className="text-[32px] lg:text-[38px] font-bold leading-none">
+                        {item.label}
+                      </h3>
+                      <p className="mt-2 text-sm lg:text-lg whitespace-pre-line leading-snug text-white/95">
+                        {item.description}
+                      </p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </>
 
             {message && (
               <p className="text-center text-red-600 text-sm font-medium">

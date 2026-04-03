@@ -426,15 +426,15 @@ export const paintEstimateFieldsRequired = (step, values, dispatch, changePaintE
 
     localStorage.removeItem('signupDismissed');
 
-    if (navigation.value && navigation.value.popup !== 'emailType') {
+    if (navigation.value && navigation.value.popup !== 'signup') {
       dispatch(changePopupType(''))
-      dispatch(changePopup('emailType'))
+      dispatch(changePopup('signup'))
       dispatch(changeEdit(''))
       window.scrollTo({ top: 0, behavior: 'smooth' })
       previewEstimate()
     }
 
-    if (navigation.value && navigation.value.popup == 'emailType') {
+    if (navigation.value && navigation.value.popup == 'signup') {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     }
 

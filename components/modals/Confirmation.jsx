@@ -10,7 +10,12 @@ import {
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 
-const Confirmation = ({ setIsConfirmOpen, isConfirmOpen }) => {
+const Confirmation = ({
+  setIsConfirmOpen,
+  isConfirmOpen,
+  onClosePopup,
+  onSaveEstimate,
+}) => {
   return (
     <AnimatePresence>
       <motion.div
@@ -33,19 +38,27 @@ const Confirmation = ({ setIsConfirmOpen, isConfirmOpen }) => {
           <div className="flex flex-wrap items-center justify-center gap-3">
       
             <button
-              onClick={() => setIsConfirmOpen(false)}
+              onClick={() => {
+                if (onSaveEstimate) {
+                  onSaveEstimate();
+                  return;
+                }
+                setIsConfirmOpen(false);
+              }}
               className="bg-gradient-to-r from-primary to-[#6E7EFF] text-white hover:to-primary px-10 py-2 font-medium rounded-lg"
             >
                Save Estimate
             </button>
               <button
               onClick={() => (
+                localStorage.setItem("signupDismissed", "true"),
                 sessionStorage.setItem("noEmailEntered", "true"),
+                  onClosePopup && onClosePopup(),
                   setIsConfirmOpen(false)
               )}
               className="bg-gray-500 text-black border border-gray-100 px-10 py-2 font-medium rounded-lg"
             >
-              Leave
+              Close
             </button>
           </div>
         </motion.div>

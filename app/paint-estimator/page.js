@@ -74,6 +74,7 @@ import StepSync from "./StepSync";
 
 
 const allCountries = getCountries();
+const ESTIMATOR_DRAFT_KEY = "paintEstimatorDraft";
 
 // Paint Estimator Product Schema
 const paintEstimatorProductSchema = {
@@ -199,6 +200,27 @@ const PaintEstimator = ({ }) => {
       );
     }
   }, [dataUser]);
+
+  useEffect(() => {
+    const rawDraft = localStorage.getItem(ESTIMATOR_DRAFT_KEY);
+    if (!rawDraft) return;
+
+    try {
+      const draft = JSON.parse(rawDraft);
+      if (!draft || typeof draft !== "object") return;
+
+      Object.entries(draft).forEach(([type, value]) => {
+        dispatch(
+          changeEstimatorValue({
+            type,
+            value,
+          })
+        );
+      });
+    } catch (error) {
+      console.log("Failed to restore estimator draft", error);
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -531,6 +553,14 @@ const PaintEstimator = ({ }) => {
   }, [popup, lastModal]);
 
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+
+  const handleSaveEstimateForLater = () => {
+    localStorage.setItem(ESTIMATOR_DRAFT_KEY, JSON.stringify(estimator.value));
+    localStorage.setItem("signupDismissed", "true");
+    setIsConfirmOpen(false);
+    dispatch(changePopup(""));
+    router.push("/");
+  };
 
   return (
     <>
@@ -1539,6 +1569,8 @@ const PaintEstimator = ({ }) => {
           <Confirmation
             isConfirmOpen={isConfirmOpen}
             setIsConfirmOpen={setIsConfirmOpen}
+            onClosePopup={() => dispatch(changePopup(""))}
+            onSaveEstimate={handleSaveEstimateForLater}
           />
         )}
       </>

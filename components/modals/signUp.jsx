@@ -177,15 +177,17 @@ const SignUp = ({
           <Image
             src="/images/fav.webp"
             alt="Favicon"
-            width={96}
-            height={96}
+            width={40}
+            height={40}
             className="max-w-20 lg:max-w-24"
           />
-          <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
-            Enter your email to receive your estimate
-            {/* &amp; we'll keep it sent to your email as well */}
-            {/* Keep These Prices &amp; Get Details of This Project Sent To Your Email */}
-          </h2>
+    
+           <h2 className="text-center font-bold text-[22px] lg:text-[24px] leading-[1.3] text-black">
+                  Need a painter for this project?
+                </h2>
+                <p className="text-black text-[22px] mt-[-20px] lg:text-2xl text-center">
+                  Enter your email. We would be happy to help!
+                </p>
 
           <div className="w-full overflow-hidden flex flex-col items-center gap-6 lg:gap-7">
             <InputFieldText2
@@ -199,6 +201,25 @@ const SignUp = ({
               setDropdown={setDropdown}
               id="businessEmail"
             />
+                <div className="relative w-full p-2">
+                    <label className="pl-4">Optional <span className="text-red-500">*</span></label>
+                    <input
+                      id="clientPhone"
+                      type="tel"
+                      placeholder="Enter your phone number"
+                      value={estimator.value.clientPhone || ""}
+                      onChange={(e) =>
+                        dispatch(
+                          changeEstimatorValue({
+                            value: e.target.value,
+                            type: "clientPhone",
+                          })
+                        )
+                      }
+                      className="w-full bg-white px-5 py-5 text-black rounded-full outline-none border border-primary focus:ring-2 focus:ring-primary focus:border-transparent shadow-[0_0_10px] shadow-primary/20"
+                    />
+                  </div>
+            
             <div
               className="flex items-center justify-center"
               onClick={() => submitSaveEstimate()}
