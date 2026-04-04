@@ -1,4 +1,5 @@
 import { menuItems, socials } from "@/app/constants";
+import HomeReloadLink from "@/components/ui/HomeReloadLink";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -18,7 +19,7 @@ const Footer = () => {
       <div className="container">
         <div className="flex flex-wrap justify-between gap-y-14 pb-5 mb-5 lg:pb-4 lg:mb-4 border-b border-b-white/60">
           <div className="w-full lg:max-w-[481px] flex flex-col gap-y-[19px]">
-            <Link href="/" aria-label="Go to homepage">
+            <HomeReloadLink ariaLabel="Go to homepage">
               <Image
                 src="/images/logo_w.webp"
                 alt="Company white logo"
@@ -26,7 +27,7 @@ const Footer = () => {
                 height={100}
                 className="max-w-[175px] lg:max-w-[236px]"
               />
-            </Link>
+            </HomeReloadLink>
             <p className="text-[11px] lg:text-[15px] font-extralight leading-[17px] lg:leading-10 text-white">
               Middler estimates painting jobs with smart technology that delivers consistent, accurate, reliable, and professional results every time.
             </p>

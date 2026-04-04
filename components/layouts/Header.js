@@ -2,6 +2,7 @@
 
 import { menuItems } from "@/app/constants";
 import Button from "@/components/ui/Button";
+import HomeReloadLink from "@/components/ui/HomeReloadLink";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -46,7 +47,7 @@ const Header = () => {
           ref={dropdownRef}
           className="relative flex items-center justify-between bg-white shadow-[0_4px_32px_rgba(0,0,0,0.25)] px-5 py-4 lg:rounded-[10px]"
         >
-          <Link className="inline-block" href="/" aria-label="Middler Home">
+          <HomeReloadLink className="inline-block" ariaLabel="Middler Home">
             <Image
               src="/images/logo.webp"
               alt="Middler Home"
@@ -55,7 +56,7 @@ const Header = () => {
               className="w-28 lg:w-48 h-auto"
             />
             <span className="sr-only">Go to Middler Homepage</span>
-          </Link>
+          </HomeReloadLink>
 
           <ul className="hidden lg:flex items-center gap-x-2">
             {menuItems.slice(0, 2).map((item, index) => (

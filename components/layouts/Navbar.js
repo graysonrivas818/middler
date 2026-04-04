@@ -1,6 +1,7 @@
 'use client';
 
 import { menuItems } from "@/app/constants";
+import HomeReloadLink from "@/components/ui/HomeReloadLink";
 import { AnimatePresence, motion } from "motion/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -58,8 +59,10 @@ const Navbar = () => {
     <div
       className="max-lg:flex justify-between items-center max-lg:w-full relative"
     >
-      <Link href="/" className="block max-lg:grow max-lg:text-left"
-            aria-label="Go to Middler Home">
+      <HomeReloadLink
+        className="block max-lg:grow max-lg:text-left"
+        ariaLabel="Go to Middler Home"
+      >
         <Image
           src={mobileImgs ? "/images/logo.webp" : "/images/logo.webp"}
           alt="Middler Logo"
@@ -67,7 +70,7 @@ const Navbar = () => {
           height={100}
           className="max-w-28 lg:max-w-[280px] inline-block"
         />
-      </Link>
+      </HomeReloadLink>
       <button
         onClick={() => setIsMobileMenuOpen((prev) => !prev)}
         aria-label="Toggle menu"
