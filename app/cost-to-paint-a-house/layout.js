@@ -1,10 +1,5 @@
 import Script from 'next/script';
 
-// Get current year and month for dynamic meta tags
-const currentDate = new Date();
-const currentYear = currentDate.getFullYear();
-const currentMonth = currentDate.toLocaleString('default', { month: 'short' });
-
 const breadcrumbSchema = {
   "@context": "https://schema.org/",
   "@type": "BreadcrumbList",
@@ -117,20 +112,20 @@ const faqSchema = {
 };
 
 export const metadata = {
-  title: `Cost to Paint a House | ${currentYear} Price Per Sq Ft - Middler`,
-  description: `Painting a home costs $4.79–$9.04 per sq ft in ${currentMonth} ${currentYear}, depending on options and site conditions. Calculate your interior or exterior cost instantly.`,
+  title: 'Cost to Paint a House in 2026 | Average Price Per Sq Ft - Middler',
+  description: 'How much does it cost to paint a house? Interior costs $1,500–$4,500, exterior $2,000–$6,500. Get 2026 prices per sq ft and calculate your exact cost now.',
   openGraph: {
     siteName: 'Middler',
-    title: `Cost to Paint a House | ${currentYear} Price Per Sq Ft - Middler`,
-    description: `Painting a home costs $4.79–$9.04 per sq ft in ${currentMonth} ${currentYear}, depending on options and site conditions. Calculate your interior or exterior cost instantly.`,
+    title: 'Cost to Paint a House in 2026 | Average Price Per Sq Ft - Middler',
+    description: 'How much does it cost to paint a house? Interior costs $1,500–$4,500, exterior $2,000–$6,500. Get 2026 prices per sq ft and calculate your exact cost now.',
     url: 'https://middler.com/cost-to-paint-a-house',
     type: 'website',
     images: ['']
   },
   twitter: {
     card: 'summary',
-    title: `Cost to Paint a House | ${currentYear} Price Per Sq Ft - Middler`,
-    description: `Painting a home costs $4.79–$9.04 per sq ft in ${currentMonth} ${currentYear}, depending on options and site conditions. Calculate your interior or exterior cost instantly.`,
+    title: 'Cost to Paint a House in 2026 | Average Price Per Sq Ft - Middler',
+    description: 'How much does it cost to paint a house? Interior costs $1,500–$4,500, exterior $2,000–$6,500. Get 2026 prices per sq ft and calculate your exact cost now.',
     images: [''],
     url: 'https://middler.com/cost-to-paint-a-house'
   },

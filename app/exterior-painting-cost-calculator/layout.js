@@ -1,21 +1,21 @@
 import Script from 'next/script';
 
 export const metadata = {
-  title: 'Exterior Painting Cost Calculator | Fast, Accurate & Simple - Middler',
-  description: 'Get fast, accurate estimates with our Exterior Painting Cost Calculator. Find the true cost to paint exterior of house anywhere in the USA, simple & reliable.',
+  title: 'Exterior Painting Cost Calculator | House Exterior Estimates - Middler',
+  description: 'Find out how much it costs to paint the exterior of your house. Our free calculator gives instant estimates based on size, stories, paint type & location.',
   openGraph: {
     siteName: 'Middler',
-    title: 'Exterior Painting Cost Calculator | Fast, Accurate & Simple - Middler',
+    title: 'Exterior Painting Cost Calculator | House Exterior Estimates - Middler',
     type: 'website',
     url: 'https://middler.com/exterior-painting-cost-calculator',
     images: [''], // Placeholder for image
-    description: 'Get fast, accurate estimates with our Exterior Painting Cost Calculator. Find the true cost to paint exterior of house anywhere in the USA, simple & reliable.',
+    description: 'Find out how much it costs to paint the exterior of your house. Our free calculator gives instant estimates based on size, stories, paint type & location.',
   },
   twitter: {
     card: 'summary',
     url: 'https://middler.com/exterior-painting-cost-calculator',
-    title: 'Exterior Painting Cost Calculator | Fast, Accurate & Simple - Middler',
-    description: 'Get fast, accurate estimates with our Exterior Painting Cost Calculator. Find the true cost to paint exterior of house anywhere in the USA, simple & reliable.',
+    title: 'Exterior Painting Cost Calculator | House Exterior Estimates - Middler',
+    description: 'Find out how much it costs to paint the exterior of your house. Our free calculator gives instant estimates based on size, stories, paint type & location.',
     images: [''], // Placeholder for image
   },
   robots: 'index, follow',

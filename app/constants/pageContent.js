@@ -2,8 +2,8 @@
 export const pageContent = {
   home: {
     hero: {
-      title: "Instant Paint Cost Calculator",
-      titleHighlight: "Instant",
+      title: "Free Painting Cost Calculator for Homes in the USA",
+      titleHighlight: "Free Painting",
       description: "Instantly find the true cost to paint a house with Middler—the most effective Paint calculator for rooms, interiors, and exteriors anywhere in the USA"
     },
     textSlider: {

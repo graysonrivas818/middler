@@ -1248,7 +1248,7 @@ const PaintEstimatorContent = ({ }) => {
                     Paint Estimator Guide
                   </div>
                   <h1 className="font-bold text-[26px] lg:text-[50px] text-center">
-                    <span className="text-primary-800">Paint Estimator Tool</span> – A Complete Guide for Accurate Painting Cost Planning
+                    Free Paint Estimator — Calculate Your Painting Costs Instantly
                   </h1>
                   <p className="text-base lg:text-2xl leading-6 lg:leading-snug text-center max-w-4xl">
                     Painting your home can feel confusing when you don't know how much it will cost or how much paint you need. A paint estimator tool makes this easy by helping you plan the whole project with clear numbers. It removes guesswork and helps you stay within your budget.

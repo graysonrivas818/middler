@@ -71,20 +71,20 @@ const faqSchema = {
 };
 
 export const metadata = {
-  title: 'Interior Painting Cost Calculator - Middler',
-  description: 'Use our Interior Painting Cost Calculator to estimate the cost to paint interior of house anywhere in the USA. Get fast, accurate pricing for every room.',
+  title: 'Interior Painting Cost Calculator | Room & House Estimates - Middler',
+  description: 'Calculate interior painting costs for any room or house in the USA. Get instant per-square-foot estimates for walls, ceilings, trim & more. 100% free tool.',
   openGraph: {
     siteName: 'Middler',
-    title: 'Interior Painting Cost Calculator - Middler',
-    description: 'Use our Interior Painting Cost Calculator to estimate the cost to paint interior of house anywhere in the USA. Get fast, accurate pricing for every room.',
+    title: 'Interior Painting Cost Calculator | Room & House Estimates - Middler',
+    description: 'Calculate interior painting costs for any room or house in the USA. Get instant per-square-foot estimates for walls, ceilings, trim & more. 100% free tool.',
     url: 'https://middler.com/interior-painting-cost-calculator',
     type: 'website',
     images: ['']
   },
   twitter: {
     card: 'summary',
-    title: 'Interior Painting Cost Calculator - Middler',
-    description: 'Use our Interior Painting Cost Calculator to estimate the cost to paint interior of house anywhere in the USA. Get fast, accurate pricing for every room.',
+    title: 'Interior Painting Cost Calculator | Room & House Estimates - Middler',
+    description: 'Calculate interior painting costs for any room or house in the USA. Get instant per-square-foot estimates for walls, ceilings, trim & more. 100% free tool.',
     images: ['']
   },
   alternates: {
