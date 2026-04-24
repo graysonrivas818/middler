@@ -1,8 +1,9 @@
 'use client';
 import { useState } from 'react';
 import Heading from '../ui/Heading';
+import { pageContent } from '@/app/constants/pageContent';
 
-const Faq = ({ type = 'interior' }) => {
+const Faq = ({ type = 'interior', content: contentOverride = null }) => {
   const [openIndex, setOpenIndex] = useState(0);
 
   const homeFaqs = [
@@ -161,8 +162,10 @@ const Faq = ({ type = 'interior' }) => {
     }
   ];
 
-  const faqs = type === 'home' ? homeFaqs : type === 'interior' ? interiorFaqs : type === 'exterior' ? exteriorFaqs : costToPaintHouseFaqs;
+  const customFaqs = contentOverride?.faqItems || pageContent[type]?.faqItems;
+  const faqs = customFaqs || (type === 'home' ? homeFaqs : type === 'interior' ? interiorFaqs : type === 'exterior' ? exteriorFaqs : costToPaintHouseFaqs);
   const title = type === 'home' ? 'Paint Calculator' : type === 'interior' ? 'Interior Paint Calculator' : type === 'exterior' ? 'Exterior Paint Calculator' : 'House Painting Cost Calculator';
+  const heading = contentOverride?.faqHeading || `Frequently Asked Questions About ${title}`;
 
   const toggleFaq = (index) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -175,7 +178,7 @@ const Faq = ({ type = 'interior' }) => {
           <div className="w-full">
             <div className="px-3 lg:px-5 py-10 flex flex-col items-center justify-center gap-[50px]">
               <Heading
-                heading={`Frequently Asked Questions About ${title}`}
+                heading={heading}
                 highlight="Questions"
                 preheading="FAQ"
               />

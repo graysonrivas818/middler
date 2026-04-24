@@ -277,6 +277,7 @@ export const pageContent = {
     }
   },
   costToPaintHouse: {
+    layoutVariant: "costToPaintHouse",
     showEstimate: false,
     showTextSlider: false,
     showGetStarted: false,
@@ -390,6 +391,262 @@ export const pageContent = {
         }
       ]
     },
+    estimate: {
+      heading: "How Much Will My Painting Project Cost?",
+      headingHighlight: "How Much Will",
+      preheading: "estimate",
+      description: "Here's a quick look at national average painting costs:",
+      table1Headers: ["Project Type", "Average Cost"],
+      table1Rows: [
+        { type: "Interior only", cost: "$1,500 – $4,500" },
+        { type: "Exterior only", cost: "$2,000 – $6,500" },
+        { type: "Interior + Exterior", cost: "$3,500 – $9,000" },
+        { type: "Cost per square foot", cost: "$1.50 – $4.00" }
+      ],
+      footer: "Prices vary based on location, paint quality, surface condition, and labor rates.",
+      table2Heading: "Cost to Paint a House by Square Footage",
+      table2Highlight: "Cost to Paint a House",
+      table2Preheading: "pricing",
+      table2Description: "Many painters price projects based on square footage.",
+      table2Headers: ["Home Size", "Interior Cost", "Exterior Cost"],
+      table2Rows: [
+        { size: "1,000 sq ft", interior: "$1,000 – $3,000", exterior: "$1,800 – $3,500" },
+        { size: "1,500 sq ft", interior: "$1,500 – $4,000", exterior: "$2,200 – $4,800" },
+        { size: "2,000 sq ft", interior: "$2,000 – $5,500", exterior: "$2,800 – $6,500" },
+        { size: "3,000 sq ft", interior: "$3,000 – $7,500", exterior: "$4,000 – $9,000" }
+      ],
+      table2Footer: "These estimates include labor and standard materials but may increase for specialty finishes or heavy prep work."
+    },
+    faqItems: [
+      {
+        question: "How much does it cost to paint a house per square foot?",
+        answer: "Most painting projects range from $1.50 to $4.00 per square foot, depending on whether the work is interior or exterior."
+      },
+      {
+        question: "How long does it take to paint a house?",
+        answer: "Interior painting usually takes 2–5 days, while exterior painting projects take 3–7 days, depending on weather and home size."
+      },
+      {
+        question: "Is it cheaper to paint in winter?",
+        answer: "Yes. Many contractors offer off-season discounts during winter, especially for interior painting projects."
+      },
+      {
+        question: "Does painting a house increase home value?",
+        answer: "Yes. A fresh paint job can increase home value by 2–5% and significantly improve curb appeal. Neutral colors and professional finishes provide the highest return on investment."
+      },
+      {
+        question: "How do you calculate the cost for painting a house?",
+        answer: "Measure the paintable area, calculate paint needed by dividing area by coverage, then add paint cost, labor, supplies, and a small buffer for extras."
+      },
+      {
+        question: "How accurate is an interior painting cost calculator?",
+        answer: "It provides a good estimate but not an exact price. Accuracy depends on measurements, number of coats, paint quality, surface condition, and local labor rates."
+      },
+      {
+        question: "What is the average cost to paint the interior of a house?",
+        answer: "Professional interior painting typically costs between $2 and $6 per square foot, depending on the home's condition, layout, and location."
+      },
+      {
+        question: "How do you calculate painting cost per square foot?",
+        answer: "Divide the total painting cost, including paint, labor, and supplies, by the total paintable square footage."
+      },
+      {
+        question: "How much does it cost to paint the interior of a 2000 square foot house?",
+        answer: "Painting the interior of a 2000 square foot house typically costs between $4,000 and $12,000, depending on prep work, ceiling height, number of rooms, and paint quality."
+      },
+      {
+        question: "How much should it cost to paint the exterior of a 2000 square foot house?",
+        answer: "Exterior painting for a 2000 square foot house usually costs between $3,000 and $10,000, depending on siding type, number of stories, and surface preparation."
+      },
+      {
+        question: "How accurate is a house painting cost calculator?",
+        answer: "A house painting cost calculator is accurate for budgeting and planning, but final costs may vary based on on-site conditions and contractor pricing."
+      }
+    ]
+  },
+  costToPaintHouseNewYork: {
+    layoutVariant: "costToPaintHouse",
+    showEstimate: false,
+    showTextSlider: false,
+    showGetStarted: false,
+    hideHeroAddressForm: true,
+    hideHeroStats: true,
+    hero: {
+      title: "Cost to Paint a House in New York: 2026 NY Homeowner's Price Guide",
+      titleHighlight: "Cost to Paint a House",
+      description: "The cost to paint a house in New York typically runs $3,200 to $18,500+, with most homeowners spending somewhere in the middle depending on square footage, scope, and borough. NYC is the priciest market in the state because of labor rates, building access rules, and Certificate of Insurance requirements. Long Island and Westchester sit just below NYC. Albany, Buffalo, and Rochester come in noticeably cheaper.",
+      heroImage: "/images/interior/Interior Painting Cost Calculator.webp"
+    },
+    calculateRoomCost: {
+      heading: "Interior vs Exterior Painting Costs in New York",
+      headingHighlight: "Interior vs Exterior",
+      description: "Understanding the cost differences between interior and exterior painting helps New York homeowners budget more accurately for their project.",
+      interiorSection: {
+        title: "Interior Painting",
+        description: "Interior painting cost New York projects typically run $3.00 to $6.50 per square foot because they often involve:",
+        points: [
+          "Co-op and condo insurance requirements",
+          "Pre-war plaster walls and taller ceilings",
+          "Extra trim, crown molding, and patching work"
+        ],
+        costRange: "Average interior painting cost: $3.00 – $6.50 per square foot"
+      },
+      exteriorSection: {
+        title: "Exterior Painting",
+        description: "Exterior painting costs more across New York due to:",
+        points: [
+          "Brownstones, shingle siding, and multi-story homes",
+          "Shorter exterior painting seasons and tighter scheduling",
+          "Scaffolding, lifts, and higher labor rates"
+        ],
+        costRange: "Average exterior painting cost: $3.50 – $7.25 per square foot"
+      },
+      image: "/images/interior/cost to paint a room.webp"
+    },
+    textSlider: {
+      text: "Middler makes New York house painting quotes easy, fast, and 98% accurate — no guesswork, just results."
+    },
+    getStarted: {
+      heading: "Know the Cost of New York House Painting Before You Begin",
+      headingHighlight: "Know the Cost",
+      preheading: "get started",
+      description: "Know the true house painting cost before the first brushstroke begins, with New York pricing shaped by your square footage, borough, and project scope."
+    },
+    whatIsCalculator: {
+      heading: "Is It Cheaper to Paint Your New York Home Yourself?",
+      headingHighlight: "Is It Cheaper",
+      description: "DIY can cut costs, but New York adds friction most other states don't.",
+      diyPros: [
+        "Save 50% to 70% on labor",
+        "Control paint quality and schedule",
+        "Good fit for single rooms, small exteriors, or rental prep"
+      ],
+      diyCons: [
+        "NYC co-ops and condos often require licensed, insured painters with COIs on file",
+        "Older New York homes need more prep and may include lead paint risks",
+        "Brownstones and multi-story exteriors require ladders or scaffolding"
+      ],
+      description2: "For a single bedroom, DIY makes sense. For a full interior, a brownstone exterior, or anything in a co-op, hiring a pro is usually worth it.",
+      image: "/images/interior/cost to paint interior of house.webp"
+    },
+    startEstimate: {
+      heading: "Get an Accurate New York House Painting Estimate",
+      headingHighlight: "Get an Accurate",
+      description: "Stop guessing. Middler factors in your address, local labor rates, and paint coverage automatically, so you can get a more accurate New York estimate in about 30 seconds.",
+      ctaButton: {
+        text: "Free Estimator",
+        url: "https://middler.com/paint-estimator"
+      }
+    },
+    showFaq: true,
+    faqType: "costToPaintHouseNewYork",
+    benefits: {
+      heading: "How to Estimate Your New York House Painting Cost",
+      headingHighlight: "How to Estimate",
+      description: "You can get close to a real New York house painting estimate in three steps:",
+      points: [
+        "Measure total paintable square footage",
+        "Multiply by a NY-specific rate for interior or exterior work",
+        "Add prep, repairs, and premium paint"
+      ],
+      closingText: "<strong>Worked example:</strong> A 1,800 sq ft Brooklyn rowhouse interior at $3.25 per sq ft comes out to $5,850. Add $600 in prep and a second coat on the stairwell, and you're at roughly $6,450 before tax."
+    },
+    whoUseMiddler: {
+      heading: "What Factors Affect House Painting Costs in New York?",
+      headingHighlight: "What Factors Affect",
+      description: "Several New York-specific factors influence the final price:",
+      subHeading: "",
+      points: [
+        {
+          title: "Paint Quality",
+          description: "Premium paints like Benjamin Moore Aura and Sherwin-Williams Emerald cost more, but last longer and cover better."
+        },
+        {
+          title: "Surface Condition",
+          description: "Peeling paint, water damage, plaster cracks, and older surfaces add prep hours quickly, especially in pre-war units."
+        },
+        {
+          title: "Home Height and Layout",
+          description: "Walk-ups, brownstones, and multi-story homes need ladders, scaffolding, or lifts, which raise labor costs 15% to 30%."
+        },
+        {
+          title: "NY Labor Rates",
+          description: "NYC painters typically charge $55 to $95 per hour, while upstate crews usually run $35 to $60 per hour."
+        },
+        {
+          title: "Building Requirements",
+          description: "COIs, elevator reservations, weekend-only work windows, and floor protection all add time and cost in many NYC buildings."
+        }
+      ]
+    },
+    estimate: {
+      heading: "How Much Does It Cost to Paint a House in New York?",
+      headingHighlight: "How Much Does It Cost",
+      preheading: "estimate",
+      description: "Here's a quick snapshot of average New York house painting ranges for 2026.",
+      table1Headers: ["Project Type", "Average Cost in New York"],
+      table1Rows: [
+        { type: "Interior only", cost: "$3,200 – $9,800" },
+        { type: "Exterior only", cost: "$4,500 – $12,500" },
+        { type: "Interior + Exterior", cost: "$7,800 – $18,500+" },
+        { type: "Cost per square foot", cost: "$3.00 – $6.50 interior, $3.50 – $7.25 exterior" }
+      ],
+      footer: "These numbers run roughly 20% to 40% higher than the national average, with NYC projects often landing at the top of each range.",
+      table2Heading: "Cost to Paint a House in New York by Square Footage",
+      table2Highlight: "Cost to Paint a House",
+      table2Preheading: "pricing",
+      table2Description: "Square footage is the single biggest price driver for most New York painting projects.",
+      table2Headers: ["Home Size", "Interior Cost", "Exterior Cost"],
+      table2Rows: [
+        { size: "1,000 sq ft", interior: "$3,000 – $5,500", exterior: "$3,800 – $6,800" },
+        { size: "1,500 sq ft", interior: "$4,200 – $7,800", exterior: "$5,400 – $9,500" },
+        { size: "2,000 sq ft", interior: "$5,500 – $10,500", exterior: "$7,000 – $12,800" },
+        { size: "3,000 sq ft", interior: "$8,200 – $15,500", exterior: "$10,500 – $18,900" }
+      ],
+      table2Footer: "Expect the high end if you live in Manhattan, Brooklyn, or Queens, or if the job requires heavy prep, trim work, or high ceilings."
+    },
+    faqItems: [
+      {
+        question: "How much does it cost to paint a house in New York?",
+        answer: "The cost to paint a house in New York typically ranges from $3,200 to $18,500+. Most homeowners spend $6,500 to $12,000 for a combined interior and exterior job on a mid-sized home."
+      },
+      {
+        question: "How much does it cost to paint a house per square foot in NYC?",
+        answer: "NYC painter prices per square foot run about $4.25 to $7.25 for most homes, depending on prep work, ceiling height, and building access rules."
+      },
+      {
+        question: "Why is house painting more expensive in New York?",
+        answer: "Higher labor rates, insurance minimums, COIs, parking and gear-hauling time, co-op and condo rules, and weekend-only work windows all push NY prices 20% to 40% above the national average."
+      },
+      {
+        question: "How much does it cost to paint a 2,000 sq ft house in New York?",
+        answer: "A 2,000 sq ft home typically costs $5,500 to $10,500 for interior painting and $7,000 to $12,800 for exterior painting in New York."
+      },
+      {
+        question: "How much do painters charge per hour in New York?",
+        answer: "NYC painters usually charge $55 to $95 per hour. Upstate NY painters typically charge $35 to $60 per hour."
+      },
+      {
+        question: "Do I need a licensed painter in NYC?",
+        answer: "New York State does not license painters, but NYC co-ops, condos, and many rental buildings require licensed, insured contractors with a valid Certificate of Insurance. Always check your building's rules first."
+      },
+      {
+        question: "How long does it take to paint a house in New York?",
+        answer: "A single room takes one to two days. A full interior on a 2,000 sq ft home takes three to five days. A full exterior typically takes four to seven days, weather permitting."
+      },
+      {
+        question: "Is it cheaper to paint a house in winter in New York?",
+        answer: "Interior painting can be slightly cheaper in winter because demand drops. Exterior painting is tough from November through March in New York because of temperature and moisture, so most pros won't quote it off-season."
+      },
+      {
+        question: "How much does it cost to paint a brownstone?",
+        answer: "Painting a brownstone exterior in NYC typically costs $8,000 to $20,000+, depending on height, trim detail, and whether the facade needs pointing or repairs before paint."
+      },
+      {
+        question: "Does painting increase home value in New York?",
+        answer: "Yes. A fresh interior and exterior paint job typically returns 50% to 100%+ of its cost at resale in NY markets, and it's one of the highest-ROI prep moves before listing."
+      }
+    ]
   }
 };
 

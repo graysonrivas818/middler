@@ -64,11 +64,12 @@ const Faq = dynamic(() => import("@/components/layouts/Faq"), {
 
 const ToastProvider = dynamic(() => import("@/components/ToastProvider"));
 
-const PageLayout = ({ pageType = "home" }) => {
+const PageLayout = ({ pageType = "home", contentOverride = null }) => {
   const [isClient, setIsClient] = useState(false);
   
   // Get content for this page type
-  const content = pageContent[pageType] || pageContent.home;
+  const content = contentOverride || pageContent[pageType] || pageContent.home;
+  const isHousePaintingLayout = content.layoutVariant === "costToPaintHouse";
 
   // Optimized useEffect - defer sessionStorage access
   useEffect(() => {
@@ -106,7 +107,7 @@ const PageLayout = ({ pageType = "home" }) => {
         )}
         
         {/* What Is Calculator Section - for interior page, but not for costToPaintHouse */}
-        {content.whatIsCalculator && pageType !== "costToPaintHouse" && (
+        {content.whatIsCalculator && !isHousePaintingLayout && (
           <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
             <WhatIsCalculator content={content.whatIsCalculator} />
           </Suspense>
@@ -114,14 +115,14 @@ const PageLayout = ({ pageType = "home" }) => {
         
         {/* Below-the-fold content with lazy loading */}
         <div className="flex flex-col">
-          {(content.showEstimate !== false && pageType !== 'costToPaintHouse') && (
+          {(content.showEstimate !== false && !isHousePaintingLayout) && (
             <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
               <Estimate />
             </Suspense>
           )}
-          {pageType === 'costToPaintHouse' && (
+          {isHousePaintingLayout && (
             <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
-              <Estimate pageType={pageType} />
+              <Estimate pageType={pageType} content={content} />
             </Suspense>
           )}
           <Suspense fallback={<div className="h-32 bg-gray-100 animate-pulse" />}>
@@ -146,14 +147,14 @@ const PageLayout = ({ pageType = "home" }) => {
           </Suspense>
         )}
         
-        {pageType !== "exterior" && pageType !== "costToPaintHouse" && (
+        {pageType !== "exterior" && !isHousePaintingLayout && (
           <Suspense fallback={<div className="h-40 bg-gray-100 animate-pulse" />}>
             <Cta pageType={pageType} />
           </Suspense>
         )}
         
         {/* OurProcess Section - for non-exterior pages */}
-        {pageType !== "exterior" && pageType !== "costToPaintHouse" && (
+        {pageType !== "exterior" && !isHousePaintingLayout && (
           <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
             <OurProcess pageType={pageType} />
           </Suspense>
@@ -167,7 +168,7 @@ const PageLayout = ({ pageType = "home" }) => {
         )}
         
         <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
-          <WhoUseMiddler pageType={pageType} />
+          <WhoUseMiddler pageType={pageType} content={content} />
         </Suspense>
         
         {content.showFaq && (
@@ -179,11 +180,11 @@ const PageLayout = ({ pageType = "home" }) => {
               </Suspense>
             ) : (
               <Suspense fallback={<div className="h-40 bg-gray-100 animate-pulse" />}>
-                <Cta2 pageType={pageType} />
+                <Cta2 pageType={pageType} content={content} />
               </Suspense>
             )}
             {/* WhatIsCalculator for costToPaintHouse - after StartEstimate */}
-            {content.whatIsCalculator && pageType === "costToPaintHouse" && (
+            {content.whatIsCalculator && isHousePaintingLayout && (
               <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
                 <WhatIsCalculator content={content.whatIsCalculator} />
               </Suspense>
@@ -194,14 +195,14 @@ const PageLayout = ({ pageType = "home" }) => {
               </Suspense>
             )}
             <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
-              <Faq type={content.faqType} />
+              <Faq type={content.faqType} content={content} />
             </Suspense>
           </>
         )}
         
         {!content.showFaq && (
           <Suspense fallback={<div className="h-40 bg-gray-100 animate-pulse" />}>
-            <Cta2 pageType={pageType} />
+            <Cta2 pageType={pageType} content={content} />
           </Suspense>
         )}
       </main>

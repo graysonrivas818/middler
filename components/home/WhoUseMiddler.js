@@ -40,8 +40,8 @@ const cards = [
   },
 ];
 
-const WhoUseMiddler = ({ pageType = "home" }) => {
-  const content = pageContent[pageType] || pageContent.home;
+const WhoUseMiddler = ({ pageType = "home", content: contentOverride = null }) => {
+  const content = contentOverride || pageContent[pageType] || pageContent.home;
   const whoUseContent = content.whoUseMiddler;
   const swiperRef = useRef(null);
   

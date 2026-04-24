@@ -1,0 +1,5 @@
+import StateHousePaintingExactLayoutPage from "@/components/layouts/StateHousePaintingExactLayoutPage";
+
+export default function CostToPaintAHouseTexasPage() {
+	return <StateHousePaintingExactLayoutPage slug="cost-to-paint-a-house-texas" />;
+}

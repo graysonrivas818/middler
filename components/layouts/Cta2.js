@@ -11,10 +11,11 @@ const ctaPoints = [
   "Built for Painting Pros",
 ];
 
-const Cta2 = ({ pageType = "home" }) => {
-  const content = pageContent[pageType] || pageContent.home;
+const Cta2 = ({ pageType = "home", content: contentOverride = null }) => {
+  const content = contentOverride || pageContent[pageType] || pageContent.home;
   const startEstimate = content.startEstimate;
   const benefits = content.benefits;
+  const isHousePaintingLayout = content.layoutVariant === 'costToPaintHouse';
   const [smallSize, setSmallSize] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -62,7 +63,7 @@ const Cta2 = ({ pageType = "home" }) => {
                       {benefits.description}
                     </p>
                     <div className={`grid gap-2.5 lg:gap-5 py-2.5 max-lg:text-left ${
-                      pageType === 'costToPaintHouse' ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'
+                      isHousePaintingLayout ? 'grid-cols-1' : 'grid-cols-1 md:grid-cols-2'
                     }`}>
                       {benefits.points.map((point, idx) => (
                         <div
