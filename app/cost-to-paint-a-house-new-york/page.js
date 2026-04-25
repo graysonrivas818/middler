@@ -1,6 +1,5 @@
-"use client";
-import PageLayout from "@/components/layouts/PageLayout";
+import StateHousePaintingExactLayoutPage from "@/components/layouts/StateHousePaintingExactLayoutPage";
 
 export default function CostToPaintAHouseNewYorkPage() {
-	return <PageLayout pageType="costToPaintHouseNewYork" />;
+	return <StateHousePaintingExactLayoutPage slug="cost-to-paint-a-house-new-york" />;
 }
