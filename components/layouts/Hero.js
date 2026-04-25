@@ -163,13 +163,13 @@ const Hero = ({
             </div>
           </div>
           <div className="lg:w-6/12 max-lg:hidden" style={pageType === 'costToPaintHouse' ? { paddingInline: 0 } : {}}>
-            <div className="relative size-full text-right">
+            <div className={`relative size-full ${pageType === 'costToPaintHouse' ? 'w-full' : 'text-right'}`}>
               <Image
                 src={heroImage}
                 alt="cost to paint a house"
                 width={500}
                 height={320}
-                className={`inline-block object-contain ${pageType === 'costToPaintHouse' ? 'h-auto w-full max-h-none rounded-none' : 'max-h-[320px] rounded-2xl'}`}
+                className={`object-contain ${pageType === 'costToPaintHouse' ? 'block h-auto w-full max-h-none rounded-none' : 'inline-block max-h-[320px] rounded-2xl'}`}
                 sizes={pageType === 'costToPaintHouse' ? '(min-width: 1024px) 50vw, 100vw' : undefined}
               />
             </div>
