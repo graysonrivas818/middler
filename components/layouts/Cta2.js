@@ -16,6 +16,8 @@ const Cta2 = ({ pageType = "home", content: contentOverride = null, sectionData 
   const startEstimate = sectionData ? null : content.startEstimate;
   const benefits = sectionData || content.benefits;
   const isHousePaintingLayout = content.layoutVariant === 'costToPaintHouse';
+  const imageSrc = benefits?.image || startEstimate?.image || "/images/mobile.webp";
+  const imageAlt = benefits?.imageAlt || startEstimate?.imageAlt || "Mobile illustration";
   const [smallSize, setSmallSize] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -47,8 +49,8 @@ const Cta2 = ({ pageType = "home", content: contentOverride = null, sectionData 
           <div className="w-full">
             <div className="flex flex-col-reverse  max-lg:gap-y-10 lg:gap-x-20 lg:flex-row text-center lg:text-left items-center justify-between">
               <Image
-                src="/images/mobile.webp"
-                alt="Mobile illustration"
+                src={imageSrc}
+                alt={imageAlt}
                 width={340}
                 height={340}
                 className="lg:w-[340px]"

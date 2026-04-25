@@ -1,8 +1,5 @@
-import PageLayout from "@/components/layouts/PageLayout";
-import { getStateHousePaintingLayoutContent } from "@/app/_libs/stateHousePaintingDocs";
+import StateHousePaintingBasePage from "@/components/layouts/StateHousePaintingBasePage";
 
 export default function StateHousePaintingExactLayoutPage({ slug }) {
-  const content = getStateHousePaintingLayoutContent(slug);
-
-  return <PageLayout pageType="costToPaintHouse" contentOverride={content} />;
+  return <StateHousePaintingBasePage slug={slug} />;
 }

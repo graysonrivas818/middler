@@ -169,7 +169,8 @@ const Hero = ({
                 alt="cost to paint a house"
                 width={500}
                 height={320}
-                className={`inline-block object-contain max-h-[320px] ${pageType === 'costToPaintHouse' ? 'rounded-none' : 'rounded-2xl'}`}
+                className={`inline-block object-contain ${pageType === 'costToPaintHouse' ? 'h-auto w-full max-h-none rounded-none' : 'max-h-[320px] rounded-2xl'}`}
+                sizes={pageType === 'costToPaintHouse' ? '(min-width: 1024px) 50vw, 100vw' : undefined}
               />
             </div>
           </div>

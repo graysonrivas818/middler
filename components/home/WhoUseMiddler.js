@@ -44,6 +44,7 @@ const WhoUseMiddler = ({ pageType = "home", content: contentOverride = null }) =
   const content = contentOverride || pageContent[pageType] || pageContent.home;
   const whoUseContent = content.whoUseMiddler;
   const swiperRef = useRef(null);
+  const isCostToPaintHouse = pageType === "costToPaintHouse";
   
   // Use custom content if available, otherwise use default
   const headingText = whoUseContent ? whoUseContent.heading : "Who Uses Middler?";
@@ -63,6 +64,16 @@ const WhoUseMiddler = ({ pageType = "home", content: contentOverride = null }) =
       iconName = idx === 0 ? "price.webp" : idx === 1 ? "painters.webp" : idx === 2 ? "quality.webp" : "turn.webp";
     } else if (pageType === 'exterior') {
       iconName = idx === 0 ? "1500.webp" : idx === 1 ? "2000.webp" : idx === 2 ? "multi.webp" : "house.webp";
+    } else if (pageType === 'costToPaintHouse') {
+      iconName = idx === 0
+        ? "price.webp"
+        : idx === 1
+          ? "paint.webp"
+          : idx === 2
+            ? "house.webp"
+            : idx === 3
+              ? "quality.webp"
+              : "home.webp";
     } else {
       iconName = idx === 0 ? "chair.webp" : idx === 1 ? "brush.webp" : idx === 2 ? "tools.webp" : "house.webp";
     }
@@ -86,6 +97,46 @@ const WhoUseMiddler = ({ pageType = "home", content: contentOverride = null }) =
       };
     }
   }) : cards;
+
+  if (isCostToPaintHouse && whoUseContent) {
+    return (
+      <section className="px-5 py-16 lg:px-10 lg:py-24">
+        <div className="container max-w-6xl">
+          <div className="flex flex-col gap-5 text-center">
+            <Heading
+              oh
+              heading={headingText}
+              highlight={headingHighlight}
+              className="text-[26px]"
+            />
+            <p className="mx-auto max-w-3xl text-sm lg:text-2xl">
+              {descriptionText}
+            </p>
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {displayCards.map((card, idx) => {
+              const titleText = `${card.span}${card.title.replace(/<br\s*\/?/gi, " ").replace(/>/g, " ")}`.replace(/\s+/g, " ").trim();
+
+              return (
+                <article
+                  key={idx}
+                  className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md lg:p-8"
+                >
+                  <h3 className="text-xl font-semibold leading-tight text-gray-900 lg:text-2xl">
+                    {titleText}
+                  </h3>
+                  <p className="mt-4 text-sm leading-7 text-gray-600 lg:text-base">
+                    {card.text}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  }
   
   return (
     <section className="lg:pt-[60px] lg:px-5">

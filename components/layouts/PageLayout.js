@@ -176,7 +176,7 @@ const PageLayout = ({ pageType = "home", contentOverride = null }) => {
             <Cta2 pageType={pageType} content={content} sectionData={content.secondaryBenefits} />
           </Suspense>
         )}
-        
+
         {content.showFaq && (
           <>
             {/* Benefits section for exterior page, Cta2 for others */}
@@ -184,11 +184,11 @@ const PageLayout = ({ pageType = "home", contentOverride = null }) => {
               <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
                 <Benefits content={content.benefits} />
               </Suspense>
-            ) : (
+            ) : (!isHousePaintingLayout || content.benefits || content.startEstimate) ? (
               <Suspense fallback={<div className="h-40 bg-gray-100 animate-pulse" />}>
                 <Cta2 pageType={pageType} content={content} />
               </Suspense>
-            )}
+            ) : null}
             {/* WhatIsCalculator for costToPaintHouse - after StartEstimate */}
             {content.whatIsCalculator && isHousePaintingLayout && (
               <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
@@ -206,7 +206,7 @@ const PageLayout = ({ pageType = "home", contentOverride = null }) => {
           </>
         )}
         
-        {!content.showFaq && (
+        {!content.showFaq && (!isHousePaintingLayout || content.benefits || content.startEstimate) && (
           <Suspense fallback={<div className="h-40 bg-gray-100 animate-pulse" />}>
             <Cta2 pageType={pageType} content={content} />
           </Suspense>

@@ -1,21 +1,9 @@
-import fs from "fs";
-import path from "path";
 import { cache } from "react";
+import {
+  getStateHousePaintingPageConfig,
+} from "@/app/constants/stateHousePaintingPages";
 
 const SITE_URL = "https://middler.com";
-
-const docFileBySlug = {
-  "cost-to-paint-a-house-california": "cost-to-paint-a-house-california.txt",
-  "cost-to-paint-a-house-new-york": "Cost to Paint a House in New York.txt",
-  "cost-to-paint-a-house-arizona": "Cost to Paint a House in Arizona (2026).txt",
-  "cost-to-paint-a-house-georgia": "Cost to Paint a House in Georgia 2026.txt",
-  "cost-to-paint-a-house-ohio": "Cost to Paint a House in Ohio 2026.txt",
-  "cost-to-paint-a-house-florida": "Cost to Paint a House in Florida .txt",
-  "cost-to-paint-a-house-texas": "cost-to-paint-a-house-texas.txt",
-  "cost-to-paint-a-house-illinois": "Illinois House Painting Cost Landing Page.txt",
-  "cost-to-paint-a-house-pennsylvania": "Cost to Paint a House in Pennsylvania.txt",
-  "cost-to-paint-a-house-north-carolina": "Cost to Paint a House in North Carolina .txt",
-};
 
 const headingMatchers = [
   /^How Much Will My /i,
@@ -73,7 +61,7 @@ function isHeading(line) {
 }
 
 function isCtaLine(line) {
-  return /estimate/i.test(line) && /(→|\/paint-estimator|free)/i.test(line);
+  return /estimate/i.test(line) && /(ΓåÆ|\/paint-estimator|free)/i.test(line);
 }
 
 function splitQuestionAnswer(line) {
@@ -1101,42 +1089,15 @@ const arizonaFaqItems = [
 ];
 
 function getResolvedFaqItems(slug, doc) {
-  if (slug === "cost-to-paint-a-house-pennsylvania") {
-    return pennsylvaniaFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-illinois") {
-    return illinoisFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-florida") {
-    return floridaFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-georgia") {
-    return georgiaFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-ohio") {
-    return ohioFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-texas") {
-    return texasFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-north-carolina") {
-    return northCarolinaFaqItems;
-  }
-
-  if (slug === "cost-to-paint-a-house-arizona") {
-    return arizonaFaqItems;
-  }
-
-  return doc.faqs;
+  return getStateHousePaintingPageConfig(slug)?.faqItems || doc.faqs;
 }
 
 export const getStateHousePaintingLayoutContent = cache((slug) => {
+  const pageConfig = getStateHousePaintingPageConfig(slug);
+  if (pageConfig?.layoutContent) {
+    return pageConfig.layoutContent;
+  }
+
   const doc = getStateHousePaintingDoc(slug);
   const stateName = getStateNameFromSlug(slug);
   const faqItems = getResolvedFaqItems(slug, doc);
@@ -1159,6 +1120,20 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
   const diyContent = diySection ? parseDiySection(diySection) : null;
   const estimateHowContent = estimateHowSection ? parseHowToEstimate(estimateHowSection) : null;
   const secondaryBenefits = bestTimeSection ? parseSupplementaryBenefits(bestTimeSection) : null;
+  const consumedSections = new Set(
+    [
+      estimateSection,
+      sizeSection,
+      citySection,
+      compareSection,
+      factorsSection,
+      bestTimeSection,
+      estimateHowSection,
+      diySection,
+      startEstimateSection,
+    ].filter(Boolean)
+  );
+  const extraSections = doc.sections.filter((section) => !consumedSections.has(section));
 
   return {
     layoutVariant: "costToPaintHouse",
@@ -1183,22 +1158,17 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
           image: "/images/interior/cost to paint a room.webp",
         }
       : null,
-    whatIsCalculator:
-      slug === "cost-to-paint-a-house-north-carolina"
-        ? northCarolinaWhatIsCalculator
-        : slug === "cost-to-paint-a-house-florida"
-          ? floridaWhatIsCalculator
-        : diySection
-          ? {
-              heading: diySection.heading,
-              headingHighlight: deriveHighlight(diySection.heading),
-              description: diyContent?.description,
-              diyPros: diyContent?.diyPros?.length ? diyContent.diyPros : undefined,
-              diyCons: diyContent?.diyCons?.length ? diyContent.diyCons : undefined,
-              description2: diyContent?.description2,
-              image: "/images/interior/cost to paint interior of house.webp",
-            }
-          : null,
+    whatIsCalculator: pageConfig?.whatIsCalculatorOverride || (diySection
+      ? {
+          heading: diySection.heading,
+          headingHighlight: deriveHighlight(diySection.heading),
+          description: diyContent?.description,
+          diyPros: diyContent?.diyPros?.length ? diyContent.diyPros : undefined,
+          diyCons: diyContent?.diyCons?.length ? diyContent.diyCons : undefined,
+          description2: diyContent?.description2,
+          image: "/images/interior/cost to paint interior of house.webp",
+        }
+      : null),
     startEstimate: startEstimateSection
       ? {
           heading: startEstimateSection.heading,
@@ -1214,6 +1184,7 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
     faqType: "costToPaintHouse",
     faqHeading: doc.faqHeading || `Frequently Asked Questions About Painting a House in ${stateName}`,
     secondaryBenefits,
+    extraSections,
     benefits: estimateHowSection
       ? {
           heading: estimateHowSection.heading,
@@ -1262,27 +1233,21 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
 });
 
 export const getStateHousePaintingDoc = cache((slug) => {
-  const fileName = docFileBySlug[slug];
-  if (!fileName) {
+  const doc = getStateHousePaintingPageConfig(slug)?.doc;
+
+  if (!doc) {
     throw new Error(`Unsupported state house painting slug: ${slug}`);
   }
 
-  const filePath = path.join(process.cwd(), "docs", "extracted", fileName);
-  const rawText = fs.readFileSync(filePath, "utf8");
-  const lines = normalizeLines(rawText);
-
-  if (lines.some((line) => /^\d+\.\s+Meta title$/i.test(line) || /^\d+\.\s+SEO Title Tag$/i.test(line))) {
-    return parseNumberedDoc(lines, slug);
-  }
-
-  if (lines.some((line) => /^\d+\.\s+(Full Page|Full Body Content)/i.test(line))) {
-    return parseFullBodyDoc(lines, slug);
-  }
-
-  return parsePrefixedDoc(lines, slug);
+  return doc;
 });
 
 export function getStateHousePaintingMetadata(slug) {
+  const pageConfig = getStateHousePaintingPageConfig(slug);
+  if (pageConfig?.metadata) {
+    return pageConfig.metadata;
+  }
+
   const doc = getStateHousePaintingDoc(slug);
   const url = `${SITE_URL}/${slug}`;
 
@@ -1310,6 +1275,11 @@ export function getStateHousePaintingMetadata(slug) {
 }
 
 export function getStateHousePaintingSchemas(slug) {
+  const pageConfig = getStateHousePaintingPageConfig(slug);
+  if (pageConfig?.schemas) {
+    return pageConfig.schemas;
+  }
+
   const doc = getStateHousePaintingDoc(slug);
   const url = `${SITE_URL}/${slug}`;
   const faqItems = getResolvedFaqItems(slug, doc);

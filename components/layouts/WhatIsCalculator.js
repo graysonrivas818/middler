@@ -83,6 +83,37 @@ const WhatIsCalculator = ({ content }) => {
                     </div>
                   </div>
                 )}
+
+                {content.comparisonTable && (
+                  <div className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+                    <div className="grid grid-cols-[minmax(180px,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] border-b border-gray-200 bg-gray-50">
+                      <div className="p-4 text-left text-sm font-semibold text-gray-900 lg:text-base">
+                        {content.comparisonTable.labelHeader || "Category"}
+                      </div>
+                      {content.comparisonTable.headers.map((header, index) => (
+                        <div key={index} className="p-4 text-left text-sm font-semibold text-gray-900 lg:text-base">
+                          {header}
+                        </div>
+                      ))}
+                    </div>
+
+                    {content.comparisonTable.rows.map((row, index) => (
+                      <div
+                        key={index}
+                        className={`grid grid-cols-[minmax(180px,1.1fr)_minmax(0,1fr)_minmax(0,1fr)] ${index !== content.comparisonTable.rows.length - 1 ? "border-b border-gray-200" : ""}`}
+                      >
+                        <div className="p-4 text-left text-xs font-semibold text-gray-900 lg:text-base">
+                          {row.label}
+                        </div>
+                        {row.values.map((value, valueIndex) => (
+                          <div key={valueIndex} className="p-4 text-left text-xs leading-relaxed text-gray-700 lg:text-base">
+                            {value}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
                 
                 {/* Factors section */}
                 {content.factors && (

@@ -1,6 +1,44 @@
 'use client';
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+
+function renderLinkedText(text) {
+  if (!text) {
+    return null;
+  }
+
+  const links = [
+    {
+      phrase: "interior painting cost calculator",
+      href: "/interior-painting-cost-calculator",
+    },
+    {
+      phrase: "exterior painting cost calculator",
+      href: "/exterior-painting-cost-calculator",
+    },
+  ];
+
+  const lowerText = text.toLowerCase();
+  const match = links.find(({ phrase }) => lowerText.includes(phrase));
+
+  if (!match) {
+    return text;
+  }
+
+  const startIndex = lowerText.indexOf(match.phrase);
+  const endIndex = startIndex + match.phrase.length;
+
+  return (
+    <>
+      {text.slice(0, startIndex)}
+      <Link href={match.href} className="font-semibold text-primary underline-offset-2 hover:underline">
+        {text.slice(startIndex, endIndex)}
+      </Link>
+      {text.slice(endIndex)}
+    </>
+  );
+}
 
 const CalculateRoomCost = ({ content }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -58,18 +96,18 @@ const CalculateRoomCost = ({ content }) => {
                         {content.interiorSection.title}
                       </h4>
                       <p className="text-sm lg:text-base text-left">
-                        {content.interiorSection.description}
+                        {renderLinkedText(content.interiorSection.description)}
                       </p>
                       <ul className="space-y-2">
                         {content.interiorSection.points.map((point, idx) => (
                           <li key={idx} className="text-sm lg:text-base text-left flex items-start gap-2">
                             <span className="text-blue-600 mt-1 flex-shrink-0">•</span>
-                            {point}
+                            <span>{renderLinkedText(point)}</span>
                           </li>
                         ))}
                       </ul>
                       <p className="text-sm lg:text-base font-semibold text-blue-800">
-                        {content.interiorSection.costRange}
+                        {renderLinkedText(content.interiorSection.costRange)}
                       </p>
                     </div>
                     
@@ -79,18 +117,18 @@ const CalculateRoomCost = ({ content }) => {
                         {content.exteriorSection.title}
                       </h4>
                       <p className="text-sm lg:text-base text-left">
-                        {content.exteriorSection.description}
+                        {renderLinkedText(content.exteriorSection.description)}
                       </p>
                       <ul className="space-y-2">
                         {content.exteriorSection.points.map((point, idx) => (
                           <li key={idx} className="text-sm lg:text-base text-left flex items-start gap-2">
                             <span className="text-orange-600 mt-1 flex-shrink-0">•</span>
-                            {point}
+                            <span>{renderLinkedText(point)}</span>
                           </li>
                         ))}
                       </ul>
                       <p className="text-sm lg:text-base font-semibold text-orange-800">
-                        {content.exteriorSection.costRange}
+                        {renderLinkedText(content.exteriorSection.costRange)}
                       </p>
                     </div>
                   </div>
