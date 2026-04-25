@@ -11,10 +11,10 @@ const ctaPoints = [
   "Built for Painting Pros",
 ];
 
-const Cta2 = ({ pageType = "home", content: contentOverride = null }) => {
+const Cta2 = ({ pageType = "home", content: contentOverride = null, sectionData = null }) => {
   const content = contentOverride || pageContent[pageType] || pageContent.home;
-  const startEstimate = content.startEstimate;
-  const benefits = content.benefits;
+  const startEstimate = sectionData ? null : content.startEstimate;
+  const benefits = sectionData || content.benefits;
   const isHousePaintingLayout = content.layoutVariant === 'costToPaintHouse';
   const [smallSize, setSmallSize] = useState(false)
   const [isMobile, setIsMobile] = useState(false)

@@ -527,6 +527,43 @@ function parseSquareFootageTable(section) {
   };
 }
 
+function parseFixedColumnTable(section, firstHeaderPattern, columnCount) {
+  const lines = section.lines.map(cleanLine).filter(Boolean);
+  const headerStart = lines.findIndex((line) => firstHeaderPattern.test(line));
+
+  if (headerStart < 0 || !lines[headerStart + columnCount - 1]) {
+    return null;
+  }
+
+  const headers = lines.slice(headerStart, headerStart + columnCount);
+  const rows = [];
+  let index = headerStart + columnCount;
+
+  while (index + columnCount - 1 < lines.length) {
+    rows.push(lines.slice(index, index + columnCount));
+    index += columnCount;
+  }
+
+  return {
+    description: compactText(lines.slice(0, headerStart)),
+    headers,
+    rows,
+    footer: compactText(lines.slice(index)),
+  };
+}
+
+function parseSupplementaryBenefits(section) {
+  const lines = section.lines.map(cleanLine).filter(Boolean);
+
+  return {
+    heading: section.heading,
+    headingHighlight: deriveHighlight(section.heading),
+    description: lines[0] || "",
+    points: lines.slice(1, 3),
+    closingText: compactText(lines.slice(3)),
+  };
+}
+
 function parseInteriorExteriorSection(section) {
   const lines = section.lines.map(cleanLine).filter(Boolean);
   const introLines = [];
@@ -1105,8 +1142,10 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
   const faqItems = getResolvedFaqItems(slug, doc);
   const estimateSection = findSection(doc, [/^How Much Will My /i, /^How Much Does It Cost to Paint a House/i]);
   const sizeSection = findSection(doc, [/by Square Footage/i, /^Cost by house size/i, /^Cost by size/i]);
+  const citySection = findSection(doc, [/^Painting Costs in Major .* Cities$/i]);
   const compareSection = findSection(doc, [/^Interior vs/i]);
   const factorsSection = findSection(doc, [/^What Factors Affect/i, /^Why painting costs more/i, /^Factors That Affect/i]);
+  const bestTimeSection = findSection(doc, [/^When Is the Best Time/i, /^Best Time of Year/i]);
   const estimateHowSection = findSection(doc, [/^How Do I Estimate/i, /^How to Estimate/i]);
   const diySection = findSection(doc, [/^Is It Cheaper/i, /^DIY vs\./i]);
   const startEstimateSection = findSection(doc, [/^Get a Free, Accurate/i, /^Get an Accurate/i, /^Get Your Free/i]);
@@ -1115,9 +1154,11 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
     ? parseKeyValueTable(estimateSection, ["Project Type", `Average Cost in ${stateName}`])
     : null;
   const sizeTable = sizeSection ? parseSquareFootageTable(sizeSection) : null;
+  const cityTable = citySection ? parseFixedColumnTable(citySection, /^City$/i, 3) : null;
   const compareContent = compareSection ? parseInteriorExteriorSection(compareSection) : null;
   const diyContent = diySection ? parseDiySection(diySection) : null;
   const estimateHowContent = estimateHowSection ? parseHowToEstimate(estimateHowSection) : null;
+  const secondaryBenefits = bestTimeSection ? parseSupplementaryBenefits(bestTimeSection) : null;
 
   return {
     layoutVariant: "costToPaintHouse",
@@ -1172,6 +1213,7 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
     showFaq: true,
     faqType: "costToPaintHouse",
     faqHeading: doc.faqHeading || `Frequently Asked Questions About Painting a House in ${stateName}`,
+    secondaryBenefits,
     benefits: estimateHowSection
       ? {
           heading: estimateHowSection.heading,
@@ -1206,6 +1248,13 @@ export const getStateHousePaintingLayoutContent = cache((slug) => {
           table2Headers: sizeTable.headers,
           table2Rows: sizeTable.rows,
           table2Footer: sizeTable.footer,
+          table3Heading: cityTable?.headers?.length ? citySection.heading : undefined,
+          table3Highlight: cityTable?.headers?.length ? deriveHighlight(citySection.heading) : undefined,
+          table3Preheading: cityTable?.headers?.length ? "cities" : undefined,
+          table3Description: cityTable?.description,
+          table3Headers: cityTable?.headers,
+          table3Rows: cityTable?.rows,
+          table3Footer: cityTable?.footer,
         }
       : null,
     faqItems,

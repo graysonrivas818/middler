@@ -38,6 +38,7 @@ const Estimate = ({ pageType, content: contentOverride = null }) => {
   if (content?.layoutVariant === 'costToPaintHouse' && estimateContent) {
     const table1Headers = estimateContent.table1Headers || ["Project Type", "Average Cost"];
     const table2Headers = estimateContent.table2Headers || ["Home Size", "Interior Cost", "Exterior Cost"];
+    const table3Headers = estimateContent.table3Headers || [];
 
     const renderTable = (headers, rows) => (
       <div className="bg-white rounded-lg shadow-lg overflow-hidden">
@@ -136,6 +137,35 @@ const Estimate = ({ pageType, content: contentOverride = null }) => {
             </div>
           </div>
         </section>
+
+        {estimateContent.table3Heading && estimateContent.table3Rows?.length > 0 && (
+          <section className="relative py-10 order-3">
+            <div className="container">
+              <div className="row">
+                <div className="w-full">
+                  <div className="px-3 lg:px-5 py-10 flex flex-col items-center justify-center gap-[50px]">
+                    <Heading
+                      heading={estimateContent.table3Heading}
+                      highlight={estimateContent.table3Highlight}
+                      preheading={estimateContent.table3Preheading}
+                    />
+                    <p className="text-sm lg:text-xl text-center max-w-3xl">
+                      {estimateContent.table3Description}
+                    </p>
+
+                    <div className="w-full max-w-5xl">
+                      {renderTable(table3Headers, estimateContent.table3Rows)}
+                    </div>
+
+                    <p className="text-sm lg:text-lg text-center text-gray-600 max-w-3xl">
+                      {estimateContent.table3Footer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
       </>
     );
   }

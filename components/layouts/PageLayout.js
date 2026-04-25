@@ -170,6 +170,12 @@ const PageLayout = ({ pageType = "home", contentOverride = null }) => {
         <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
           <WhoUseMiddler pageType={pageType} content={content} />
         </Suspense>
+
+        {content.secondaryBenefits && (
+          <Suspense fallback={<div className="h-40 bg-gray-100 animate-pulse" />}>
+            <Cta2 pageType={pageType} content={content} sectionData={content.secondaryBenefits} />
+          </Suspense>
+        )}
         
         {content.showFaq && (
           <>
