@@ -1,7 +1,7 @@
 export default function sitemap() {
-    const currentDate = new Date().toISOString();
-    
-   return [
+    const lastModified = new Date().toISOString();
+
+    return [
         {
             url: 'https://middler.com/',
             lastModified,
