@@ -319,7 +319,7 @@ const Hero = ({
             <div className="max-lg:px-5 w-full">
               <Image
                 src="/images/newbanner.jpg"
-                alt="Corner+ — The only roller that paints walls and corners. Find it at Menards."
+                alt="Corner — The only roller that paints walls and corners. Find it at Menards."
                 width={2172}
                 height={724}
                 className="hidden md:block w-full h-auto rounded-md object-cover"
@@ -329,7 +329,7 @@ const Hero = ({
               />
               <Image
                 src="/images/banner-mobile.png"
-                alt="Corner+ — The only roller that paints walls and corners. Find it at Menards."
+                alt="Corner+ The only roller that paints walls and corners. Find it at Menards."
                 width={750}
                 height={900}
                 className="block md:hidden w-full h-auto rounded-md object-cover"
