@@ -2,9 +2,9 @@
 export const pageContent = {
   home: {
     hero: {
-      title: "Free Painting Cost Calculator for Homes in the USA",
+      title: "Free Painting Cost Calculator for Homes",
       titleHighlight: "Free Painting",
-      description: "Instantly find the true cost to paint a house with Middler—the most effective Paint calculator for rooms, interiors, and exteriors anywhere in the USA"
+      description: "The only way to put a Real Price® on painting a house."
     },
     textSlider: {
       text: "Middler makes painting quotes easy, fast, and 98% accurate — no guesswork, just results."

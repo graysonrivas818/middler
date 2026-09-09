@@ -34,11 +34,11 @@ const Brands = ({ hideStats = false }) => {
   }
 
   return (
-    <section className="pt-5 lg:pb-10 order-1" style={{ paddingTop: isMobile ? '35px' : undefined }}>
+    <section className="pt-3 lg:pt-4 lg:pb-6 order-1" style={{ paddingTop: isMobile ? '20px' : undefined }}>
       <div className="container">
         <div className="row">
           <div className="w-full">
-            <div className="lg:p-2.5 max-lg:flex flex-wrap max-lg:justify-center *:max-lg:w-1/3 lg:grid lg:grid-cols-5 lg:items-center gap-y-6 lg:gap-y-2.5">
+            <div className="lg:p-1 max-lg:flex flex-wrap max-lg:justify-center *:max-lg:w-1/3 lg:grid lg:grid-cols-5 lg:items-center gap-y-4 lg:gap-y-1">
               {[
                 {
                   title: "People using Middler",
@@ -70,20 +70,20 @@ const Brands = ({ hideStats = false }) => {
                     <Image
                       src={item.img}
                       alt="Google Reviews of Middler"
-                      width={180}
-                      height={50}
-                      className="mx-auto"
+                      width={160}
+                      height={44}
+                      className="mx-auto max-h-10 lg:max-h-12 w-auto"
                     />
                   </div>
                 ) : (
                   <div
                     key={idx}
-                    className={`${item.className}  flex flex-col gap-1 items-center text-center`}
+                    className={`${item.className}  flex flex-col gap-0.5 items-center text-center`}
                   >
-                    <span className="text-[11px] lg:text-sm leading-[25px]">
+                    <span className="text-[11px] lg:text-sm leading-tight">
                       {item.title}
                     </span>
-                    <h3 className="font-semibold text-xs lg:text-2xl">
+                    <h3 className="font-semibold text-xs lg:text-xl">
                       {item.no}
                     </h3>
                   </div>

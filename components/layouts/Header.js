@@ -28,7 +28,6 @@ const Header = () => {
     };
   }, []);
 
-  // Close menu on route change
   useEffect(() => {
     const handleRouteChange = () => {
       setIsMobileMenuOpen(false);
@@ -41,41 +40,43 @@ const Header = () => {
   }, [router]);
 
   return (
-    <header className=" absolute z-[1000] w-full top-0 left-0 lg:pt-5">
-      <div className="container max-lg:px-0!">
+    <header className="absolute z-[1000] w-full top-0 left-0 border-b border-black/10 bg-white">
+      <div className="container">
         <nav
           ref={dropdownRef}
-          className="relative flex items-center justify-between bg-white shadow-[0_4px_32px_rgba(0,0,0,0.25)] px-5 py-4 lg:rounded-[10px]"
+          className="relative flex items-center justify-between py-3 lg:py-3.5"
         >
           <HomeReloadLink className="inline-block" ariaLabel="Middler Home">
             <Image
-              src="/images/logo.webp"
+              src="/images/logo_bold.webp"
               alt="Middler Home"
               width={192}
-              height={64} 
-              className="w-28 lg:w-48 h-auto"
+              height={64}
+              className="w-24 lg:w-40 h-auto"
             />
             <span className="sr-only">Go to Middler Homepage</span>
           </HomeReloadLink>
 
-          <ul className="hidden lg:flex items-center gap-x-2">
-            {menuItems.slice(0, 2).map((item, index) => (
-              <li key={index} className="px-4">
-                <Link
-                  href={item.url}
-                  className={` ${pathname === item.url
-                    ? "text-primary font-semibold"
-                    : "text-black hover:text-primary"
-                    } transition-all duration-200 ease-in-out`}
-                >
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <Button className="max-lg:hidden" href="/paint-estimator">
-            Free Estimator
-          </Button>
+          <div className="flex items-center gap-4">
+            <ul className="hidden lg:flex items-center gap-x-1">
+              {menuItems.slice(0, 2).map((item, index) => (
+                <li key={index} className="px-3">
+                  <Link
+                    href={item.url}
+                    className={`text-sm ${pathname === item.url
+                      ? "text-primary font-semibold"
+                      : "text-black hover:text-primary"
+                      } transition-all duration-200 ease-in-out`}
+                  >
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <Button className="max-lg:hidden py-2.5! px-8! text-sm!" href="/paint-estimator">
+              Free Estimator
+            </Button>
+          </div>
 
           <button
             onClick={() => setIsMobileMenuOpen((prev) => !prev)}

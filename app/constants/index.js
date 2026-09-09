@@ -9,8 +9,6 @@ import { RiInstagramFill } from "react-icons/ri";
 export const menuItems = [
   { name: "Home", url: "/" },
   { name: "Contact Us", url: "/contact-us" },
-  { name: "Privacy Policy", url: "/privacy-policy" },
-  { name: "Terms of Service", url: "/terms-of-service" },
 ];
 
 export const socials = [
