@@ -1159,6 +1159,39 @@ const PaintEstimatorContent = ({ }) => {
                       </motion.div>
                     </AnimatePresence>
                   </div>
+
+                  {navigation.value.paintEstimator == "2" && (
+                    <div className="w-full mt-4 lg:mt-5">
+                      <a
+                        href="https://www.cornerroller.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="block"
+                        aria-label="Shop Corner+ Roller at cornerroller.com"
+                      >
+                        <Image
+                          src="/images/newbanner.jpg"
+                          alt="Corner+ — The only roller that paints walls and corners. Find it at Menards."
+                          width={2172}
+                          height={724}
+                          className="hidden md:block w-full h-auto rounded-md object-cover"
+                          priority
+                          unoptimized
+                          sizes="(min-width: 1300px) 1300px, 100vw"
+                        />
+                        <Image
+                          src="/images/banner-mobile.png"
+                          alt="Corner+ — The only roller that paints walls and corners. Find it at Menards."
+                          width={750}
+                          height={900}
+                          className="block md:hidden w-full h-auto rounded-md object-cover"
+                          priority
+                          unoptimized
+                          sizes="100vw"
+                        />
+                      </a>
+                    </div>
+                  )}
                 </div>
 
                 <div
