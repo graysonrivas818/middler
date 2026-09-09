@@ -39,14 +39,14 @@ const Cta = ({ pageType = "home" }) => {
             <div className="flex flex-col lg:gap-7 max-lg:*:px-5 py-10 lg:py-[60px] items-center text-center bg-[#0b0b0b]/10 rounded-3xl lg:rounded-[40px] lg:*:px-[130px] lg:*:py-5 *:w-full">
               <div className="relative w-full flex items-center justify-center lg:py-3! max-lg:mb-10">
                 <Image
-                  src="/images/logo.webp"
+                  src="/images/logo_bold.webp"
                   alt="Company logo"
                   width={320}
                   height={150}
                   className="w-[160px] lg:w-[320px] relative z-[1] inline-block"
                 />
                 <Image
-                  src="/images/logo.webp"
+                  src="/images/logo_bold.webp"
                   alt="Company logo background faded"
                   width={700}
                   height={150}

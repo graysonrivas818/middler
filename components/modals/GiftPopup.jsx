@@ -185,7 +185,7 @@ const GiftPopup = ({
 
               <div className="flex flex-col items-center relative gap-[15px] text-center">
                 <Image
-                  src="/images/logo.webp"
+                  src="/images/logo_bold.webp"
                   alt="Company logo"
                   width={128}
                   height={60}

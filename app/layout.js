@@ -24,7 +24,7 @@ const organizationSchema = {
   "name": "Middler",
   "alternateName": "Middler",
   "url": "https://middler.com/",
-  "logo": "https://middler.com/images/logo.webp",
+  "logo": "https://middler.com/images/logo_bold.webp",
   "sameAs": [
     "https://www.linkedin.com/company/middler/",
     "https://www.instagram.com/middler_com/"
@@ -56,7 +56,7 @@ export default function RootLayout({ children }) {
 
         
         {/* Preload critical resources */}
-        <link rel="preload" href="/images/logo.webp" as="image" type="image/webp" />
+        <link rel="preload" href="/images/logo_bold.webp" as="image" type="image/webp" />
         <link rel="dns-prefetch" href="//www.googletagmanager.com" />
 
         {/* Schema scripts - optimized loading */}

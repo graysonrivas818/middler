@@ -64,7 +64,7 @@ const Navbar = () => {
         ariaLabel="Go to Middler Home"
       >
         <Image
-          src={mobileImgs ? "/images/logo.webp" : "/images/logo.webp"}
+          src={mobileImgs ? "/images/logo_bold.webp" : "/images/logo_bold.webp"}
           alt="Middler Logo"
           width={280}
           height={100}
