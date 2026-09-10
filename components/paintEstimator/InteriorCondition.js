@@ -26,7 +26,7 @@ const InteriorCondition = ({
 }) => {
   return (
     <>
-      <div className="pt-8 text-center">
+      <div className="pt-2 text-center">
         <h2 className="text-[22px] lg:text-[26px] font-bold text-[#333]">
           What condition is the inside of the house in?
         </h2>

@@ -179,15 +179,15 @@ const Estimate = ({ pageType, content: contentOverride = null }) => {
   ];
 
   return (
-    <section className="relative pt-16 lg:py-10 order-2" style={{ paddingTop: isMobile ? '10px' : undefined }}>
+    <section className="relative pt-4 lg:pt-6 lg:pb-10 order-2" style={{ paddingTop: isMobile ? '4px' : undefined }}>
       <div className="container">
         <div className="row">
           <div className="w-full">
-            <div className="px-3 lg:px-5 py-10 flex flex-col items-center justify-center gap-[50px]">
+            <div className="px-3 lg:px-5 pt-2 pb-10 lg:pt-4 flex flex-col items-center justify-center gap-8 lg:gap-10">
               <Heading
+                oh
                 heading={smallSize ? "Answer a few questions and in 30 seconds, this is exactly what you'll see." : "Answer a few questions and in 30 seconds, this is exactly what you'll see."}
                 highlight="Answer"
-                preheading="estimate"
               />
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 w-full">
                 {estimateCards.map((card, idx) => (

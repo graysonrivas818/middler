@@ -599,6 +599,12 @@ const PaintEstimatorContent = ({ }) => {
     dispatch(changePopup(""));
   };
 
+  const handleSaveEstimateAskEmail = () => {
+    setIsConfirmOpen(false);
+    localStorage.removeItem("signupDismissed");
+    dispatch(changePopup("signup"));
+  };
+
   return (
     <>
       <Script
@@ -635,7 +641,7 @@ const PaintEstimatorContent = ({ }) => {
                     : "lg:px-5"
                     } w-full`}
                 >
-                  <div className="px-4 lg:px-11 xl:px-2 py-[30px] lg:py-6 flex flex-col items-center justify-center gap-[30px] bg-white shadow-[0_6px_46px] shadow-black/20 rounded-3xl lg:rounded-[31px] relative">
+                  <div className="px-4 lg:px-11 xl:px-2 py-5 lg:py-5 flex flex-col items-center justify-center gap-4 bg-white shadow-[0_6px_46px] shadow-black/20 rounded-3xl lg:rounded-[31px] relative">
                     {String(navigation.value.paintEstimator) !== orderedSteps[0] && (
                       <button
                         type="button"
@@ -656,7 +662,7 @@ const PaintEstimatorContent = ({ }) => {
                           stiffness: 300,
                           damping: 30,
                         }}
-                        className={`lg:px-5 2xl:min-h-[190px] w-full flex flex-col items-center justify-center gap-[30px] lg:gap-4 bg-white shadow[0_6px_46px_rgba(0,0,0,0.2)] rounded-3xl lg:rounded-4xl qsnre`}
+                        className={`lg:px-5 2xl:min-h-[190px] w-full flex flex-col items-center justify-center gap-3 lg:gap-3 bg-white shadow[0_6px_46px_rgba(0,0,0,0.2)] rounded-3xl lg:rounded-4xl qsnre`}
                       >
                         {navigation.value.paintEstimator == "1" && (
                           <PropertyAddress
@@ -1640,7 +1646,7 @@ const PaintEstimatorContent = ({ }) => {
             isConfirmOpen={isConfirmOpen}
             setIsConfirmOpen={setIsConfirmOpen}
             onClosePopup={handleSaveEstimateForLater}
-            onSaveEstimate={handleCloseConfirmation}
+            onSaveEstimate={handleSaveEstimateAskEmail}
           />
         )}
       </>
