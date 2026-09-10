@@ -1160,7 +1160,7 @@ const PaintEstimatorContent = ({ }) => {
                     </AnimatePresence>
                   </div>
 
-                  {navigation.value.paintEstimator == "2" && (
+                  {navigation.value.paintEstimator != "5" && (
                     <div className="w-full mt-4 lg:mt-5">
                       <a
                         href="https://www.cornerroller.com/"
