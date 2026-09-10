@@ -8,6 +8,7 @@ const products = [
     image: "/images/products/contractors-case-microfiber.png",
     url: "https://www.cornerroller.com/products/contractors-case-64-units",
     alt: "Corner+ Contractor's Case Microfiber paint roller covers 64 units",
+    imageClass: "scale-[1.55]",
   },
   {
     title: '18" Dual Corner Roller Frame',
@@ -16,6 +17,7 @@ const products = [
     image: "/images/products/dual-corner-roller-frame.jpg",
     url: "https://www.cornerroller.com/products/18-dual-roller-frame",
     alt: 'Corner+ 18 inch Dual Corner Roller Frame',
+    imageClass: "scale-[1.2]",
   },
   {
     title: `Contractor's Case- Polyester 1/2" Nap (64 Units) *Free Shipping*`,
@@ -24,6 +26,7 @@ const products = [
     image: "/images/products/contractors-case-poly-half.jpg",
     url: "https://www.cornerroller.com/products/contractors-case-64-units-free-shipping",
     alt: `Corner+ Contractor's Case Polyester 1/2 inch Nap roller covers 64 units`,
+    imageClass: "scale-[1.35]",
   },
   {
     title: `Contractor's Case- Polyester 3/4" Nap (64 Units) *Free Shipping*`,
@@ -32,6 +35,7 @@ const products = [
     image: "/images/products/contractors-case-poly-three-quarter.jpg",
     url: "https://www.cornerroller.com/products/contractors-case-64-units-free-shipping-1",
     alt: `Corner+ Contractor's Case Polyester 3/4 inch Nap roller covers 64 units`,
+    imageClass: "scale-[1.35]",
   },
 ];
 
@@ -144,7 +148,7 @@ const ShopPaintTools = () => {
                     src={product.image}
                     alt={product.alt}
                     fill
-                    className="object-contain p-3"
+                    className={`object-contain ${product.imageClass || ""}`}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                   />
                 </div>
