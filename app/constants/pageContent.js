@@ -4,7 +4,7 @@ export const pageContent = {
     hero: {
       title: "Free Painting Cost Calculator for Homes",
       titleHighlight: "Free Painting",
-      description: "The only way to put a Real Price® on painting a house."
+      description: "The way to put a Real Price® on painting a house."
     },
     textSlider: {
       text: "Middler makes painting quotes easy, fast, and 98% accurate — no guesswork, just results."

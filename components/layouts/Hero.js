@@ -297,10 +297,7 @@ const Hero = ({
                   {titleRemainder}
                 </h1>
                 <p className="text-sm lg:text-lg leading-snug font-medium text-black/90 whitespace-nowrap max-[380px]:text-[12px] max-sm:text-[13px]">
-                  <span className="md:hidden">
-                    The way to put a Real Price® on painting a house.
-                  </span>
-                  <span className="hidden md:inline">{description}</span>
+                  {description}
                 </p>
               </div>
               <div className="hidden lg:flex flex-col items-center shrink-0 opacity-25 pointer-events-none select-none pr-2 lg:pr-8">
