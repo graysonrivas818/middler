@@ -10,6 +10,10 @@ const Brands = dynamic(() => import("@/components/home/Brands"), {
   loading: () => <div className="h-32 bg-gray-100 animate-pulse" />,
 });
 
+const ShopPaintTools = dynamic(() => import("@/components/home/ShopPaintTools"), {
+  loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
+});
+
 const Estimate = dynamic(() => import("@/components/home/Estimate"), {
   loading: () => <div className="h-64 bg-gray-100 animate-pulse" />,
 });
@@ -133,6 +137,12 @@ const PageLayout = ({ pageType = "home", contentOverride = null }) => {
         {content.showTextSlider !== false && (
           <Suspense fallback={<div className="h-20 bg-gradient-to-br from-primary-800 to-primary animate-pulse" />}>
             <TextSlider text={content.textSlider.text} />
+          </Suspense>
+        )}
+
+        {pageType === "home" && (
+          <Suspense fallback={<div className="h-64 bg-gray-100 animate-pulse" />}>
+            <ShopPaintTools />
           </Suspense>
         )}
         

@@ -1,9 +1,17 @@
-import { menuItems, socials } from "@/app/constants";
+"use client";
+
+import { socials } from "@/app/constants";
 import HomeReloadLink from "@/components/ui/HomeReloadLink";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 const Footer = () => {
+  const pathname = usePathname();
+  const isPaintEstimator = pathname?.startsWith("/paint-estimator");
+  const footerLogo = isPaintEstimator ? "/images/logo_bold.webp" : "/images/logo_w.webp";
+  const footerLogoAlt = isPaintEstimator ? "Company logo" : "Company white logo";
+
   const footerLinks = [
     { name: "Home", url: "/" },
     { name: "Interior Painting", url: "/interior-painting-cost-calculator" },
@@ -21,8 +29,8 @@ const Footer = () => {
           <div className="w-full lg:max-w-[481px] flex flex-col gap-y-[19px]">
             <HomeReloadLink ariaLabel="Go to homepage">
               <Image
-                src="/images/logo_w.webp"
-                alt="Company white logo"
+                src={footerLogo}
+                alt={footerLogoAlt}
                 width={236}
                 height={100}
                 className="max-w-[175px] lg:max-w-[236px]"
