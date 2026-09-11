@@ -74,17 +74,21 @@ export default function RootLayout({ children }) {
           src={`https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_ADDRESS_VALIDATION_API_KEY}&libraries=places`}
           strategy="beforeInteractive"
         />
-        {/* Optimized Google Analytics - load after page is interactive */}
+        {/* Google Analytics 4 — afterInteractive so pageviews fire reliably
+            (lazyOnload often never runs, which leaves GA showing
+            "Data collection isn't active") */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-T72TYPR1EE"
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
-        <Script id="gtag-init" strategy="lazyOnload">
+        <Script id="gtag-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-T72TYPR1EE');
+            gtag('config', 'G-T72TYPR1EE', {
+              page_path: window.location.pathname,
+            });
           `}
         </Script>
         <Providers>{children}</Providers>
