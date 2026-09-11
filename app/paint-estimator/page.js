@@ -57,7 +57,10 @@ import PaintBrand from "@/components/paintEstimator/PaintBrand";
 import PropertyAddress from "@/components/paintEstimator/PropertyAddress";
 
 ///// LIBS
-import { useAnalyticsEvent } from "@/helpers/analytics";
+import {
+  trackOutboundClick,
+  useAnalyticsEvent,
+} from "@/helpers/analytics";
 import { paintEstimateFieldsRequired } from "@/helpers/main_forms";
 import { paintEstimateSteps } from "../constants";
 
@@ -1174,6 +1177,14 @@ const PaintEstimatorContent = ({ }) => {
                         rel="noopener noreferrer"
                         className="block"
                         aria-label="Shop Corner+ Roller at cornerroller.com"
+                        onClick={() =>
+                          trackOutboundClick({
+                            action: "corner_roller_menards_banner_click",
+                            label: "paint_estimator_banner",
+                            url: "https://www.cornerroller.com/",
+                            location: "paint_estimator",
+                          })
+                        }
                       >
                         <Image
                           src="/images/newbanner.jpg"

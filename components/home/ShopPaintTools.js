@@ -5,6 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { trackOutboundClick } from "@/helpers/analytics";
 
 const products = [
   {
@@ -70,6 +71,15 @@ const productListSchema = {
   })),
 };
 
+const trackProductClick = (product, clickType) => {
+  trackOutboundClick({
+    action: "corner_roller_product_click",
+    label: `${clickType}:${product.title}`,
+    url: product.url,
+    location: "shop_paint_tools",
+  });
+};
+
 const ProductCard = ({ product }) => (
   <article className="bg-white rounded-2xl shadow-[0_10px_30px_rgba(39,95,246,0.08)] p-4 lg:p-5 flex flex-col text-center h-full">
     <a
@@ -77,6 +87,7 @@ const ProductCard = ({ product }) => (
       target="_blank"
       rel="noopener noreferrer"
       className="block"
+      onClick={() => trackProductClick(product, "image")}
     >
       <div className="relative w-full aspect-[4/3] mb-4 rounded-xl overflow-hidden bg-[#f3f5f7]">
         <Image
@@ -101,6 +112,7 @@ const ProductCard = ({ product }) => (
       target="_blank"
       rel="noopener noreferrer"
       className="mt-auto pt-4 inline-flex items-center justify-center gap-2 w-full rounded-xl bg-primary hover:bg-primary-800 text-white text-sm font-semibold py-3 px-4 transition-colors"
+      onClick={() => trackProductClick(product, "view_product")}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -226,6 +238,14 @@ const ShopPaintTools = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-primary bg-white text-primary hover:bg-primary hover:text-white font-semibold text-sm lg:text-base px-8 py-3 transition-colors shadow-sm"
+            onClick={() =>
+              trackOutboundClick({
+                action: "corner_roller_view_all_click",
+                label: "view_all_products",
+                url: "https://www.cornerroller.com/",
+                location: "shop_paint_tools",
+              })
+            }
           >
             View All Products
             <span aria-hidden="true">→</span>

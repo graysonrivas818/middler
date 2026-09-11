@@ -3,6 +3,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useCookies } from "react-cookie";
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
+import { trackOutboundClick } from "@/helpers/analytics";
 import Button from "../ui/Button";
 import Image from "next/image";
 
@@ -325,6 +326,14 @@ const Hero = ({
                 rel="noopener noreferrer"
                 className="block"
                 aria-label="Shop Corner+ Roller at cornerroller.com"
+                onClick={() =>
+                  trackOutboundClick({
+                    action: "corner_roller_menards_banner_click",
+                    label: "hero_banner",
+                    url: "https://www.cornerroller.com/",
+                    location: "home_hero",
+                  })
+                }
               >
                 <Image
                   src="/images/newbanner.jpg"
