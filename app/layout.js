@@ -84,10 +84,11 @@ export default function RootLayout({ children }) {
         <Script id="gtag-init" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-T72TYPR1EE', {
+            window.gtag = function gtag(){window.dataLayer.push(arguments);}
+            window.gtag('js', new Date());
+            window.gtag('config', 'G-T72TYPR1EE', {
               page_path: window.location.pathname,
+              send_page_view: true,
             });
           `}
         </Script>

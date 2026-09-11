@@ -1,18 +1,20 @@
-const pushGtagEvent = (action, params) => {
-  if (typeof window === "undefined") return;
+const GA_MEASUREMENT_ID = "G-T72TYPR1EE";
+
+const getGtag = () => {
+  if (typeof window === "undefined") return null;
 
   window.dataLayer = window.dataLayer || [];
 
-  // Prefer the real gtag when loaded; otherwise queue the same command shape
-  // so events still fire after the lazyOnload GA script initializes.
-  const gtag =
-    typeof window.gtag === "function"
-      ? window.gtag
-      : function gtag() {
-          window.dataLayer.push(arguments);
-        };
+  if (typeof window.gtag === "function") {
+    return window.gtag;
+  }
 
-  gtag("event", action, params);
+  // Ensure a global gtag exists even before the GA script finishes loading.
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+
+  return window.gtag;
 };
 
 export const trackAnalyticsEvent = ({
@@ -22,12 +24,20 @@ export const trackAnalyticsEvent = ({
   value,
   ...rest
 }) => {
-  pushGtagEvent(action, {
-    event_category: category,
-    event_label: label,
-    value: value,
+  const gtag = getGtag();
+  if (!gtag || !action) return;
+
+  const params = {
+    send_to: GA_MEASUREMENT_ID,
+    transport_type: "beacon",
     ...rest,
-  });
+  };
+
+  if (category != null) params.event_category = category;
+  if (label != null) params.event_label = label;
+  if (value != null) params.value = value;
+
+  gtag("event", action, params);
 };
 
 export const trackOutboundClick = ({
