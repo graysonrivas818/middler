@@ -1,4 +1,4 @@
-const GA_MEASUREMENT_ID = "G-T72TYPR1EE";
+const GA_MEASUREMENT_ID = "G-2G0G0BM3DN";
 
 const getGtag = () => {
   if (typeof window === "undefined") return null;

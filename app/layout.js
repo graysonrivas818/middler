@@ -78,7 +78,7 @@ export default function RootLayout({ children }) {
             (lazyOnload often never runs, which leaves GA showing
             "Data collection isn't active") */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-T72TYPR1EE"
+          src="https://www.googletagmanager.com/gtag/js?id=G-2G0G0BM3DN"
           strategy="afterInteractive"
         />
         <Script id="gtag-init" strategy="afterInteractive">
@@ -86,7 +86,7 @@ export default function RootLayout({ children }) {
             window.dataLayer = window.dataLayer || [];
             window.gtag = function gtag(){window.dataLayer.push(arguments);}
             window.gtag('js', new Date());
-            window.gtag('config', 'G-T72TYPR1EE', {
+            window.gtag('config', 'G-2G0G0BM3DN', {
               page_path: window.location.pathname,
               send_page_view: true,
             });
