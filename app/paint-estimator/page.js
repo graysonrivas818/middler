@@ -1656,7 +1656,7 @@ const PaintEstimatorContent = ({ }) => {
           <Confirmation
             isConfirmOpen={isConfirmOpen}
             setIsConfirmOpen={setIsConfirmOpen}
-            onClosePopup={handleSaveEstimateForLater}
+            onClosePopup={handleCloseConfirmation}
             onSaveEstimate={handleSaveEstimateAskEmail}
           />
         )}
