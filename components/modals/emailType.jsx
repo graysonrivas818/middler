@@ -9,6 +9,7 @@ import Image from "next/image";
 
 //// MUTATIONS
 import QUICK_ESTIMATE from "../../app/_mutations/quickEstimateClient";
+import { trackAnalyticsEvent } from "@/helpers/analytics";
 
 const ROLE_OPTIONS = [
   {
@@ -266,6 +267,12 @@ const EmailType = ({
         step: 1,
         userType: userType,
         estimateID: quickEstimateResult.id || null,
+      });
+      trackAnalyticsEvent({
+        action: "quote_submit",
+        category: "estimate",
+        label: userType || "unknown",
+        estimate_id: quickEstimateResult.id || null,
       });
 
       dispatch(changePopup(""));
