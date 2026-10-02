@@ -9,7 +9,7 @@ export const paintEstimateFieldsRequired = (step, values, dispatch, changePaintE
 
     // let notFilled = []
 
-    trackFormEvents(`client_property_address`)
+    trackFormEvents(`client_zip_code`)
 
     // zipCodeRequired.map((item) => !values[item] ? notFilled.push(item) : null )
 

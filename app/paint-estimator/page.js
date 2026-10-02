@@ -481,28 +481,43 @@ const PaintEstimatorContent = ({ }) => {
         const addr = typeof cookies.address === 'string'
           ? JSON.parse(cookies.address)
           : cookies.address;
-        if (addr && addr.formattedAddress) {
+        const zipCode = addr?.zipCode || (
+          /^\d{5}$/.test(String(addr?.formattedAddress || "").trim())
+            ? String(addr.formattedAddress).trim()
+            : ""
+        );
+
+        if (addr && (addr.formattedAddress || zipCode)) {
           dispatch(
             changeEstimatorValue({
-              value: addr.formattedAddress,
+              value: zipCode || addr.formattedAddress,
               type: "clientPropertyAddress",
             })
           );
-          if (addr.zipCode) {
+          if (zipCode) {
             dispatch(
               changeEstimatorValue({
-                value: addr.zipCode,
+                value: zipCode,
                 type: "clientZipCode",
               })
             );
           }
           removeCookie("address");
+
+          // Homepage already collected ZIP — skip step 1 when requested
+          if (
+            searchParams.get("step") === "2" &&
+            /^\d{5}$/.test(String(zipCode || "").trim()) &&
+            String(navigation.value.paintEstimator) === "1"
+          ) {
+            dispatch(changePaintEstimator("2"));
+          }
         }
       } catch (err) {
         console.error("Invalid address cookie format", err);
       }
     }
-  }, [cookies]);
+  }, [cookies, searchParams, navigation.value.paintEstimator, dispatch, removeCookie]);
 
   useEffect(() => {
     if (+navigation.value.paintEstimator == 4) {
