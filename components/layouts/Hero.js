@@ -1,11 +1,12 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
-import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 import { trackOutboundClick } from "@/helpers/analytics";
 import Button from "../ui/Button";
 import Image from "next/image";
+
+const isValidUsZip = (value) => /^\d{5}$/.test(String(value || "").trim());
 
 const Hero = ({
   title = "Instant Paint Cost Calculator",
@@ -17,29 +18,12 @@ const Hero = ({
   pageType = "home",
 }) => {
   const router = useRouter();
-  const dropdownRef = useRef(null);
-  const [address, setAddress] = useState("");
+  const [zipCode, setZipCode] = useState("");
   const [error, setError] = useState(false);
-  const [typed, setTyped] = useState(false);
-  const [predictions, setPred] = useState([]);
-  const [selectedAddr, setSelected] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const { getPlacePredictions, placePredictions } = usePlacesService({
-    apiKey: process.env.NEXT_PUBLIC_GOOGLE_ADDRESS_VALIDATION_API_KEY,
-  }) || { getPlacePredictions: () => {}, placePredictions: [] };
   const [, setCookie] = useCookies(["address"]);
 
   const isHome = pageType === "home";
-
-  useEffect(() => {
-    if (typed && address.length && getPlacePredictions) {
-      try {
-        getPlacePredictions({ input: address });
-      } catch (error) {
-        console.warn("Google Places API error:", error);
-      }
-    }
-  }, [address, getPlacePredictions]);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -60,70 +44,11 @@ const Hero = ({
     };
   }, []);
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-        setTyped(false);
-        setPred([]);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    document.addEventListener("touchstart", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-      document.removeEventListener("touchstart", handleClickOutside);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!placePredictions?.length || !window.google?.maps?.places) return;
-    const svc = new window.google.maps.places.PlacesService(
-      document.createElement("div")
-    );
-    (async () => {
-      const enriched = await Promise.all(
-        placePredictions.map(
-          (p) =>
-            new Promise((resolve) => {
-              svc.getDetails({ placeId: p.place_id }, (res, status) => {
-                if (
-                  status === window.google.maps.places.PlacesServiceStatus.OK
-                ) {
-                  const c = res.address_components;
-                  const street = c.find((x) =>
-                    x.types.includes("street_number")
-                  )?.long_name;
-                  const route = c.find((x) =>
-                    x.types.includes("route")
-                  )?.long_name;
-                  if (!street || !route) return resolve(null);
-                  const zip = c.find((x) =>
-                    x.types.includes("postal_code")
-                  )?.long_name;
-                  const city = c.find((x) =>
-                    x.types.includes("locality")
-                  )?.long_name;
-                  const st = c.find((x) =>
-                    x.types.includes("administrative_area_level_1")
-                  )?.short_name;
-                  resolve({
-                    ...p,
-                    formattedAddress: `${street} ${route}, ${city}, ${st} ${zip}`,
-                    zipCode: zip,
-                  });
-                } else resolve(null);
-              });
-            })
-        )
-      );
-      setPred(enriched.filter(Boolean));
-    })();
-  }, [placePredictions]);
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!selectedAddr) {
+    const cleanedZip = zipCode.trim();
+    if (!isValidUsZip(cleanedZip)) {
       setError(true);
       return;
     }
@@ -131,8 +56,8 @@ const Hero = ({
     setCookie(
       "address",
       {
-        formattedAddress: selectedAddr.formattedAddress,
-        zipCode: selectedAddr.zipCode,
+        formattedAddress: cleanedZip,
+        zipCode: cleanedZip,
       },
       { path: "/", maxAge: 60 * 60 * 24 * 7 }
     );
@@ -174,8 +99,8 @@ const Hero = ({
           style={{ fontSize: !isHome && isMobile ? "14px" : undefined }}
         >
           {isHome
-            ? "Enter the address of the house"
-            : "Enter address of the property that's being painted"}
+            ? "Please enter the ZIP CODE of the home"
+            : "Please enter the ZIP CODE of the property that's being painted"}
         </p>
       </div>
       <div
@@ -185,7 +110,6 @@ const Hero = ({
         style={{ padding: !isHome && isMobile ? "10px" : undefined }}
       >
         <div
-          ref={dropdownRef}
           className={`rounded-xl grow bg-[#f3f3f3] flex flex-col gap-2 relative ${
             isHome ? "py-2.5 px-3 lg:p-3" : "py-3 px-2 lg:p-3"
           }`}
@@ -227,14 +151,17 @@ const Hero = ({
             </span>
             <input
               type="text"
-              value={address}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={5}
+              value={zipCode}
               onChange={(e) => {
-                setAddress(e.target.value);
-                setTyped(true);
-                setSelected(null);
+                const next = e.target.value.replace(/\D/g, "").slice(0, 5);
+                setZipCode(next);
                 if (error) setError(false);
               }}
-              placeholder="3976 First St, Glendale CA, 98765"
+              placeholder="Enter ZIP code (e.g. 90210)"
+              aria-label="ZIP code"
               className="inline-block w-full grow outline-none! ios-nozoom"
               style={{
                 fontSize: isMobile ? "13px" : isHome ? "15px" : "16px",
@@ -242,27 +169,9 @@ const Hero = ({
               }}
             />
           </div>
-          {typed && predictions.length > 0 && (
-            <div className="absolute left-0 top-full mt-1 w-full bg-white rounded-lg shadow-[0_0_12px_rgba(0,0,0,0.15)] z-10 max-h-60 overflow-y-auto divide-y divide-black/15">
-              {predictions.map((p) => (
-                <div
-                  key={p.place_id}
-                  className="px-4 lg:px-4 lg:py-2 lg:first:pt-4 lg:last:pb-4 py-2 first:pt-4 last:pb-4 hover:bg-primary/10 cursor-pointer text-base text-left lg:text-base text-[#656E81]"
-                  onClick={() => {
-                    setAddress(p.formattedAddress);
-                    setSelected(p);
-                    setTyped(false);
-                    setPred([]);
-                  }}
-                >
-                  {p.formattedAddress}
-                </div>
-              ))}
-            </div>
-          )}
           {error && (
             <small className="text-red-600 text-xs absolute top-full left-2 mt-1">
-              Please select a valid address *
+              Please enter a valid 5-digit ZIP code *
             </small>
           )}
         </div>
